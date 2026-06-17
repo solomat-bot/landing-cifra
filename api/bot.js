@@ -1,12 +1,31 @@
-// Telegram Bot Webhook — @CifraConsultBot продажник + автоворонка
-// Установка webhook: https://api.telegram.org/bot<TOKEN>/setWebhook?url=https://landing-cifra.vercel.app/api/bot
-// Удалить: https://api.telegram.org/bot<TOKEN>/deleteWebhook
+// Telegram Bot Webhook — @CifraConsultBot
+// Установка: https://api.telegram.org/bot<TOKEN>/setWebhook?url=https://landing-cifra.vercel.app/api/bot
 
 const TELEGRAM_BOT_TOKEN = process.env.TELEGRAM_BOT_TOKEN || '8941756158:AAHvdtkOpm-bQqce99vgKspfACA-1lZtB-c';
 const TELEGRAM_CHAT_ID = process.env.TELEGRAM_CHAT_ID || '502930155';
 const TELEGRAM_GROUP_ID = process.env.TELEGRAM_GROUP_ID || '-1004392573043';
 
-const CHECKLIST_TEXT = `📋 <b>ЧЕК-ЛИСТ: 5 шагов к порядку в финансах</b>
+// Rate limiter: не чаще 1 действия в 60 сек с одного chatId
+const rateLimit = new Map();
+function isRateLimited(chatId) {
+  const now = Date.now();
+  const last = rateLimit.get(chatId) || 0;
+  if (now - last < 60000) return true;
+  rateLimit.set(chatId, now);
+  return false;
+}
+
+// Cooldown для уведомлений команды — не чаще раза в 5 мин
+const teamNotifyLimit = new Map();
+function canNotifyTeam(key) {
+  const now = Date.now();
+  const last = teamNotifyLimit.get(key) || 0;
+  if (now - last < 300000) return false;
+  teamNotifyLimit.set(key, now);
+  return true;
+}
+
+const CHECKLIST_TEXT = `≡ <b>ЧЕК-ЛИСТ: 5 шагов к порядку в финансах</b>
 
 ━━━━━━━━━━━━━━━━━━
 
@@ -36,84 +55,78 @@ const CHECKLIST_TEXT = `📋 <b>ЧЕК-ЛИСТ: 5 шагов к порядку 
 ☐ Используйте Telegram-бота для быстрого ввода
 
 ━━━━━━━━━━━━━━━━━━
-📎 Полная версия с пояснениями: https://landing-cifra.vercel.app/lead-magnet-checklist.html`;
+→ Полная версия: https://landing-cifra.vercel.app/lead-magnet-checklist.html`;
 
-// ===== АВТОВОРОНКА: контент для дожима =====
+// ===== АВТОВОРОНКА =====
 const FUNNEL_MESSAGES = [
   {
     id: 'case',
-    delayHours: 24, // через 24ч после чек-листа
-    text: `📊 <b>Кейс: как мы настроили учёт продавцу на Wildberries</b>
+    delayHours: 24,
+    text: `▓ <b>Кейс: учёт для продавца на Wildberries</b>
 
-Владелец 5 кабинетов WB тратил КАЖДУЮ субботу на ручной сбор отчётов. Данные не сходились, налоги считал «на глаз», реальную прибыль не видел.
+Владелец 5 кабинетов WB тратил каждую субботу на ручной сбор отчётов. Данные не сходились, налоги считал на глаз, реальную прибыль не видел.
 
 <b>Что сделали:</b>
-• Настроили автовыгрузку из 5 кабинетов в единую Google-таблицу
+• Автовыгрузка из 5 кабинетов в единую Google-таблицу
 • ОПиУ, ДДС, ABC-анализ — обновляются автоматически
 • Платежный календарь — ни одного просроченного платежа
 
-<b>Результат:</b> 15 часов в неделю экономии. Владелец видит прибыль по каждому кабинету и товару.
+<b>Результат:</b> 15 часов в неделю экономии.
 
 → Полный разбор: https://landing-cifra.vercel.app/cases.html#case-1
 
-Хотите так же? Просто напишите — обсудим бесплатно 👇`
+Хотите так же? Напишите — обсудим ↓`
   },
   {
     id: 'testimonial',
-    delayHours: 72, // через 3 дня
-    text: `🔥 <b>Вот что говорят наши клиенты:</b>
+    delayHours: 72,
+    text: `★ <b>Что говорят наши клиенты</b>
 
-⭐️⭐️⭐️⭐️⭐️
 «Евгения навела порядок в финансах за пару недель. У меня 4 кабинета на Wildberries — теперь есть еженедельные отчёты ОПиУ и ДДС. Вижу реальную прибыль по каждому кабинету. Перестал гадать, хватит ли на закупку.»
 — Дмитрий, селлер на WB, Казань
 
-⭐️⭐️⭐️⭐️⭐️
-«Заказал бота для записи в барбершоп. Раньше администратор тратил кучу времени на переписку. Теперь бот записывает, напоминает, отмены сразу освобождают слот. Окупилось за пару недель.»
-— Артём, сеть барбершопов, Екатеринбург
+«Заказал бота для записи в барбершоп. Раньше администратор тратил часы на переписку. Теперь бот записывает, напоминает, отмены сразу освобождают слот. Окупилось за пару недель.»
+— Артём, барбершоп, Екатеринбург
 
-<b>Хотите так же?</b> Просто напишите, чем мы можем помочь 👇`
+<b>Хотите так же?</b> Напишите, чем можем помочь ↓`
   },
   {
     id: 'offer',
-    delayHours: 168, // через 7 дней
-    text: `🎁 <b>Специальное предложение</b>
+    delayHours: 168,
+    text: `◇ <b>Специальное предложение</b>
 
-Вижу, вы уже знакомы с «Цифрой». Давайте сделаем следующий шаг?
+Вижу, вы уже знакомы с «Цифрой». Следующий шаг?
 
 <b>Бесплатный аудит вашей ситуации (15 мин):</b>
 • Посмотрим, что с деньгами и процессами
 • Определим, что можно улучшить
 • Скажем точную цену и сроки
 
-<b>А ещё:</b> для вас действует портфолио-цена (ограниченные места). Сейчас отличный момент начать.
+Для вас действует портфолио-цена (ограниченные места). Сейчас отличный момент начать.
 
-Напишите "ДА" или просто опишите свою ситуацию — я всё передам команде 👇`
+Напишите "ДА" или опишите свою ситуацию ↓`
   }
 ];
 
-// In-memory user states (сбрасываются при перезапуске функции)
+// Состояния пользователей (сбрасываются при холодном старте)
 const userStates = new Map();
 
 function getInlineKeyboard(buttons) {
   return {
     reply_markup: {
       inline_keyboard: buttons.map(row =>
-        row.map(btn => ({
-          text: btn.text,
-          callback_data: btn.data,
-        }))
+        row.map(btn => ({ text: btn.text, callback_data: btn.data }))
       ),
     },
   };
 }
 
-// Persistent reply keyboard at the bottom (always visible)
 function getReplyKeyboard() {
   return {
     reply_markup: {
       keyboard: [
-        [{ text: '🎁 Чек-лист' }, { text: '🔥 Почему нам доверяют' }],
-        [{ text: '💎 Сколько стоит' }, { text: '📞 Связаться с нами' }],
+        [{ text: '≡ Чек-лист' }, { text: '★ Почему мы' }],
+        [{ text: '◇ Цены' }, { text: '✎ Консультация' }],
       ],
       resize_keyboard: true,
       is_persistent: true,
@@ -157,14 +170,16 @@ async function editMessage(chatId, messageId, text, extra = {}) {
   }
 }
 
-async function notifyTeam(text) {
+// Уведомление команды с защитой от спама
+async function notifyTeam(text, key = 'general') {
+  if (!canNotifyTeam(key)) return;
   const targets = [TELEGRAM_CHAT_ID, TELEGRAM_GROUP_ID];
   for (const chatId of targets) {
     await sendTelegram(chatId, text);
   }
 }
 
-// ===== АВТОВОРОНКА: проверка и отправка =====
+// ===== АВТОВОРОНКА =====
 async function checkFunnel(chatId) {
   const state = userStates.get(chatId);
   if (!state || !state.gotChecklist || state.funnelDone) return;
@@ -174,106 +189,81 @@ async function checkFunnel(chatId) {
   let sentAny = false;
 
   for (const step of FUNNEL_MESSAGES) {
-    // Пропускаем, если уже отправляли
     if (state.funnelSent?.includes(step.id)) continue;
-
     const elapsedHours = (now - checklistTime) / (1000 * 60 * 60);
     if (elapsedHours >= step.delayHours) {
-      // Отправляем сообщение из воронки
-      if (step.id === 'offer') {
-        await sendTelegram(chatId, step.text, getInlineKeyboard([
-          [{ text: '🔥 Хочу аудит!', data: 'menu' }],
-          [{ text: '← В меню', data: 'menu' }],
-        ]));
-      } else {
-        await sendTelegram(chatId, step.text, getInlineKeyboard([
-          [{ text: '📞 Хочу так же!', data: 'menu' }],
-          [{ text: '← В меню', data: 'menu' }],
-        ]));
-      }
-
-      // Сохраняем, что отправили
+      await sendTelegram(chatId, step.text, getInlineKeyboard([
+        [{ text: '✎ Нужна консультация', data: 'contact' }],
+        [{ text: '← В меню', data: 'menu' }],
+      ]));
       state.funnelSent = state.funnelSent || [];
       state.funnelSent.push(step.id);
       sentAny = true;
     }
   }
 
-  // Если отправили последний шаг — помечаем воронку завершённой
   if (state.funnelSent?.length >= FUNNEL_MESSAGES.length) {
     state.funnelDone = true;
   }
-
-  if (sentAny) {
-    userStates.set(chatId, state);
-  }
-}
-
-async function resetFunnelState(chatId, state) {
-  state.funnelSent = [];
-  state.funnelDone = false;
-  state.checklistTime = Date.now();
-  userStates.set(chatId, state);
+  if (sentAny) userStates.set(chatId, state);
 }
 
 // ===== HANDLERS =====
 
 function handleStart(chatId) {
   userStates.set(chatId, 'menu');
-  const welcome = `🔥 Не знаете реальную прибыль? Тратите часы на отчёты вручную?
+  const welcome = `▸ Не знаете реальную прибыль? Тратите часы на ручной учёт?
 
 Мы — команда «Цифра». За 1-2 недели настраиваем финансы и автоматизацию под ключ.
 
-С нами вы:
-✅ Точно знаете, сколько заработали
-✅ Не тратите время на рутину
-✅ Принимаете решения по цифрам, а не наугад
+<b>С нами вы:</b>
+✓ Точно знаете, сколько заработали
+✓ Не тратите время на рутину
+✓ Принимаете решения по цифрам, а не наугад
 
-Какой первый шаг? 👇
+<b>Какой первый шаг?</b>
 
-🎁 Начните с бесплатного чек-листа (кнопка внизу)
-🔥 Посмотрите, почему нам доверяют
-💎 Узнайте цены
-🌐 Переходите на сайт: cifra.ru`;
+≡ Начните с бесплатного чек-листа
+★ Посмотрите, почему нам доверяют
+◇ Узнайте цены
+✎ Запишитесь на консультацию`;
 
   sendTelegram(chatId, welcome, getReplyKeyboard());
 }
 
 function handleServices(chatId, messageId = null) {
-  const text = `🔥 <b>Почему нам доверяют</b>
+  const text = `★ <b>Почему нам доверяют</b>
 
 <b>1. Два эксперта вместо трёх подрядчиков</b>
-Финансами занимается Евгения (5+ лет опыта). Технологиями — Ольга. Вам не нужно нанимать трёх разных людей и следить, чтобы они стыковались друг с другом.
+Финансами занимается Евгения (5+ лет опыта). Технологиями — Ольга. Вам не нужно нанимать трёх разных людей.
 
 <b>2. Цены фиксированные до старта</b>
-Называем цену — и она не меняется. Никаких «ну тут нужно ещё доплатить». 14 дней бесплатных правок.
+Называем цену — и она не меняется. 14 дней бесплатных правок.
 
 <b>3. Быстрый результат</b>
-Учёт настраиваем за 1-2 недели. Telegram-бота — за 3-5 дней. Вы не ждёте месяцы.
+Учёт настраиваем за 1-2 недели. Telegram-бота — за 3-5 дней.
 
 <b>4. Работаем с вашим бизнесом</b>
-Маркетплейсы (WB, Ozon), онлайн-школы, сервисный бизнес — знаем специфику.
+Маркетплейсы (WB, Ozon), онлайн-школы, сервисный бизнес.
 
 <b>5. Не бросаем после сдачи</b>
-Обучаем, поддерживаем, отвечаем на вопросы. Вы не остаётесь один на один с системой.`;
+Обучаем, поддерживаем, отвечаем на вопросы.`;
+
+  const buttons = getInlineKeyboard([
+    [{ text: '◇ Цены', data: 'pricing' }],
+    [{ text: '✎ Консультация', data: 'contact' }],
+    [{ text: '← В меню', data: 'menu' }],
+  ]);
 
   if (messageId) {
-    editMessage(chatId, messageId, text, getInlineKeyboard([
-      [{ text: '💎 Сколько стоит', data: 'pricing' }],
-      [{ text: '📞 Связаться', data: 'menu' }],
-      [{ text: '← Назад', data: 'menu' }],
-    ]));
+    editMessage(chatId, messageId, text, buttons);
   } else {
-    sendTelegram(chatId, text, getInlineKeyboard([
-      [{ text: '💎 Сколько стоит', data: 'pricing' }],
-      [{ text: '📞 Связаться', data: 'menu' }],
-      [{ text: '← В меню', data: 'menu' }],
-    ]));
+    sendTelegram(chatId, text, buttons);
   }
 }
 
 function handlePricing(chatId, messageId = null) {
-  const text = `💎 <b>Тарифы финансового сопровождения</b>
+  const text = `◇ <b>Тарифы финансового сопровождения</b>
 
 <b>Лайт</b> — 30 000 ₽/мес
 • до 30 позиций, 1-2 кабинета
@@ -290,7 +280,6 @@ function handlePricing(chatId, messageId = null) {
 • Без лимитов и ограничений
 • Безлимит консультаций
 • Трендовый анализ, KPI
-• Персональная презентация
 
 <b>Технологии — разовые проекты</b>
 • Сайт / лендинг: от 5 000 ₽
@@ -298,43 +287,33 @@ function handlePricing(chatId, messageId = null) {
 • AI-ассистент: от 8 000 ₽
 • Связка API: от 4 000 ₽`;
 
-  if (messageId) {
-    editMessage(chatId, messageId, text, getInlineKeyboard([
-      [{ text: '📞 Связаться', data: 'menu' }],
-      [{ text: '← Назад', data: 'services' }],
-    ]));
-  } else {
-    sendTelegram(chatId, text, getInlineKeyboard([
-      [{ text: '📞 Связаться', data: 'menu' }],
-      [{ text: '← В меню', data: 'menu' }],
-    ]));
-  }
-}
+  const buttons = getInlineKeyboard([
+    [{ text: '✎ Консультация', data: 'contact' }],
+    [{ text: '← В меню', data: 'menu' }],
+  ]);
 
-async function handleChecklistViaReply(chatId, from) {
-  await handleChecklist(chatId, null, from?.first_name || '');
+  if (messageId) {
+    editMessage(chatId, messageId, text, buttons);
+  } else {
+    sendTelegram(chatId, text, buttons);
+  }
 }
 
 async function handleChecklist(chatId, messageId = null, userName = '') {
   const name = userName || 'друг';
 
-  // 1. Приветствие
-  sendTelegram(chatId, `👋 ${name}, держите чек-лист 👇`);
-
-  // 2. Чек-лист
+  sendTelegram(chatId, `${name}, держите чек-лист ↓`);
   sendTelegram(chatId, CHECKLIST_TEXT, { parse_mode: 'HTML' });
 
-  // 3. Завершение
   setTimeout(() => {
-    sendTelegram(chatId, `📎 Полная версия чек-листа с пояснениями: https://landing-cifra.vercel.app/lead-magnet-checklist.html
+    sendTelegram(chatId, `→ Полная версия: https://landing-cifra.vercel.app/lead-magnet-checklist.html
 
-🎯 <b>Что дальше?</b>
-Чек-лист — это первый шаг. Когда будете готовы навести полный порядок в финансах — просто напишите. А я пока пришлю пару полезных историй 😉
+<b>Что дальше?</b>
+Чек-лист — это первый шаг. Когда будете готовы навести полный порядок — напишите. А пока я пришлю пару полезных материалов.
 
-Если захотите обсудить настройку учёта для вашего бизнеса — просто напишите /start`, removeKeyboard());
+Если захотите обсудить настройку учёта — напишите /start`, removeKeyboard());
   }, 1500);
 
-  // Сохраняем состояние и запускаем автоворонку
   const existing = userStates.get(chatId) || {};
   userStates.set(chatId, {
     ...existing,
@@ -348,42 +327,45 @@ async function handleChecklist(chatId, messageId = null, userName = '') {
 }
 
 function handleContact(chatId, messageId = null) {
-  const text = `📞 <b>Запись на консультацию</b>
+  const text = `✎ <b>Запись на консультацию</b>
 
 Мы бесплатно проанализируем вашу ситуацию за 15-минутный звонок.
 
-Что обсудим:
+<b>Что обсудим:</b>
 • Ваш бизнес и что конкретно болит
 • Какое решение подходит именно вам
 • Сколько будет стоить и сколько займёт
 
 <b>Как записаться:</b>
-Оставьте заявку на сайте — мы ответим в течение нескольких часов 👇
+Оставьте заявку на сайте — мы ответим в течение нескольких часов ↓
 https://landing-cifra.vercel.app#contact`;
 
+  const buttons = getInlineKeyboard([
+    [{ text: '◇ Цены', data: 'pricing' }],
+    [{ text: '← В меню', data: 'menu' }],
+  ]);
+
   if (messageId) {
-    editMessage(chatId, messageId, text, getInlineKeyboard([
-      [{ text: '💰 Посмотреть цены', data: 'pricing' }],
-      [{ text: '← В меню', data: 'menu' }],
-    ]));
+    editMessage(chatId, messageId, text, buttons);
   } else {
-    sendTelegram(chatId, text, getInlineKeyboard([
-      [{ text: '💰 Посмотреть цены', data: 'pricing' }],
-      [{ text: '← В меню', data: 'menu' }],
-    ]));
+    sendTelegram(chatId, text, buttons);
   }
 }
 
 function handleMenu(chatId, messageId = null) {
-  const text = `👋 Чем ещё могу помочь? Используйте кнопки внизу 👇`;
+  const text = `▸ Чем ещё могу помочь? Кнопки внизу ↓`;
 
   if (messageId) {
-    editMessage(chatId, messageId, text, { reply_markup: { inline_keyboard: [
-      [{ text: '🎁 Получить чек-лист', callback_data: 'checklist' }],
-      [{ text: '🔥 Почему нам доверяют', callback_data: 'services' }],
-      [{ text: '💎 Сколько стоит', callback_data: 'pricing' }],
-      [{ text: '📞 Связаться', callback_data: 'menu' }],
-    ]}});
+    editMessage(chatId, messageId, text, {
+      reply_markup: {
+        inline_keyboard: [
+          [{ text: '≡ Чек-лист', callback_data: 'checklist' }],
+          [{ text: '★ Почему мы', callback_data: 'services' }],
+          [{ text: '◇ Цены', callback_data: 'pricing' }],
+          [{ text: '✎ Консультация', callback_data: 'contact' }],
+        ],
+      },
+    });
   } else {
     sendTelegram(chatId, text, getReplyKeyboard());
   }
@@ -391,20 +373,21 @@ function handleMenu(chatId, messageId = null) {
 }
 
 function handleEnd(chatId, messageId = null) {
-  const text = `🕐 Хорошо, ${userStates.get(chatId)?.name || ''}! Чек-лист у вас, а мы всегда рядом.
+  const name = userStates.get(chatId)?.name || '';
+  const text = `${name}, чек-лист у вас, а мы всегда рядом.
 
-Когда будете готовы — просто напишите /start, и я помогу.
+Когда будете готовы — просто напишите /start.
 
-А пока можете посмотреть наши услуги в удобное время. Удачи в финансах! 🚀`;
+А пока можете посмотреть наши услуги в удобное время.`;
+
+  const buttons = getInlineKeyboard([
+    [{ text: '★ Услуги', data: 'services' }],
+  ]);
 
   if (messageId) {
-    editMessage(chatId, messageId, text, getInlineKeyboard([
-      [{ text: '📊 Посмотреть услуги', data: 'services' }],
-    ]));
+    editMessage(chatId, messageId, text, buttons);
   } else {
-    sendTelegram(chatId, text, getInlineKeyboard([
-      [{ text: '📊 Посмотреть услуги', data: 'services' }],
-    ]));
+    sendTelegram(chatId, text, buttons);
   }
   userStates.set(chatId, { ...(userStates.get(chatId) || {}), end: true });
 }
@@ -412,36 +395,32 @@ function handleEnd(chatId, messageId = null) {
 async function handleUserMessage(chatId, text, userObj = {}) {
   const state = userStates.get(chatId) || {};
 
-  // Если пользователь запросил чек-лист и вводит имя
+  // Защита от спама: не чаще раза в минуту
+  if (isRateLimited(chatId)) return;
+
   if (state.awaitingName) {
     const name = text.trim();
     if (name.length < 2) {
-      sendTelegram(chatId, 'Напишите, пожалуйста, ваше имя — так мы будем знать, как к вам обращаться 🙂');
+      sendTelegram(chatId, 'Напишите ваше имя — так мы будем знать, как к вам обращаться');
       return;
     }
-    const tgUsername = userObj.username || `id${chatId}`;
-    const usernameDisplay = userObj.username ? `@${userObj.username}` : `ID: ${chatId}`;
     await handleChecklist(chatId, null, name);
     return;
   }
 
-  // Если у пользователя есть чек-лист — проверяем автоворонку
   if (state.gotChecklist && !state.funnelDone) {
     await checkFunnel(chatId);
   }
 
-  // Если не в режиме ожидания — показываем меню
   handleStart(chatId);
 }
 
-// ===== MAIN HANDLER (Vercel Serverless Function) =====
+// ===== MAIN HANDLER =====
 
 export default async function handler(req, res) {
-  // Только POST
   if (req.method === 'GET') {
-    return res.status(200).json({ status: 'Bot webhook is active. Send POST with Telegram update.' });
+    return res.status(200).json({ status: 'Bot webhook active. Send POST.' });
   }
-
   if (req.method !== 'POST') {
     return res.status(405).json({ error: 'Method not allowed' });
   }
@@ -449,40 +428,26 @@ export default async function handler(req, res) {
   try {
     const update = req.body;
 
-    // Callback query (inline button clicks)
+    // Callback query
     if (update.callback_query) {
       const { data, message, from } = update.callback_query;
       const chatId = message.chat.id;
       const messageId = message.message_id;
 
-      // Для колбеков с кнопок тоже проверяем воронку
       const state = userStates.get(chatId);
       if (state && typeof state === 'object' && state.gotChecklist && !state.funnelDone) {
         await checkFunnel(chatId);
       }
 
       switch (data) {
-        case 'services':
-          await handleServices(chatId, messageId);
-          break;
-        case 'pricing':
-          await handlePricing(chatId, messageId);
-          break;
-        case 'checklist':
-          await handleChecklist(chatId, messageId, from.first_name || '');
-          break;
-        case 'contact':
-          await handleMenu(chatId, messageId);
-          break;
-        case 'menu':
-          await handleMenu(chatId, messageId);
-          break;
-        case 'end':
-          await handleEnd(chatId, messageId);
-          break;
+        case 'services': await handleServices(chatId, messageId); break;
+        case 'pricing': await handlePricing(chatId, messageId); break;
+        case 'checklist': await handleChecklist(chatId, messageId, from.first_name || ''); break;
+        case 'contact': await handleContact(chatId, messageId); break;
+        case 'menu': await handleMenu(chatId, messageId); break;
+        case 'end': await handleEnd(chatId, messageId); break;
       }
 
-      // Answer callback query (remove loading state)
       const answerUrl = `https://api.telegram.org/bot${TELEGRAM_BOT_TOKEN}/answerCallbackQuery`;
       await fetch(answerUrl, {
         method: 'POST',
@@ -498,19 +463,24 @@ export default async function handler(req, res) {
       const chatId = update.message.chat.id;
       const text = update.message.text.trim();
 
+      // Защита от спама
+      if (isRateLimited(chatId)) return res.status(200).json({ ok: true });
+
+      // Маппинг кнопок
       if (text === '/start' || text === 'Меню' || text === 'меню') {
         await handleStart(chatId);
-      } else if (text === '🔥 Почему нам доверяют') {
+      } else if (text === '★ Почему мы' || text === '🔥 Почему нам доверяют') {
         await handleServices(chatId);
-      } else if (text === '💎 Сколько стоит') {
+      } else if (text === '◇ Цены' || text === '💎 Сколько стоит') {
         await handlePricing(chatId);
-      } else if (text === '🎁 Чек-лист') {
-        await handleChecklistViaReply(chatId, update.message.from);
+      } else if (text === '≡ Чек-лист' || text === '🎁 Чек-лист') {
+        await handleChecklist(chatId, null, update.message.from?.first_name || '');
+      } else if (text === '✎ Консультация' || text === '📞 Запись на консультацию' || text === '📞 Связаться с нами') {
+        await handleContact(chatId);
       } else if (text.startsWith('/start ')) {
         const payload = text.split(' ')[1];
         if (payload === 'checklist') {
-          const from = update.message.from || {};
-          await handleChecklist(chatId, null, from.first_name || '');
+          await handleChecklist(chatId, null, update.message.from?.first_name || '');
         } else {
           await handleStart(chatId);
         }
@@ -521,24 +491,22 @@ export default async function handler(req, res) {
       return res.status(200).json({ ok: true });
     }
 
-    // /set_webhook — настройка вебхука (админ-команда)
+    // Admin: set webhook
     if (update.message?.text === '/set_webhook') {
-      const chatId = update.message.chat.id;
-      if (String(chatId) === TELEGRAM_CHAT_ID) {
-        const webhookUrl = `https://landing-cifra.vercel.app/api/bot`;
-        const setUrl = `https://api.telegram.org/bot${TELEGRAM_BOT_TOKEN}/setWebhook?url=${webhookUrl}`;
-        const r = await fetch(setUrl);
+      const cid = update.message.chat.id;
+      if (String(cid) === TELEGRAM_CHAT_ID) {
+        const r = await fetch(`https://api.telegram.org/bot${TELEGRAM_BOT_TOKEN}/setWebhook?url=https://landing-cifra.vercel.app/api/bot`);
         const d = await r.json();
-        sendTelegram(chatId, `Webhook set: ${JSON.stringify(d)}`);
+        sendTelegram(cid, `Webhook: ${JSON.stringify(d)}`);
       } else {
-        sendTelegram(chatId, 'Access denied.');
+        sendTelegram(cid, 'Access denied.');
       }
       return res.status(200).json({ ok: true });
     }
 
     return res.status(200).json({ ok: true });
   } catch (error) {
-    console.error('Bot handler error:', error);
-    return res.status(200).json({ ok: true }); // Always return 200 to Telegram
+    console.error('Bot error:', error);
+    return res.status(200).json({ ok: true });
   }
 }
