@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Управленческий учёт для маркетплейсов: с чего начать — Цифра</title>
+  <meta name="description" content="Разбираем, какие отчёты нужны продавцу на Wildberries и Ozon: ОПиУ, ДДС, юнит-экономика. С чего начать и как не утонуть в цифрах." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Rubik:wght@400;500;600;700;800;900&family=PT+Sans:wght@400;700&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --color-bg: #F9F7F4; --color-bg-alt: #F0EDE6;
+      --color-text: #1C1E26; --color-text-muted: #5D5F6E;
+      --color-accent: #C4604A; --color-accent-hover: #A94F3B;
+      --color-accent-light: rgba(196, 96, 74, 0.07);
+      --color-secondary: #3A5A6E;
+      --color-border: rgba(28, 30, 38, 0.07);
+      --container: 720px; --radius-sm: 6px; --radius-md: 12px;
+    }
+    body { font-family: 'PT Sans', sans-serif; font-size: 17px; line-height: 1.7; color: var(--color-text); background: var(--color-bg); -webkit-font-smoothing: antialiased; }
+    .container { max-width: var(--container); margin: 0 auto; padding: 0 24px; }
+    h1, h2, h3 { font-family: 'Rubik', sans-serif; font-weight: 800; line-height: 1.2; color: var(--color-text); }
+    h1 { font-size: clamp(28px, 3.6vw, 38px); margin-bottom: 16px; }
+    h2 { font-size: 22px; margin-top: 36px; margin-bottom: 12px; }
+    p { margin-bottom: 16px; color: var(--color-text-muted); font-size: 17px; }
+    a { color: var(--color-accent); text-decoration: none; }
+    a:hover { color: var(--color-accent-hover); text-decoration: underline; }
+    ul { margin: 16px 0 20px; list-style: none; }
+    ul li { padding: 6px 0 6px 24px; position: relative; color: var(--color-text-muted); }
+    ul li::before { content: '✓'; position: absolute; left: 0; color: var(--color-accent); font-weight: 700; }
+    header {
+      padding: 16px 0; border-bottom: 1px solid var(--color-border);
+      position: sticky; top: 0; z-index: 100;
+      backdrop-filter: blur(10px); background: rgba(249, 247, 244, 0.92);
+    }
+    .header-inner { display: flex; justify-content: space-between; align-items: center; }
+    .header-brand { display: flex; flex-direction: column; text-decoration: none; }
+    .header-name { font-family: 'Rubik', sans-serif; font-weight: 900; font-size: 20px; color: var(--color-text); letter-spacing: -0.02em; }
+    .header-subtitle { font-family: 'Rubik', sans-serif; font-size: 9px; color: var(--color-text-muted); letter-spacing: 0.1em; font-weight: 500; margin-top: -1px; }
+    .header-back { font-family: 'Rubik', sans-serif; font-size: 13px; font-weight: 600; color: var(--color-accent); }
+    .article { padding: 48px 0 60px; }
+    .article-meta { font-size: 13px; color: var(--color-text-muted); margin-bottom: 32px; }
+    .article-meta span { background: var(--color-accent-light); color: var(--color-accent); padding: 2px 10px; border-radius: 4px; font-weight: 600; font-size: 11px; text-transform: uppercase; letter-spacing: 0.06em; }
+    .highlight { background: var(--color-accent-light); border-left: 3px solid var(--color-accent); padding: 18px 20px; border-radius: 0 var(--radius-sm) var(--radius-sm) 0; margin: 20px 0; font-size: 16px; }
+    .highlight p { margin-bottom: 0; color: var(--color-text); }
+    .cta-box { background: var(--color-bg-alt); border-radius: var(--radius-md); padding: 28px; text-align: center; margin: 40px 0; }
+    .cta-box p { margin-bottom: 18px; }
+    .btn-primary { display: inline-block; font-family: 'Rubik', sans-serif; font-weight: 600; font-size: 16px; padding: 14px 30px; border-radius: var(--radius-sm); background: var(--color-accent); color: #fff; text-decoration: none; transition: all 0.3s; }
+    .btn-primary:hover { background: var(--color-accent-hover); transform: translateY(-1px); text-decoration: none; color: #fff; }
+    footer { border-top: 1px solid var(--color-border); padding: 32px 0; text-align: center; font-size: 13px; color: var(--color-text-muted); }
+    @media (max-width: 640px) { .article { padding: 32px 0 40px; } }
+  </style>
+</head>
+<body>
+<header>
+  <div class="container header-inner">
+    <a href="../index.html" class="header-brand">
+      <span class="header-name">Цифра</span>
+      <span class="header-subtitle">финансы и технологии</span>
+    </a>
+    <a href="../blog.html" class="header-back">← Все статьи</a>
+  </div>
+</header>
+
+<section class="article">
+  <div class="container">
+    <div class="article-meta"><span>Финансы • Учёт</span></div>
+    <h1>Управленческий учёт для маркетплейсов: с чего начать</h1>
+    <p style="font-size:18px;color:var(--color-text);">Разбираемся, какие отчёты реально нужны продавцу на Wildberries и Ozon, чтобы видеть прибыль, а не просто оборот.</p>
+
+    <p>Вы торгуете на маркетплейсе, оборот растёт, а прибыль непонятна. В кабинете WB или Ozon — горы цифр: выручка, комиссии, логистика, хранение, штрафы, реклама. Но ответа на простой вопрос «Я заработал или в минусе?» — нет.</p>
+    <p>Это нормально. Маркетплейсы показывают то, что им удобно. Ваша задача — построить свою систему учёта. Вот с чего начать.</p>
+
+    <h2>1. Начните с ДДС — движение денежных средств</h2>
+    <p>Самый простой и важный отчёт. Он отвечает на вопрос: «Сколько денег реально пришло на счёт и сколько ушло?»</p>
+    <p>Не путайте с выручкой в кабинете. Выручка WB — это сумма продаж до вычета комиссий, логистики и возвратов. На счёт приходит меньше. Иногда — значительно меньше.</p>
+    <p><strong>Что делать:</strong> Раз в неделю фиксируйте в таблице:</p>
+    <ul>
+      <li>Поступления на расчётный счёт (из всех кабинетов)</li>
+      <li>Расходы: закупка товара, логистика, комиссии маркетплейса, реклама, налоги</li>
+      <li>Остаток на счетах</li>
+    </ul>
+    <div class="highlight">
+      <p><strong>Лайфхак:</strong> Если вести ДДС хотя бы раз в неделю — вы перестанете гадать, хватит ли денег на следующую закупку. Это первый шаг к финансовому порядку.</p>
+    </div>
+
+    <h2>2. Подключите ОПиУ — отчёт о прибылях и убытках</h2>
+    <p>ДДС показывает движение денег. ОПиУ — заработали вы или нет в принципе. Разница — в учёте «неденежных» расходов: например, вы купили товар в этом месяце, а продаёте его два месяца. ДДС покажет убыток (деньги ушли), а ОПиУ — что вы в плюсе (товар на складе — это актив).</p>
+    <p><strong>Что нужно учитывать в ОПиУ:</strong></p>
+    <ul>
+      <li>Выручка (реальная, после комиссий и возвратов)</li>
+      <li>Себестоимость проданных товаров</li>
+      <li>Комиссии маркетплейсов</li>
+      <li>Логистика (доставка до склада и «последняя миля»)</li>
+      <li>Хранение на складе</li>
+      <li>Рекламные расходы (автоматические и ручные)</li>
+      <li>Штрафы и прочие списания</li>
+      <li>Налоги</li>
+    </ul>
+    <p>Если вы считаете прибыль как «выручка минус закупка» — вы почти наверняка ошибаетесь в большую сторону. Комиссии и логистика могут «съедать» 30–50% от оборота.</p>
+
+    <h2>3. Считайте юнит-экономику</h2>
+    <p>Главный вопрос: сколько вы зарабатываете с одной единицы товара? Это и есть юнит-экономика.</p>
+    <p><strong>Формула простая:</strong></p>
+    <p style="font-family:'Rubik',sans-serif;background:var(--color-bg-alt);padding:12px 16px;border-radius:6px;text-align:center;font-size:18px;">
+      Прибыль с единицы = Цена продажи — Себестоимость — Комиссии — Логистика — Упаковка — Доля рекламы
+    </p>
+    <p>Посчитайте для 5–10 ваших товаров. Скорее всего, вы увидите, что 20% товаров приносят 80% прибыли, а часть товаров работает в минус. Это знание — основа для решений: что продвигать, что снимать с производства, по каким позициям поднимать цену.</p>
+
+    <h2>4. Настройте регулярность</h2>
+    <p>Учёт работает только когда он регулярный. Раз в неделю — 15 минут на обновление таблицы. Раз в месяц — сводка и анализ.</p>
+    <p>Не пытайтесь построить идеальную систему с первого дня. Начните с ДДС. Через месяц добавьте ОПиУ. Ещё через месяц — юнит-экономику.</p>
+
+    <h2>5. Автоматизируйте, когда учёт налажен</h2>
+    <p>Когда вы поймёте, какие цифры вам нужны и в каком формате — можно подключать автоматизацию. Выгрузка из кабинетов WB/Ozon прямиком в вашу таблицу, чтобы данные обновлялись сами.</p>
+    <p>Но автоматизация без настроенного учёта — это просто быстрый сбор непонятно чего. Сначала — система, потом — скорость.</p>
+
+    <div class="cta-box">
+      <p style="font-size:18px;font-weight:600;color:var(--color-text);">Нужна помощь с настройкой учёта?</p>
+      <p>Поможем выстроить систему учёта под ваш бизнес.</p>
+      <a href="../index.html#contact" class="btn-primary">Заказать консультацию</a>
+    </div>
+
+    <p style="font-size:14px;color:var(--color-text-muted);">
+      <em>Прочитали статью? Скачайте чек-лист «5 шагов к порядку в финансах» — в нашем Telegram-боте <a href="https://t.me/CifraConsultBot?start=checklist" target="_blank">@CifraConsultBot</a></em>
+    </p>
+  </div>
+</section>
+
+<footer>
+  <div class="container">
+    <p>Цифра — технологии и финансы &copy; 2026 | <a href="../privacy-policy.html">Политика конфиденциальности</a></p>
+  </div>
+</footer>
+</body>
+</html>

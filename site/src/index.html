@@ -106,21 +106,21 @@
       border-radius: var(--radius-sm);
       border: none;
       cursor: pointer;
-      transition: all 0.3s;
+      transition: all 0.25s cubic-bezier(0.34, 1.56, 0.64, 1);
       text-align: center;
     }
     .btn-primary { background: var(--color-accent); color: #fff; }
     .btn-primary:hover {
       background: var(--color-accent-hover);
-      transform: translateY(-1px);
-      box-shadow: 0 4px 16px rgba(196, 96, 74, 0.25);
+      transform: translateY(-2px) scale(1.02);
+      box-shadow: 0 6px 20px rgba(196, 96, 74, 0.3);
     }
     .btn-secondary {
       background: transparent;
       color: var(--color-text);
       border: 1px solid var(--color-border);
     }
-    .btn-secondary:hover { border-color: var(--color-accent); color: var(--color-accent); }
+    .btn-secondary:hover { border-color: var(--color-accent); color: var(--color-accent); transform: translateY(-2px); }
     .btn-secondary--accent { border-color: var(--color-accent); color: var(--color-accent); }
     .btn-secondary--accent:hover { background: var(--color-accent); color: #fff; }
 
@@ -432,14 +432,36 @@
     .calc-progress {
       display: flex;
       justify-content: center;
-      gap: 8px;
+      align-items: center;
+      gap: 0;
       margin-bottom: 36px;
+      position: relative;
+    }
+    .calc-progress-bar {
+      position: absolute;
+      top: 50%; left: 50%;
+      transform: translate(-50%, -50%);
+      width: 60px;
+      height: 2px;
+      background: var(--color-border);
+      z-index: 0;
+    }
+    .calc-progress-bar-fill {
+      position: absolute;
+      top: 0; left: 0;
+      height: 100%;
+      background: var(--color-accent);
+      transition: width 0.5s ease;
+      width: 0%;
     }
     .calc-dot {
       width: 10px; height: 10px;
       border-radius: 50%;
       background: var(--color-border);
-      transition: all 0.4s;
+      transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+      position: relative;
+      z-index: 1;
+      margin: 0 20px;
     }
     .calc-dot--active { background: var(--color-accent); transform: scale(1.3); }
     .calc-dot--done { background: var(--color-success); }
@@ -1252,13 +1274,26 @@
       .finance-tabs { grid-template-columns: 1fr; max-width: 420px; margin: 0 auto; }
     }
     @media (max-width: 900px) {
-      .header-nav { display: none; }
-      .header-nav.mobile-open {
+      .header-nav {
         display: flex; flex-direction: column;
-        position: absolute; top: 60px; left: 0; right: 0;
+        position: absolute; top: 58px; left: 0; right: 0;
         background: rgba(249, 247, 244, 0.98);
-        padding: 20px; border-bottom: 1px solid var(--color-border);
-        gap: 14px; z-index: 100;
+        padding: 0 20px;
+        border-bottom: 1px solid var(--color-border);
+        gap: 0;
+        z-index: 100;
+        max-height: 0;
+        overflow: hidden;
+        opacity: 0;
+        transform: translateY(-8px);
+        transition: max-height 0.35s ease, opacity 0.3s ease, transform 0.3s ease, padding 0.3s ease;
+      }
+      .header-nav.mobile-open {
+        max-height: 400px;
+        opacity: 1;
+        transform: translateY(0);
+        padding: 18px 20px;
+        gap: 14px;
       }
       .btn-header.desktop { display: none; }
       .menu-toggle { display: block; }
@@ -1369,17 +1404,15 @@
         <span class="hero-pain-item">Пробовали нанять — без результата</span>
       </div>
 
-      <div class="hero-buttons reveal reveal-delay-4">
+      <div class="hero-buttons reveal reveal-delay-4" style="margin-bottom:32px;">
         <a href="#calculator" class="btn-primary">Бесплатная диагностика за 2 минуты →</a>
         <a href="#finance-pricing" class="btn-secondary">Смотреть тарифы</a>
       </div>
 
-      <div class="hero-chat-cta reveal reveal-delay-4" style="margin-top:32px;display:flex;align-items:center;justify-content:center;gap:12px;flex-wrap:wrap;padding:16px 24px;background:var(--color-accent-light);border-radius:var(--radius-md);border:1px solid rgba(196,96,74,0.12);max-width:500px;margin-left:auto;margin-right:auto;">
-        <span style="font-size:15px;color:var(--color-text);font-weight:500;">💬 Есть вопрос? Спросите AI-консультанта</span>
-        <a href="javascript:void(0)" onclick="document.getElementById('chat-button').click()" class="btn-primary" style="font-size:13px;padding:10px 22px;display:inline-flex;align-items:center;gap:6px;text-decoration:none;">
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
-          Задать вопрос
-        </a>
+      <div class="reveal reveal-delay-4" style="display:flex;flex-wrap:wrap;justify-content:center;gap:8px;max-width:600px;margin:0 auto;">
+        <span style="font-size:13px;color:var(--color-text-muted);background:var(--color-bg-alt);padding:6px 16px;border-radius:20px;">📊 Финансы от 30 000 ₽/мес</span>
+        <span style="font-size:13px;color:var(--color-text-muted);background:var(--color-bg-alt);padding:6px 16px;border-radius:20px;">💻 Сайты и боты от 5 000 ₽</span>
+        <span style="font-size:13px;color:var(--color-text-muted);background:var(--color-bg-alt);padding:6px 16px;border-radius:20px;">⚡ AI-ассистенты от 8 000 ₽</span>
       </div>
     </div>
   </section>
@@ -1456,7 +1489,7 @@
       <p class="finance-lead">
         Не нанимать финдиректора за 200 тысяч в месяц.<br />
         Не осваивать сложные учётные системы.<br />
-        Работаем с владельцами маркетплейсов, онлайн-школ и сервисного бизнеса.
+        Работаем с селлерами на маркетплейсах, онлайн-школами и сервисным бизнесом.
       </p>
 
       <div class="fs-grid">
@@ -1561,34 +1594,34 @@
       <div class="testimonials-grid">
         <div class="testimonial-card reveal">
           <div class="testimonial-stars">★★★★★</div>
-          <p class="testimonial-text">«Евгения навела порядок в финансах за две недели. Раньше я не понимала, сколько зарабатываю на самом деле — просто цифры в кассе. Теперь вижу полную картину: ОПиУ, ДДС, юнит-экономику. Это изменило подход к ценообразованию».</p>
+          <p class="testimonial-text">«Евгения навела порядок в финансах за пару недель. У меня 4 кабинета на Wildberries — до этого учёт вёл в Excel на коленке, путался постоянно. Теперь есть еженедельные отчёты ОПиУ и ДДС, вижу реальную прибыль по каждому кабинету. Перестал гадать, хватит ли на закупку. Рекомендую».</p>
           <div class="testimonial-author">
-            <div class="testimonial-avatar testimonial-avatar--1">А</div>
+            <div class="testimonial-avatar testimonial-avatar--1">Д</div>
             <div class="testimonial-info">
-              <strong>Анна</strong>
-              <span>Онлайн-школа английского, Москва</span>
+              <strong>Дмитрий</strong>
+              <span>Селлер на WB, 4 кабинета, Казань</span>
             </div>
           </div>
         </div>
         <div class="testimonial-card reveal reveal-delay-2">
           <div class="testimonial-stars">★★★★★</div>
-          <p class="testimonial-text">«Заказали Telegram-бота для записи в салон красоты. Раньше мастер тратил 5+ часов в неделю на переписку — теперь клиенты записываются сами через бота, а напоминания снизили количество неявок на 30%. Окупилось за месяц».</p>
+          <p class="testimonial-text">«Заказал бота для записи в свою барбершоп. Раньше администратор тратил кучу времени на переписку, клиенты терялись в директ. Теперь бот записывает, напоминает, отмены сразу освобождают слот. Неявки упали заметно, окупилось за пару недель».</p>
           <div class="testimonial-author">
-            <div class="testimonial-avatar testimonial-avatar--2">Е</div>
+            <div class="testimonial-avatar testimonial-avatar--2">А</div>
             <div class="testimonial-info">
-              <strong>Елена</strong>
-              <span>Салон красоты, Казань</span>
+              <strong>Артём</strong>
+              <span>Сеть барбершопов, Екатеринбург</span>
             </div>
           </div>
         </div>
         <div class="testimonial-card reveal reveal-delay-3">
           <div class="testimonial-stars">★★★★★</div>
-          <p class="testimonial-text">«Долго искали, кто сможет и сайт сделать, и учёт настроить. Обычно это два разных подрядчика, которые не стыкуются. Здесь получили комплекс: лендинг + Telegram-бот + управленческий учёт. Всё работает как единая система».</p>
+          <p class="testimonial-text">«Долго искал, кто сможет и сайт сделать, и учёт настроить — обычно это два разных подрядчика, которые не стыкуются, и каждый тянет одеяло на себя. Здесь получил и лендинг, и бота для записи. Всё работает, поддержка на связи. Рекомендую как проверенное решение».</p>
           <div class="testimonial-author">
-            <div class="testimonial-avatar testimonial-avatar--3">М</div>
+            <div class="testimonial-avatar testimonial-avatar--3">С</div>
             <div class="testimonial-info">
-              <strong>Михаил</strong>
-              <span>Сервис доставки, Новосибирск</span>
+              <strong>Сергей</strong>
+              <span>Студия растяжки, Москва</span>
             </div>
           </div>
         </div>
@@ -1610,7 +1643,13 @@
           <!-- Progress -->
           <div class="calc-progress">
             <span class="calc-dot calc-dot--active" data-dot="1"></span>
+            <div class="calc-progress-bar">
+              <div class="calc-progress-bar-fill" id="calc-bar-fill"></div>
+            </div>
             <span class="calc-dot" data-dot="2"></span>
+            <div class="calc-progress-bar">
+              <div class="calc-progress-bar-fill" id="calc-bar-fill-2"></div>
+            </div>
             <span class="calc-dot" data-dot="3"></span>
           </div>
 
@@ -1664,9 +1703,13 @@
             <div class="calc-result-desc" id="calc-desc">
               С настроенным учётом и автоматизацией вы вернёте это время и деньги.
             </div>
+            <div class="calc-recommend" id="calc-recommend" style="padding:14px;background:var(--color-bg-alt);border-radius:var(--radius-md);margin-bottom:20px;font-size:14px;line-height:1.6;">
+              <strong style="color:var(--color-accent);">🎯 Рекомендуем начать:</strong>
+              <span id="calc-tier-text">с тарифа «Лайт» (30 000 ₽/мес) — базовый учёт и еженедельные отчёты</span>
+            </div>
             <a href="#contact" class="btn-primary">Заказать консультацию 15 мин</a>
             <div style="margin-top:12px;">
-              <a href="#finance-pricing" style="font-size:14px;color:var(--color-text-muted);">Посмотреть тарифы →</a>
+              <a href="#finance-pricing" style="font-size:14px;color:var(--color-text-muted);">Посмотреть все тарифы →</a>
             </div>
           </div>
 
@@ -1691,6 +1734,12 @@
         Если ваш бизнес меньше объёмов «Лайт» — <a href="#contact" style="color:var(--color-accent);text-decoration:underline;">обсудим индивидуальный формат</a>.
       </p>
 
+      <div style="text-align:center;margin-bottom:28px;">
+        <span style="display:inline-block;font-size:13px;background:var(--color-accent);color:#fff;padding:8px 20px;border-radius:20px;font-weight:500;">
+          ⏳ Осталось 3 места по портфолио-ценам
+        </span>
+      </div>
+
       <div class="finance-tabs">
         <div class="finance-card reveal">
           <div class="finance-card-header">
@@ -1712,8 +1761,9 @@
           <a href="#contact" class="btn-primary finance-btn">Выбрать Лайт</a>
         </div>
 
-        <div class="finance-card reveal finance-card--premium">
-          <div class="finance-card-header">
+        <div class="finance-card reveal finance-card--premium" style="overflow:visible;">
+          <div class="finance-card-header" style="position:relative;padding-top:36px;">
+            <div style="position:absolute;top:10px;left:50%;transform:translateX(-50%);background:var(--color-accent);color:#fff;font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:0.06em;padding:4px 14px;border-radius:20px;white-space:nowrap;">Рекомендуем</div>
             <div class="finance-tier">Стандарт+</div>
             <div class="finance-price">50 000 ₽<span class="sub">/ мес</span></div>
             <div class="finance-limits">до 500 позиций · до 3 кабинетов</div>
@@ -1821,22 +1871,25 @@
       <h2 class="section-title">Разбираемся в финансах и автоматизации<br />простым языком</h2>
 
       <div class="blog-grid">
-        <a href="blog.html" class="blog-card blog-card--all" target="_blank">
+        <a href="blog/upravlencheskii-uchet-marketpleisy.html" class="blog-card" target="_blank">
           <div class="blog-card-body">
-            <span class="blog-tag">Блог</span>
-            <h3>Финансы, учёт, автоматизация — простым языком</h3>
-            <p>Разбираемся в управленческом учёте, финмоделях, автоматизации сбора данных. Без сложных терминов, для владельцев бизнеса.</p>
-            <span class="blog-read">Все статьи →</span>
+            <span class="blog-tag">Финансы • Учёт</span>
+            <h3>Управленческий учёт для маркетплейсов: с чего начать</h3>
+            <p>ДДС, ОПиУ, юнит-экономика — разбираем, какие отчёты реально нужны продавцу на Wildberries и Ozon. Пошаговый план для старта.</p>
+            <span class="blog-read">Читать статью →</span>
           </div>
         </a>
-        <a href="blog.html" class="blog-card" target="_blank">
+        <a href="blog/5-priznakov-nuzhen-telegram-bot.html" class="blog-card" target="_blank">
           <div class="blog-card-body">
-            <span class="blog-tag">Скоро</span>
-            <h3>Готовим новые статьи по финансам и автоматизации</h3>
-            <p>Скоро здесь появятся полезные материалы. Подпишитесь в Telegram, чтобы не пропустить.</p>
-            <span class="blog-read">Перейти в блог →</span>
+            <span class="blog-tag">Боты • Продажи</span>
+            <h3>5 признаков, что вашему бизнесу нужен Telegram-бот</h3>
+            <p>Проверьте себя по 5 признакам: если хотя бы 3 совпали — пора автоматизировать общение с клиентами и перестать терять заявки.</p>
+            <span class="blog-read">Читать статью →</span>
           </div>
         </a>
+      </div>
+      <div style="text-align:center;margin-top:24px;">
+        <a href="blog.html" style="font-size:15px;color:var(--color-accent);font-weight:600;">Все статьи →</a>
       </div>
     </div>
   </section>
@@ -1936,7 +1989,7 @@
           <div class="about-avatar about-avatar--1">Е</div>
           <h3>Евгения Яровая</h3>
           <div class="about-role">Финансы и учёт</div>
-          <p>Больше 5 лет веду учёт для бизнеса: работала с владельцами маркетплейсов (Wildberries, Ozon), онлайн-школ и сервисных проектов. Навожу порядок в цифрах — от ежедневных отчётов до финансовых моделей.</p>
+          <p>Больше 5 лет веду учёт для бизнеса: работала с селлерами на маркетплейсах (Wildberries, Ozon), онлайн-школами и сервисными проектами. Навожу порядок в цифрах — от ежедневных отчётов до финансовых моделей.</p>
           <div class="about-tags">
             <span class="about-tag">Управленческий учёт</span>
             <span class="about-tag">Финмодели</span>
@@ -2294,6 +2347,16 @@
           d.classList.toggle('calc-dot--done', n < step);
         });
 
+        // Progress bar fill
+        const barFill1 = document.getElementById('calc-bar-fill');
+        const barFill2 = document.getElementById('calc-bar-fill-2');
+        if (barFill1) {
+          barFill1.style.width = step >= 2 ? '100%' : '0%';
+        }
+        if (barFill2) {
+          barFill2.style.width = step >= 3 ? '100%' : '0%';
+        }
+
         // Prev
         prevBtn.style.visibility = step <= 1 ? 'hidden' : 'visible';
 
@@ -2324,26 +2387,41 @@
 
         const hours = parseInt(answers[1]) || 10;
         const yearlyHours = hours * 4 * 12;
-        const yearlyCost = Math.round(yearlyHours * 500); // ~500₽/hour average
+        const yearlyCost = Math.round(yearlyHours * 500);
 
         timeResultEl.textContent = '~' + yearlyHours.toLocaleString('ru-RU') + ' часов/год';
         costResultEl.textContent = 'около ' + yearlyCost.toLocaleString('ru-RU') + ' ₽ в год';
 
-        // Personalize based on pain
+        // Personalize based on pain + setup
         const pain = answers[2] || '';
         const setup = answers[3] || '';
         let desc = '';
+        let tier = '';
 
         if (pain === 'blind' || setup === 'none') {
           desc = 'Без учёта вы работаете вслепую. С настроенной системой вы будете точно знать, сколько заработали и куда двигаться.';
+          tier = 'с тарифа «Лайт» (30 000 ₽/мес) — базовый учёт, ДДС и ОПиУ еженедельно';
         } else if (pain === 'mistakes') {
           desc = 'Ошибки в учёте — это прямые убытки. Автоматизация исключит человеческий фактор и сэкономит ваши деньги.';
+          tier = 'с тарифа «Стандарт+» (50 000 ₽/мес) — полный контроль, аналитика и финмодель';
+        } else if (pain === 'chaos') {
+          desc = 'Когда данные в 5+ сервисах — без автоматизации не обойтись. Настроим связки, чтобы информация собиралась сама.';
+          tier = 'с тарифа «Стандарт+» (50 000 ₽/мес) — учёт + автоматизация сбора данных';
         } else if (pain === 'stuck' || setup === 'start') {
           desc = 'Вы уже пробовали — и это нормально, что не получилось. Мы сделаем по-другому: прозрачно, без сложностей, с поддержкой.';
+          tier = 'с тарифа «Лайт» (30 000 ₽/мес) — начнём с базы, без перегруза';
         } else {
           desc = 'С настроенным учётом и автоматизацией вы вернёте время и деньги, которые сейчас уходят на рутину.';
+          tier = 'с тарифа «Лайт» (30 000 ₽/мес) — базовый учёт и регулярные отчёты';
         }
+
+        // If high hours, recommend higher tier
+        if (hours >= 15) {
+          tier = 'с тарифа «Стандарт+» (50 000 ₽/мес) — при больших объёмах данных нужна полная автоматизация';
+        }
+
         descEl.textContent = desc;
+        document.getElementById('calc-tier-text').textContent = tier;
 
         // Scroll to result
         document.getElementById('calculator').scrollIntoView({ behavior: 'smooth', block: 'center' });

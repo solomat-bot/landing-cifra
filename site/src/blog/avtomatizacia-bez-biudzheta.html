@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Автоматизация без бюджета: 3 бесплатных инструмента для старта — Цифра</title>
+  <meta name="description" content="Google Таблицы, Make.com, Telegram Bot API — что можно настроить бесплатно и как это работает для малого бизнеса." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Rubik:wght@400;500;600;700;800;900&family=PT+Sans:wght@400;700&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root { --color-bg:#F9F7F4; --color-bg-alt:#F0EDE6; --color-text:#1C1E26; --color-text-muted:#5D5F6E; --color-accent:#C4604A; --color-accent-hover:#A94F3B; --color-accent-light:rgba(196,96,74,0.07); --color-secondary:#3A5A6E; --color-border:rgba(28,30,38,0.07); --container:720px; --radius-sm:6px; --radius-md:12px; }
+    body { font-family:'PT Sans',sans-serif; font-size:17px; line-height:1.7; color:var(--color-text); background:var(--color-bg); -webkit-font-smoothing:antialiased; }
+    .container { max-width:var(--container); margin:0 auto; padding:0 24px; }
+    h1, h2, h3 { font-family:'Rubik',sans-serif; font-weight:800; line-height:1.2; color:var(--color-text); }
+    h1 { font-size:clamp(28px,3.6vw,38px); margin-bottom:16px; }
+    h2 { font-size:22px; margin-top:36px; margin-bottom:12px; }
+    p { margin-bottom:16px; color:var(--color-text-muted); font-size:17px; }
+    a { color:var(--color-accent); text-decoration:none; }
+    a:hover { color:var(--color-accent-hover); text-decoration:underline; }
+    ul { margin:16px 0 20px; list-style:none; }
+    ul li { padding:6px 0 6px 24px; position:relative; color:var(--color-text-muted); }
+    ul li::before { content:'✓'; position:absolute; left:0; color:var(--color-accent); font-weight:700; }
+    header { padding:16px 0; border-bottom:1px solid var(--color-border); position:sticky; top:0; z-index:100; backdrop-filter:blur(10px); background:rgba(249,247,244,0.92); }
+    .header-inner { display:flex; justify-content:space-between; align-items:center; }
+    .header-brand { display:flex; flex-direction:column; text-decoration:none; }
+    .header-name { font-family:'Rubik',sans-serif; font-weight:900; font-size:20px; color:var(--color-text); letter-spacing:-0.02em; }
+    .header-subtitle { font-family:'Rubik',sans-serif; font-size:9px; color:var(--color-text-muted); letter-spacing:0.1em; font-weight:500; margin-top:-1px; }
+    .header-back { font-family:'Rubik',sans-serif; font-size:13px; font-weight:600; color:var(--color-accent); }
+    .article { padding:48px 0 60px; }
+    .article-meta { font-size:13px; color:var(--color-text-muted); margin-bottom:32px; }
+    .article-meta span { background:var(--color-accent-light); color:var(--color-accent); padding:2px 10px; border-radius:4px; font-weight:600; font-size:11px; text-transform:uppercase; letter-spacing:0.06em; }
+    .highlight { background:var(--color-accent-light); border-left:3px solid var(--color-accent); padding:18px 20px; border-radius:0 var(--radius-sm) var(--radius-sm) 0; margin:20px 0; font-size:16px; }
+    .highlight p { margin-bottom:0; color:var(--color-text); }
+    .cta-box { background:var(--color-bg-alt); border-radius:var(--radius-md); padding:28px; text-align:center; margin:40px 0; }
+    .cta-box p { margin-bottom:18px; }
+    .btn-primary { display:inline-block; font-family:'Rubik',sans-serif; font-weight:600; font-size:16px; padding:14px 30px; border-radius:var(--radius-sm); background:var(--color-accent); color:#fff; text-decoration:none; transition:all 0.3s; }
+    .btn-primary:hover { background:var(--color-accent-hover); transform:translateY(-1px); text-decoration:none; color:#fff; }
+    footer { border-top:1px solid var(--color-border); padding:32px 0; text-align:center; font-size:13px; color:var(--color-text-muted); }
+    @media (max-width:640px) { .article { padding:32px 0 40px; } }
+  </style>
+</head>
+<body>
+<header>
+  <div class="container header-inner">
+    <a href="../index.html" class="header-brand">
+      <span class="header-name">Цифра</span>
+      <span class="header-subtitle">финансы и технологии</span>
+    </a>
+    <a href="../blog.html" class="header-back">← Все статьи</a>
+  </div>
+</header>
+
+<section class="article">
+  <div class="container">
+    <div class="article-meta"><span>Автоматизация • Инструменты</span></div>
+    <h1>Автоматизация без бюджета: 3 бесплатных инструмента для старта</h1>
+    <p style="font-size:18px;color:var(--color-text);">Начать автоматизировать бизнес можно с нулевым бюджетом. Вот 3 инструмента, которые работают бесплатно и решают реальные задачи.</p>
+
+    <p>Миф: «Автоматизация — это дорого и сложно». Реальность: базовые связки можно настроить за вечер, не заплатив ни копейки. Вот 3 инструмента, с которых стоит начать.</p>
+
+    <h2>1. Google Таблицы — ваш первый дашборд</h2>
+    <p>Самый недооценённый инструмент для учёта. Google Таблицы бесплатны, доступны с любого устройства, а главное — умеют подтягивать данные из внешних источников.</p>
+    <p><strong>Что можно сделать прямо сейчас:</strong></p>
+    <ul>
+      <li>Создать таблицу учёта доходов и расходов (ДДС)</li>
+      <li>Подключить импорт выписок из банка (через CSV)</li>
+      <li>Связать таблицу с формой заявок на сайте</li>
+      <li>Настроить условное форматирование: красным — расходы выше плана, зелёным — прибыль</li>
+    </ul>
+    <p>Google Таблицы — это база, на которой строится вся дальнейшая автоматизация. Не пытайтесь сразу купить дорогую CRM. Начните с таблицы.</p>
+
+    <h2>2. Telegram Bot API — бесплатный «сотрудник» 24/7</h2>
+    <p>У Telegram один из самых щедрых бесплатных API среди мессенджеров. Вы можете создать бота, который будет:</p>
+    <ul>
+      <li>Принимать заявки и записывать клиентов</li>
+      <li>Отвечать на частые вопросы по кнопкам</li>
+      <li>Присылать уведомления вам в личку о новых заказах</li>
+      <li>Собирать контакты и напоминать о записи</li>
+    </ul>
+    <p>Сам бот — бесплатный. Вы платите только за разработку (если заказываете) или своё время (если делаете сами через BotFather). Стоимость разработки простого бота начинается от 5 000 ₽ — и это разовый платёж.</p>
+
+    <h2>3. Make.com (бывший Integromat) — бесплатный конструктор связок</h2>
+    <p>Make.com — это конструктор автоматизаций без кода. Бесплатный тариф даёт 1 000 операций в месяц — для малого бизнеса этого хватает на базовые сценарии.</p>
+    <p><strong>Примеры связок, которые можно настроить бесплатно:</strong></p>
+    <ul>
+      <li>Новая заявка из Telegram-бота → строка в Google Таблице</li>
+      <li>Новый платёж в банке → уведомление в Telegram</li>
+      <li>Новый заказ на сайте → письмо на почту + запись в таблицу</li>
+      <li>Еженедельный отчёт из данных таблицы → сообщение в Telegram</li>
+    </ul>
+    <div class="highlight">
+      <p><strong>Важно:</strong> Начинайте с одной связки. Самые частые ошибки — попытка автоматизировать всё сразу и разочарование, когда что-то пошло не так. Один работающий сценарий лучше пяти недонастроенных.</p>
+    </div>
+
+    <h2>С чего начать прямо сегодня</h2>
+    <p>Вот план на 3 дня для старта:</p>
+    <ul>
+      <li><strong>День 1:</strong> Создайте Google Таблицу для учёта доходов и расходов. Запишите туда данные за последнюю неделю</li>
+      <li><strong>День 2:</strong> Зарегистрируйте бота в BotFather (@BotFather) — 5 минут. Настройте базовые команды.</li>
+      <li><strong>День 3:</strong> Зарегистрируйтесь в Make.com и настройте первую связку: например, новые заявки из бота → в таблицу.</li>
+    </ul>
+    <p>Через 3 дня у вас будет работающая система, которая уже экономит время. Через месяц вы поймёте, чего не хватает, и сможете расширять.</p>
+
+    <div class="cta-box">
+      <p style="font-size:18px;font-weight:600;color:var(--color-text);">Нужна помощь с настройкой?</p>
+      <p>Поможем настроить связки инструментов под ваш бизнес.</p>
+      <a href="../index.html#contact" class="btn-primary">Заказать настройку</a>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="container">
+    <p>Цифра — технологии и финансы &copy; 2026 | <a href="../privacy-policy.html">Политика конфиденциальности</a></p>
+  </div>
+</footer>
+</body>
+</html>
