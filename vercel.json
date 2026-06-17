@@ -1,0 +1,8 @@
+{
+  "buildCommand": null,
+  "outputDirectory": "site/src",
+  "devCommand": null,
+  "rewrites": [
+    { "source": "/api/(.*)", "destination": "/site/api/$1" }
+  ]
+}
