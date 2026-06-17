@@ -59,7 +59,7 @@ function getReplyKeyboard() {
   return {
     reply_markup: {
       keyboard: [
-        [{ text: '🎁 Чек-лист' }, { text: '🔥 Зачем нам доверяют' }],
+        [{ text: '🎁 Чек-лист' }, { text: '🔥 Почему нам доверяют' }],
         [{ text: '💎 Сколько стоит' }, { text: '📞 Запись на консультацию' }],
       ],
       resize_keyboard: true,
@@ -415,7 +415,7 @@ export default async function handler(req, res) {
       if (text === '/start' || text === 'Меню' || text === 'меню' || text === '📞 Запись на консультацию') {
         if (text === '📞 Запись на консультацию') { await handleContact(chatId); return; }
         await handleStart(chatId);
-      } else if (text === '🔥 Зачем нам доверяют') {
+      } else if (text === '🔥 Почему нам доверяют') {
         await handleServices(chatId);
       } else if (text === '💎 Сколько стоит') {
         await handlePricing(chatId);
