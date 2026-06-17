@@ -367,22 +367,22 @@ export default async function handler(req, res) {
 
       switch (data) {
         case 'services':
-          handleServices(chatId, messageId);
+          await handleServices(chatId, messageId);
           break;
         case 'pricing':
-          handlePricing(chatId, messageId);
+          await handlePricing(chatId, messageId);
           break;
         case 'checklist':
-          handleChecklist(chatId, messageId);
+          await handleChecklist(chatId, messageId);
           break;
         case 'contact':
-          handleContact(chatId, messageId);
+          await handleContact(chatId, messageId);
           break;
         case 'menu':
-          handleMenu(chatId, messageId);
+          await handleMenu(chatId, messageId);
           break;
         case 'end':
-          handleEnd(chatId, messageId);
+          await handleEnd(chatId, messageId);
           break;
       }
 
@@ -403,14 +403,14 @@ export default async function handler(req, res) {
       const text = update.message.text.trim();
 
       if (text === '/start' || text === 'Меню' || text === 'меню') {
-        handleStart(chatId);
+        await handleStart(chatId);
       } else if (text.startsWith('/start ')) {
         // Deep link: e.g. /start checklist
         const payload = text.split(' ')[1];
         if (payload === 'checklist') {
-          handleChecklist(chatId);
+          await handleChecklist(chatId);
         } else {
-          handleStart(chatId);
+          await handleStart(chatId);
         }
       } else {
         await handleUserMessage(chatId, text, update.message.from);
