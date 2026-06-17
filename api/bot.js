@@ -1,9 +1,10 @@
 // Telegram Bot Webhook — @CifraConsultBot продажник
-// Установка webhook: https://api.telegram.org/bot<TOKEN>/setWebhook?url=https://site-iota-bice.vercel.app/api/bot
+// Установка webhook: https://api.telegram.org/bot<TOKEN>/setWebhook?url=https://landing-cifra.vercel.app/api/bot
 // Удалить: https://api.telegram.org/bot<TOKEN>/deleteWebhook
 
 const TELEGRAM_BOT_TOKEN = process.env.TELEGRAM_BOT_TOKEN || '8941756158:AAHvdtkOpm-bQqce99vgKspfACA-1lZtB-c';
 const TELEGRAM_CHAT_ID = process.env.TELEGRAM_CHAT_ID || '502930155';
+const TELEGRAM_GROUP_ID = process.env.TELEGRAM_GROUP_ID || '-1004392573043';
 
 const CHECKLIST_TEXT = `📋 ЧЕК-ЛИСТ: 5 шагов к порядку в финансах
 
@@ -32,7 +33,7 @@ const CHECKLIST_TEXT = `📋 ЧЕК-ЛИСТ: 5 шагов к порядку в 
 → Выгрузка из маркетплейсов
 → Telegram-бот для быстрого ввода
 
-Полная версия: https://site-iota-bice.vercel.app/lead-magnet-checklist.html`;
+Полная версия: https://landing-cifra.vercel.app/lead-magnet-checklist.html`;
 
 // In-memory user states (сбрасываются при перезапуске функции)
 const userStates = new Map();
@@ -83,26 +84,32 @@ async function editMessage(chatId, messageId, text, extra = {}) {
 }
 
 async function notifyTeam(text) {
-  await sendTelegram(TELEGRAM_CHAT_ID, text);
+  // Send to both personal chat and group
+  const targets = [TELEGRAM_CHAT_ID, TELEGRAM_GROUP_ID];
+  for (const chatId of targets) {
+    await sendTelegram(chatId, text);
+  }
 }
 
 // ===== HANDLERS =====
 
 function handleStart(chatId) {
   userStates.set(chatId, 'menu');
-  const welcome = `👋 Привет! Я консультант «Цифры».
+  const welcome = `👋 Привет! Я бот «Цифры».
 
-Мы помогаем микробизнесу наводить порядок в финансах и процессах:
-• 📊 Финансовый учёт и аналитика
+Мы помогаем наводить порядок в финансах и процессах:
+• 📊 Управленческий учёт для маркетплейсов и онлайн-школ
 • 🤖 Telegram-боты и AI-ассистенты
 • 🔗 Автоматизация сбора данных
+
+🎁 Я могу бесплатно отправить вам чек-лист «5 шагов к порядку в финансах» — просто нажмите кнопку ниже.
 
 Что вас интересует?`;
 
   sendTelegram(chatId, welcome, getInlineKeyboard([
+    [{ text: '🎁 Получить чек-лист бесплатно', data: 'checklist' }],
     [{ text: '📊 Услуги и цены', data: 'services' }],
     [{ text: '💎 Тарифы финансового учёта', data: 'pricing' }],
-    [{ text: '📖 Чек-лист по финансам', data: 'checklist' }],
     [{ text: '📞 Связаться с командой', data: 'contact' }],
   ]));
 }
@@ -180,18 +187,40 @@ function handlePricing(chatId, messageId = null) {
 }
 
 function handleChecklist(chatId, messageId = null) {
-  const text = CHECKLIST_TEXT + '\n\nХотите помочь с внедрением? Напишите нам — бесплатно проконсультируем:';
-  if (messageId) {
-    editMessage(chatId, messageId, text, getInlineKeyboard([
-      [{ text: '📞 Получить консультацию', data: 'contact' }],
-      [{ text: '← В меню', data: 'menu' }],
-    ]));
-  } else {
-    sendTelegram(chatId, text, getInlineKeyboard([
-      [{ text: '📞 Получить консультацию', data: 'contact' }],
-      [{ text: '← В меню', data: 'menu' }],
-    ]));
+  const state = userStates.get(chatId) || {};
+  if (!state.awaitingName) {
+    // Ask for name first
+    userStates.set(chatId, { ...state, awaitingName: true });
+    const text = `🎁 Отлично! Чек-лист уже готов.
+
+Напишите, пожалуйста, ваше имя и @username в Telegram — я пришлю чек-лист сюда в чат.`;
+    if (messageId) {
+      editMessage(chatId, messageId, text);
+    } else {
+      sendTelegram(chatId, text);
+    }
+    return;
   }
+}
+
+async function handleChecklistSend(chatId, name, username) {
+  const text = `${CHECKLIST_TEXT}\n\n📌 ${name}, сохраните чек-лист — и если понадобится помощь с внедрением, просто напишите нам!`;
+
+  sendTelegram(chatId, text, getInlineKeyboard([
+    [{ text: '📞 Бесплатная консультация 15 мин', data: 'contact' }],
+    [{ text: '📊 Посмотреть услуги', data: 'services' }],
+    [{ text: '← В меню', data: 'menu' }],
+  ]));
+
+  // Notify team
+  await notifyTeam(
+    `📥 Запрос чек-листа из бота\n\n`
+    + `👤 Имя: ${name}\n`
+    + `📱 Telegram: ${username || 'не указан'}\n`
+    + `💬 Chat ID: ${chatId}`
+  );
+
+  userStates.set(chatId, { ...userStates.get(chatId), awaitingName: false, gotChecklist: true });
 }
 
 function handleContact(chatId, messageId = null) {
@@ -201,7 +230,7 @@ function handleContact(chatId, messageId = null) {
 • Евгения (финансы): @EugeniaYar
 • Ольга (технологии): @solstudio_ai
 
-Или оставьте заявку на сайте: https://site-iota-bice.vercel.app#contact
+Или оставьте заявку на сайте: https://landing-cifra.vercel.app#contact
 
 Или просто напишите сообщение — я передам его команде!`;
 
@@ -240,9 +269,21 @@ function handleMenu(chatId, messageId = null) {
 }
 
 async function handleUserMessage(chatId, text) {
-  // Пересылаем сообщение команде
-  const state = userStates.get(chatId) || 'menu';
+  const state = userStates.get(chatId) || {};
 
+  // Если пользователь запросил чек-лист и вводит имя
+  if (state.awaitingName) {
+    const name = text.trim();
+    if (name.length < 2) {
+      sendTelegram(chatId, 'Напишите, пожалуйста, ваше имя — так мы будем знать, как к вам обращаться 🙂');
+      return;
+    }
+    const username = `[user](tg://user?id=${chatId})`;
+    await handleChecklistSend(chatId, name, username);
+    return;
+  }
+
+  // Если пользователь в режиме связи с командой
   if (state === 'awaiting_message') {
     await notifyTeam(
       `💬 Сообщение из бота от пользователя\n\n`
@@ -335,7 +376,7 @@ export default async function handler(req, res) {
       const chatId = update.message.chat.id;
       // Only allow from configured chat
       if (String(chatId) === TELEGRAM_CHAT_ID) {
-        const webhookUrl = `https://site-iota-bice.vercel.app/api/bot`;
+        const webhookUrl = `https://landing-cifra.vercel.app/api/bot`;
         const setUrl = `https://api.telegram.org/bot${TELEGRAM_BOT_TOKEN}/setWebhook?url=${webhookUrl}`;
         const r = await fetch(setUrl);
         const d = await r.json();

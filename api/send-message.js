@@ -4,6 +4,23 @@
 
 const TELEGRAM_BOT_TOKEN = process.env.TELEGRAM_BOT_TOKEN || '8941756158:AAHvdtkOpm-bQqce99vgKspfACA-1lZtB-c';
 const TELEGRAM_CHAT_ID = process.env.TELEGRAM_CHAT_ID || '502930155';
+// ID группы «Цифра — заявки», где будут видеть все заявки
+const TELEGRAM_GROUP_ID = process.env.TELEGRAM_GROUP_ID || '-1004392573043';
+
+async function sendToAllChats(text) {
+  const targets = [TELEGRAM_CHAT_ID, TELEGRAM_GROUP_ID];
+  for (const chatId of targets) {
+    try {
+      await fetch(`https://api.telegram.org/bot${TELEGRAM_BOT_TOKEN}/sendMessage`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ chat_id: chatId, text, parse_mode: 'HTML' }),
+      });
+    } catch (e) {
+      console.error('Failed to send to', chatId, e);
+    }
+  }
+}
 
 const CHECKLIST_TEXT = `
 📋 ЧЕК-ЛИСТ: 5 шагов к порядку в финансах
@@ -34,7 +51,7 @@ const CHECKLIST_TEXT = `
   □ Настройте выгрузку из кабинета маркетплейса
   □ Используйте Telegram-бота для быстрого ввода
 
-Полная версия с пояснениями: https://site-iota-bice.vercel.app/lead-magnet-checklist.html
+Полная версия с пояснениями: https://landing-cifra.vercel.app/lead-magnet-checklist.html
 `;
 
 export default async function handler(req, res) {
@@ -72,24 +89,8 @@ export default async function handler(req, res) {
       msg += '\n\n' + CHECKLIST_TEXT;
     }
 
-    const response = await fetch(
-      `https://api.telegram.org/bot${TELEGRAM_BOT_TOKEN}/sendMessage`,
-      {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          chat_id: TELEGRAM_CHAT_ID,
-          text: msg,
-          parse_mode: 'HTML',
-        }),
-      }
-    );
-
-    if (!response.ok) {
-      const errorData = await response.text();
-      console.error('Telegram API error:', errorData);
-      return res.status(500).json({ error: 'Failed to send message' });
-    }
+    // Send to all notification chats
+    await sendToAllChats(msg);
 
     return res.status(200).json({ success: true });
   } catch (error) {
