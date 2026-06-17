@@ -54,6 +54,24 @@ function getInlineKeyboard(buttons) {
   };
 }
 
+// Persistent reply keyboard at the bottom (always visible)
+function getReplyKeyboard() {
+  return {
+    reply_markup: {
+      keyboard: [
+        [{ text: '🎁 Чек-лист' }, { text: '📊 Услуги' }],
+        [{ text: '💎 Цены' }, { text: '📞 Контакты' }],
+      ],
+      resize_keyboard: true,
+      is_persistent: true,
+    },
+  };
+}
+
+function removeKeyboard() {
+  return { reply_markup: { remove_keyboard: true } };
+}
+
 async function sendTelegram(chatId, text, extra = {}) {
   const url = `https://api.telegram.org/bot${TELEGRAM_BOT_TOKEN}/sendMessage`;
   const body = { chat_id: chatId, text, ...extra };
@@ -105,16 +123,11 @@ function handleStart(chatId) {
 • 🤖 Telegram-боты и AI-ассистенты
 • 🔗 Автоматизация сбора данных
 
-🎁 Я могу бесплатно отправить вам чек-лист «5 шагов к порядку в финансах» — просто нажмите кнопку ниже.
+🎁 Нажмите «Чек-лист» внизу — бесплатный чек-лист «5 шагов к порядку в финансах»
 
-Что вас интересует?`;
+Меню всегда перед вами внизу 👇`;
 
-  sendTelegram(chatId, welcome, getInlineKeyboard([
-    [{ text: '🎁 Получить чек-лист бесплатно', data: 'checklist' }],
-    [{ text: '📊 Услуги и цены', data: 'services' }],
-    [{ text: '💎 Тарифы финансового учёта', data: 'pricing' }],
-    [{ text: '📞 Связаться с командой', data: 'contact' }],
-  ]));
+  sendTelegram(chatId, welcome, getReplyKeyboard());
 }
 
 function handleServices(chatId, messageId = null) {
@@ -189,32 +202,22 @@ function handlePricing(chatId, messageId = null) {
   }
 }
 
-function handleChecklist(chatId, messageId = null) {
-  const state = userStates.get(chatId) || {};
-  if (!state.awaitingName) {
-    // Ask for name first
-    userStates.set(chatId, { ...state, awaitingName: true });
-    const text = `🎁 Отлично! Чек-лист уже готов.
-
-Напишите, пожалуйста, ваше имя и @username в Telegram — я пришлю чек-лист сюда в чат.`;
-    if (messageId) {
-      editMessage(chatId, messageId, text);
-    } else {
-      sendTelegram(chatId, text);
-    }
-    return;
-  }
+async function handleChecklistViaReply(chatId, from) {
+  await handleChecklist(chatId, null, from?.first_name || '');
+  if (from) await notifyChecklist(chatId, from.first_name, from.username, from.username || '');
 }
 
-async function handleChecklistSend(chatId, name, username) {
-  // 1. Сначала приветствие + чек-лист
-  const welcome = `👋 ${name}, привет! Держите чек-лист 👇`;
-  sendTelegram(chatId, welcome);
+async function handleChecklist(chatId, messageId = null, userName = '') {
+  // Immediately send the checklist — no name prompt
+  const name = userName || 'друг';
 
-  // 2. Отправляем чек-лист
+  // 1. Приветствие
+  sendTelegram(chatId, `👋 ${name}, держите чек-лист 👇`);
+
+  // 2. Чек-лист
   sendTelegram(chatId, CHECKLIST_TEXT, { parse_mode: 'HTML' });
 
-  // 3. Через секунду — прогревающее сообщение
+  // 3. Прогрев через 1.5 сек
   setTimeout(() => {
     sendTelegram(chatId, `🎯 ${name}, а теперь важный вопрос:
 
@@ -229,15 +232,16 @@ async function handleChecklistSend(chatId, name, username) {
     ]));
   }, 1500);
 
-  // Notify team
+  userStates.set(chatId, { ...userStates.get(chatId), name, gotChecklist: true, awaitingName: false });
+}
+
+async function notifyChecklist(chatId, name, username, userName) {
   await notifyTeam(
     `📥 Запрос чек-листа из бота\n\n`
     + `👤 Имя: ${name}\n`
-    + `📱 Telegram: ${username || 'не указан'}\n`
+    + `📱 Telegram: ${userName || username || 'не указан'}\n`
     + `💬 Chat ID: ${chatId}`
   );
-
-  userStates.set(chatId, { ...userStates.get(chatId), name, awaitingName: false, gotChecklist: true });
 }
 
 function handleContact(chatId, messageId = null) {
@@ -373,7 +377,8 @@ export default async function handler(req, res) {
           await handlePricing(chatId, messageId);
           break;
         case 'checklist':
-          await handleChecklist(chatId, messageId);
+          await handleChecklist(chatId, messageId, from.first_name || '');
+          if (from) await notifyChecklist(chatId, from.first_name, from.username, from.username || '');
           break;
         case 'contact':
           await handleContact(chatId, messageId);
@@ -402,13 +407,20 @@ export default async function handler(req, res) {
       const chatId = update.message.chat.id;
       const text = update.message.text.trim();
 
-      if (text === '/start' || text === 'Меню' || text === 'меню') {
+      if (text === '/start' || text === 'Меню' || text === 'меню' || text === '📊 Услуги' || text === '💎 Цены' || text === '📞 Контакты') {
+        if (text === '📊 Услуги') { await handleServices(chatId); return; }
+        if (text === '💎 Цены') { await handlePricing(chatId); return; }
+        if (text === '📞 Контакты') { await handleContact(chatId); return; }
         await handleStart(chatId);
+      } else if (text === '🎁 Чек-лист') {
+        await handleChecklistViaReply(chatId, update.message.from);
       } else if (text.startsWith('/start ')) {
         // Deep link: e.g. /start checklist
         const payload = text.split(' ')[1];
         if (payload === 'checklist') {
-          await handleChecklist(chatId);
+          const from = update.message.from || {};
+          await handleChecklist(chatId, null, from.first_name || '');
+          if (from) await notifyChecklist(chatId, from.first_name, from.username, from.username || '');
         } else {
           await handleStart(chatId);
         }
