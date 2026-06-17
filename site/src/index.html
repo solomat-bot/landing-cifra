@@ -1373,6 +1373,14 @@
         <a href="#calculator" class="btn-primary">Бесплатная диагностика за 2 минуты →</a>
         <a href="#finance-pricing" class="btn-secondary">Смотреть тарифы</a>
       </div>
+
+      <div class="hero-chat-cta reveal reveal-delay-4" style="margin-top:28px;display:flex;align-items:center;justify-content:center;gap:10px;flex-wrap:wrap;">
+        <span style="font-size:14px;color:var(--color-text-muted);">💬 Или спросите наш AI-консультант →</span>
+        <a href="javascript:void(0)" onclick="document.getElementById('chat-button').click()" class="btn-secondary" style="font-size:13px;padding:8px 18px;display:inline-flex;align-items:center;gap:6px;">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+          Задать вопрос
+        </a>
+      </div>
     </div>
   </section>
 
@@ -1935,7 +1943,7 @@
             <span class="about-tag">Сбор данных</span>
             <span class="about-tag">Аналитика</span>
           </div>
-          <a href="https://t.me/EugeniaYar" target="_blank" class="about-contact-link">@EugeniaYar →</a>
+          <a href="index.html#contact" class="about-contact-link">Связаться →</a>
         </div>
         <div class="about-card about-card--2 reveal">
           <div class="about-avatar about-avatar--2">О</div>
@@ -1948,7 +1956,7 @@
             <span class="about-tag">AI-решения</span>
             <span class="about-tag">Автоматизация</span>
           </div>
-          <a href="https://t.me/solstudio_ai" target="_blank" class="about-contact-link">@solstudio_ai →</a>
+          <a href="index.html#contact" class="about-contact-link">Связаться →</a>
         </div>
       </div>
     </div>
@@ -2052,25 +2060,17 @@
         <div class="lead-magnet-icon">
           <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/></svg>
         </div>
-        <div class="lead-magnet-text" id="lead-magnet-text">
+        <div class="lead-magnet-text">
           <strong>Чек-лист:</strong> «5 шагов к порядку в финансах»<br />
-          <span class="lead-magnet-hint">Оставьте контакт — пришлём в Telegram</span>
+          <span class="lead-magnet-hint">Заберите в Telegram-боте — моментально, без ожидания</span>
         </div>
-        <button class="btn-secondary lead-magnet-btn" id="lead-cta-btn" onclick="showLeadForm()">Получить →</button>
-        <div class="lead-magnet-form" id="lead-form">
-          <input type="text" id="lead-name" placeholder="Ваше имя" />
-          <input type="text" id="lead-contact" placeholder="@username в Telegram" />
-          <button class="btn-primary" onclick="requestChecklist()">Получить →</button>
-        </div>
-        <div class="lead-magnet-success" id="lead-success">
-          Спасибо! Мы отправим чек-лист в Telegram в ближайшее время ✅
-        </div>
+        <a href="https://t.me/CifraConsultBot?start=checklist" target="_blank" class="btn-secondary lead-magnet-btn" style="text-decoration:none;display:inline-flex;align-items:center;gap:6px;">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21.5 2.5L2.5 10.5L10.5 14.5L14.5 22.5L21.5 2.5Z"/></svg>
+          Получить в Telegram →</a>
       </div>
 
       <p class="contact-direct">
-        Или пишите напрямую:
-        <a href="https://t.me/EugeniaYar" target="_blank">@EugeniaYar</a> (финансы) ·
-        <a href="https://t.me/solstudio_ai" target="_blank">@solstudio_ai</a> (технологии)
+        Напишите в Telegram-бота @CifraConsultBot — ответим в течение нескольких часов
       </p>
     </div>
   </section>
@@ -2084,7 +2084,7 @@
       </div>
       <span class="footer-meta">Технологии и финансы &copy; 2026</span>
       <div class="footer-links">
-        <a href="https://t.me/solstudio_ai" target="_blank">Telegram</a>
+        <a href="index.html#contact">Контакты</a>
         <a href="privacy-policy.html" target="_blank">Политика конфиденциальности</a>
       </div>
     </div>
@@ -2182,42 +2182,7 @@
       t.textContent = isHidden ? '− Скрыть подробности' : '+ Добавить подробности';
     }
 
-    // === Lead magnet (inline mini-form) ===
-    function showLeadForm() {
-      document.getElementById('lead-cta-btn').style.display = 'none';
-      document.getElementById('lead-form').classList.add('lead-magnet-form--show');
-      document.getElementById('lead-name').focus();
-    }
-
-    async function requestChecklist() {
-      const name = document.getElementById('lead-name').value.trim();
-      const contact = document.getElementById('lead-contact').value.trim();
-      if (!name || !contact) {
-        showToast('Заполните имя и контакт в Telegram', 'error');
-        return;
-      }
-
-      const btn = document.querySelector('#lead-form .btn-primary');
-      btn.disabled = true;
-      btn.textContent = 'Отправляем...';
-
-      try {
-        const r = await fetch('/api/send-message', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ name, contact, service_type: 'lead', task: 'Хочу чек-лист «5 шагов к порядку в финансах»' })
-        });
-        if (!r.ok) throw new Error('API error');
-        document.getElementById('lead-form').classList.remove('lead-magnet-form--show');
-        document.getElementById('lead-magnet-text').style.display = 'none';
-        document.getElementById('lead-success').classList.add('lead-magnet-success--show');
-      } catch {
-        showToast('Не удалось отправить. Напишите нам напрямую в Telegram 🙏', 'error');
-      } finally {
-        btn.disabled = false;
-        btn.textContent = 'Получить →';
-      }
-    }
+    // === Lead magnet — теперь через Telegram-бота (кнопка ведёт в @CifraConsultBot) ===
 
     // === Toast ===
     function showToast(msg, type) {
@@ -2448,7 +2413,7 @@
         chatHistory.push({ role: 'assistant', content: data.reply || '' });
       } catch {
         document.getElementById('chat-typing')?.remove();
-        addChatMessage('Извините, произошла ошибка. Попробуйте позже или напишите нам в Telegram @EugeniaYar', 'bot');
+        addChatMessage('Извините, произошла ошибка. Пожалуйста, попробуйте позже или оставьте заявку через форму на сайте.', 'bot');
       } finally {
         btn.disabled = false;
         input.focus();

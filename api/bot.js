@@ -6,34 +6,37 @@ const TELEGRAM_BOT_TOKEN = process.env.TELEGRAM_BOT_TOKEN || '8941756158:AAHvdtk
 const TELEGRAM_CHAT_ID = process.env.TELEGRAM_CHAT_ID || '502930155';
 const TELEGRAM_GROUP_ID = process.env.TELEGRAM_GROUP_ID || '-1004392573043';
 
-const CHECKLIST_TEXT = `📋 ЧЕК-ЛИСТ: 5 шагов к порядку в финансах
+const CHECKLIST_TEXT = `📋 <b>ЧЕК-ЛИСТ: 5 шагов к порядку в финансах</b>
 
-Шаг 1. Зафиксируйте все источники доходов
-→ Выпишите все каналы, откуда приходят деньги
-→ Определите регулярные и сезонные доходы
-→ Заведите таблицу доходов
+━━━━━━━━━━━━━━━━━━
 
-Шаг 2. Разделите расходы на категории
-→ Постоянные (аренда, зарплата, подписки)
-→ Переменные (реклама, закупки)
-→ Налоги и сборы
+<b>Шаг 1.</b> Зафиксируйте все источники доходов
+☐ Выпишите все каналы, откуда приходят деньги
+☐ Определите регулярные и сезонные доходы
+☐ Заведите таблицу доходов с разбивкой
 
-Шаг 3. Внедрите регулярность
-→ Ежедневно: фиксация операций (5-10 мин)
-→ Еженедельно: сверка остатков
-→ Ежемесячно: ОПиУ, ДДС
+<b>Шаг 2.</b> Разделите расходы на категории
+☐ Постоянные (аренда, зарплата, подписки)
+☐ Переменные (реклама, закупки, логистика)
+☐ Налоги и сборы — откладывайте заранее
 
-Шаг 4. Настройте отчётность
-→ ДДС — движение денег
-→ ОПиУ — реальная прибыль
-→ Платежный календарь
+<b>Шаг 3.</b> Внедрите регулярность
+☐ Ежедневно: фиксация операций (5-10 мин)
+☐ Еженедельно: сверка остатков по счетам
+☐ Ежемесячно: ОПиУ и ДДС
 
-Шаг 5. Автоматизируйте сбор данных
-→ Подключите банк к таблицам
-→ Выгрузка из маркетплейсов
-→ Telegram-бот для быстрого ввода
+<b>Шаг 4.</b> Настройте отчётность
+☐ ДДС — сколько денег пришло и ушло
+☐ ОПиУ — сколько заработали на самом деле
+☐ Платежный календарь — что платить завтра
 
-Полная версия: https://landing-cifra.vercel.app/lead-magnet-checklist.html`;
+<b>Шаг 5.</b> Автоматизируйте сбор данных
+☐ Подключите банк к таблицам
+☐ Настройте выгрузку из кабинетов маркетплейсов
+☐ Используйте Telegram-бота для быстрого ввода
+
+━━━━━━━━━━━━━━━━━━
+📎 Полная версия с пояснениями: https://landing-cifra.vercel.app/lead-magnet-checklist.html`;
 
 // In-memory user states (сбрасываются при перезапуске функции)
 const userStates = new Map();
@@ -204,13 +207,27 @@ function handleChecklist(chatId, messageId = null) {
 }
 
 async function handleChecklistSend(chatId, name, username) {
-  const text = `${CHECKLIST_TEXT}\n\n📌 ${name}, сохраните чек-лист — и если понадобится помощь с внедрением, просто напишите нам!`;
+  // 1. Сначала приветствие + чек-лист
+  const welcome = `👋 ${name}, привет! Держите чек-лист 👇`;
+  sendTelegram(chatId, welcome);
 
-  sendTelegram(chatId, text, getInlineKeyboard([
-    [{ text: '📞 Бесплатная консультация 15 мин', data: 'contact' }],
-    [{ text: '📊 Посмотреть услуги', data: 'services' }],
-    [{ text: '← В меню', data: 'menu' }],
-  ]));
+  // 2. Отправляем чек-лист
+  sendTelegram(chatId, CHECKLIST_TEXT, { parse_mode: 'HTML' });
+
+  // 3. Через секунду — прогревающее сообщение
+  setTimeout(() => {
+    sendTelegram(chatId, `🎯 ${name}, а теперь важный вопрос:
+
+Вы уже пробовали самостоятельно навести порядок в финансах, но что-то пошло не так? Или только присматриваетесь?
+
+Мы можем бесплатно проанализировать вашу ситуацию за 15 минут — и сказать, что нужно сделать в первую очередь. Без обязательств.
+
+Что скажете?`, getInlineKeyboard([
+      [{ text: '👍 Да, давайте созвонимся', data: 'contact' }],
+      [{ text: '👀 Пока посмотрю услуги', data: 'services' }],
+      [{ text: '📅 Потом вернусь', data: 'end' }],
+    ]));
+  }, 1500);
 
   // Notify team
   await notifyTeam(
@@ -220,7 +237,7 @@ async function handleChecklistSend(chatId, name, username) {
     + `💬 Chat ID: ${chatId}`
   );
 
-  userStates.set(chatId, { ...userStates.get(chatId), awaitingName: false, gotChecklist: true });
+  userStates.set(chatId, { ...userStates.get(chatId), name, awaitingName: false, gotChecklist: true });
 }
 
 function handleContact(chatId, messageId = null) {
@@ -268,7 +285,26 @@ function handleMenu(chatId, messageId = null) {
   userStates.set(chatId, 'menu');
 }
 
-async function handleUserMessage(chatId, text) {
+function handleEnd(chatId, messageId = null) {
+  const text = `🕐 Хорошо, ${userStates.get(chatId)?.name || ''}! Чек-лист у вас, а мы всегда рядом.
+
+Когда будете готовы — просто напишите /start, и я помогу.
+
+А пока можете посмотреть наши услуги в удобное время. Удачи в финансах! 🚀`;
+
+  if (messageId) {
+    editMessage(chatId, messageId, text, getInlineKeyboard([
+      [{ text: '📊 Посмотреть услуги', data: 'services' }],
+    ]));
+  } else {
+    sendTelegram(chatId, text, getInlineKeyboard([
+      [{ text: '📊 Посмотреть услуги', data: 'services' }],
+    ]));
+  }
+  userStates.set(chatId, { ...(userStates.get(chatId) || {}), end: true });
+}
+
+async function handleUserMessage(chatId, text, userObj = {}) {
   const state = userStates.get(chatId) || {};
 
   // Если пользователь запросил чек-лист и вводит имя
@@ -278,8 +314,9 @@ async function handleUserMessage(chatId, text) {
       sendTelegram(chatId, 'Напишите, пожалуйста, ваше имя — так мы будем знать, как к вам обращаться 🙂');
       return;
     }
-    const username = `[user](tg://user?id=${chatId})`;
-    await handleChecklistSend(chatId, name, username);
+    const tgUsername = userObj.username || `id${chatId}`;
+    const usernameDisplay = userObj.username ? `@${userObj.username}` : `ID: ${chatId}`;
+    await handleChecklistSend(chatId, name, usernameDisplay);
     return;
   }
 
@@ -344,6 +381,9 @@ export default async function handler(req, res) {
         case 'menu':
           handleMenu(chatId, messageId);
           break;
+        case 'end':
+          handleEnd(chatId, messageId);
+          break;
       }
 
       // Answer callback query (remove loading state)
@@ -364,8 +404,16 @@ export default async function handler(req, res) {
 
       if (text === '/start' || text === 'Меню' || text === 'меню') {
         handleStart(chatId);
+      } else if (text.startsWith('/start ')) {
+        // Deep link: e.g. /start checklist
+        const payload = text.split(' ')[1];
+        if (payload === 'checklist') {
+          handleChecklist(chatId);
+        } else {
+          handleStart(chatId);
+        }
       } else {
-        await handleUserMessage(chatId, text);
+        await handleUserMessage(chatId, text, update.message.from);
       }
 
       return res.status(200).json({ ok: true });
