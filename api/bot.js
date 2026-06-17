@@ -209,7 +209,7 @@ function handlePricing(chatId, messageId = null) {
 
 async function handleChecklistViaReply(chatId, from) {
   await handleChecklist(chatId, null, from?.first_name || '');
-  if (from) await notifyChecklist(chatId, from.first_name, from.username, from.username || '');
+  // Уведомление о чек-листе убрано — слишком много шума
 }
 
 async function handleChecklist(chatId, messageId = null, userName = '') {
@@ -222,31 +222,14 @@ async function handleChecklist(chatId, messageId = null, userName = '') {
   // 2. Чек-лист
   sendTelegram(chatId, CHECKLIST_TEXT, { parse_mode: 'HTML' });
 
-  // 3. Прогрев через 1.5 сек
+  // 3. Короткое завершение
   setTimeout(() => {
-    sendTelegram(chatId, `🎯 ${name}, а теперь важный вопрос:
+    sendTelegram(chatId, `📎 Полная версия чек-листа с пояснениями: https://landing-cifra.vercel.app/lead-magnet-checklist.html
 
-Вы уже пробовали самостоятельно навести порядок в финансах, но что-то пошло не так? Или только присматриваетесь?
-
-Мы можем бесплатно проанализировать вашу ситуацию за 15 минут — и сказать, что нужно сделать в первую очередь. Без обязательств.
-
-Что скажете?`, getInlineKeyboard([
-      [{ text: '👍 Да, давайте созвонимся', data: 'contact' }],
-      [{ text: '👀 Пока посмотрю услуги', data: 'services' }],
-      [{ text: '📅 Потом вернусь', data: 'end' }],
-    ]));
+Если захотите обсудить настройку учёта для вашего бизнеса — просто напишите /start`, removeKeyboard());
   }, 1500);
 
   userStates.set(chatId, { ...userStates.get(chatId), name, gotChecklist: true, awaitingName: false });
-}
-
-async function notifyChecklist(chatId, name, username, userName) {
-  await notifyTeam(
-    `📥 Запрос чек-листа из бота\n\n`
-    + `👤 Имя: ${name}\n`
-    + `📱 Telegram: ${userName || username || 'не указан'}\n`
-    + `💬 Chat ID: ${chatId}`
-  );
 }
 
 function handleContact(chatId, messageId = null) {
@@ -383,7 +366,6 @@ export default async function handler(req, res) {
           break;
         case 'checklist':
           await handleChecklist(chatId, messageId, from.first_name || '');
-          if (from) await notifyChecklist(chatId, from.first_name, from.username, from.username || '');
           break;
         case 'contact':
           await handleContact(chatId, messageId);
@@ -427,7 +409,6 @@ export default async function handler(req, res) {
         if (payload === 'checklist') {
           const from = update.message.from || {};
           await handleChecklist(chatId, null, from.first_name || '');
-          if (from) await notifyChecklist(chatId, from.first_name, from.username, from.username || '');
         } else {
           await handleStart(chatId);
         }
