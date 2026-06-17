@@ -74,7 +74,7 @@ function removeKeyboard() {
 
 async function sendTelegram(chatId, text, extra = {}) {
   const url = `https://api.telegram.org/bot${TELEGRAM_BOT_TOKEN}/sendMessage`;
-  const body = { chat_id: chatId, text, ...extra };
+  const body = { chat_id: chatId, text, parse_mode: 'HTML', ...extra };
   try {
     const res = await fetch(url, {
       method: 'POST',
