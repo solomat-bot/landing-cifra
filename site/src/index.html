@@ -1,0 +1,2459 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Цифра — финансы и технологии для вашего бизнеса | Управленческий учёт и автоматизация</title>
+  <meta name="description" content="Финансовый учёт и автоматизация для малого бизнеса. Евгения наведёт порядок в деньгах. Ольга настроит цифровую инфраструктуру. Фиксированные цены, прозрачные сроки." />
+  <meta name="keywords" content="управленческий учёт, финансы, автоматизация бизнеса, лендинг, telegram-бот, финмодель, ИП, ОПиУ, ДДС" />
+
+  <!-- Open Graph -->
+  <meta property="og:title" content="Цифра — финансы и технологии для вашего бизнеса" />
+  <meta property="og:description" content="Управленческий учёт, автоматизация и финансовое сопровождение для маркетплейсов, онлайн-школ и сервисного бизнеса." />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://cifra.ru" />
+  <meta property="og:locale" content="ru_RU" />
+  <meta property="og:image" content="https://site-iota-bice.vercel.app/og-image.svg" />
+  <meta property="og:image:width" content="1200" />
+  <meta property="og:image:height" content="630" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:image" content="https://site-iota-bice.vercel.app/og-image.svg" />
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Rubik:wght@400;500;600;700;800;900&family=PT+Sans:wght@400;700&display=swap" rel="stylesheet" />
+
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: 'PT Sans', sans-serif;
+      font-size: 17px;
+      line-height: 1.6;
+      color: var(--color-text);
+      background: var(--color-bg);
+      -webkit-font-smoothing: antialiased;
+    }
+
+    img { max-width: 100%; display: block; }
+    a { color: var(--color-text); text-decoration: none; }
+    ul { list-style: none; }
+
+    :root {
+      --color-bg: #F9F7F4;
+      --color-bg-alt: #F0EDE6;
+      --color-text: #1C1E26;
+      --color-text-muted: #5D5F6E;
+      --color-accent: #C4604A;
+      --color-accent-hover: #A94F3B;
+      --color-accent-light: rgba(196, 96, 74, 0.07);
+      --color-secondary: #3A5A6E;
+      --color-secondary-light: rgba(58, 90, 110, 0.07);
+      --color-border: rgba(28, 30, 38, 0.07);
+      --color-shadow: rgba(28, 30, 38, 0.04);
+      --color-success: #3D7A5E;
+      --container: 1120px;
+      --section-padding: 90px 0;
+      --radius-sm: 6px;
+      --radius-md: 12px;
+      --radius-lg: 18px;
+    }
+
+    .container { max-width: var(--container); margin: 0 auto; padding: 0 24px; }
+
+    h1, h2, h3 { font-family: 'Rubik', sans-serif; font-weight: 800; line-height: 1.15; color: var(--color-text); }
+    h1 { font-size: clamp(38px, 5vw, 56px); }
+    h2 { font-size: clamp(28px, 3.2vw, 40px); }
+    h3 { font-size: clamp(18px, 1.6vw, 22px); }
+
+    .section-label {
+      font-family: 'Rubik', sans-serif;
+      font-size: 11px;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--color-accent);
+      font-weight: 600;
+      margin-bottom: 10px;
+    }
+    .section-title { margin-bottom: 16px; }
+    .section-sub {
+      font-size: 17px;
+      color: var(--color-text-muted);
+      max-width: 580px;
+      line-height: 1.6;
+    }
+    section { padding: var(--section-padding); }
+
+    .header-name, .header-subtitle, .header-nav, .btn-header, .footer-name,
+    .num-value, .step-num, .service-price, .pricing-card .range,
+    .about-avatar { font-family: 'Rubik', sans-serif; }
+    .header-subtitle {
+      font-size: 9px;
+      color: var(--color-text-muted);
+      letter-spacing: 0.1em;
+      font-weight: 500;
+      margin-top: -1px;
+      line-height: 1.2;
+    }
+
+    .btn-primary, .btn-secondary {
+      display: inline-block;
+      font-family: 'Rubik', sans-serif;
+      font-weight: 600;
+      font-size: 16px;
+      padding: 15px 34px;
+      border-radius: var(--radius-sm);
+      border: none;
+      cursor: pointer;
+      transition: all 0.3s;
+      text-align: center;
+    }
+    .btn-primary { background: var(--color-accent); color: #fff; }
+    .btn-primary:hover {
+      background: var(--color-accent-hover);
+      transform: translateY(-1px);
+      box-shadow: 0 4px 16px rgba(196, 96, 74, 0.25);
+    }
+    .btn-secondary {
+      background: transparent;
+      color: var(--color-text);
+      border: 1px solid var(--color-border);
+    }
+    .btn-secondary:hover { border-color: var(--color-accent); color: var(--color-accent); }
+    .btn-secondary--accent { border-color: var(--color-accent); color: var(--color-accent); }
+    .btn-secondary--accent:hover { background: var(--color-accent); color: #fff; }
+
+    /* ===== HEADER ===== */
+    header {
+      padding: 16px 0;
+      border-bottom: 1px solid var(--color-border);
+      position: sticky; top: 0; z-index: 100;
+      backdrop-filter: blur(10px);
+      background: rgba(249, 247, 244, 0.92);
+    }
+    .header-inner { display: flex; justify-content: space-between; align-items: center; }
+    .header-brand { display: flex; flex-direction: column; }
+    .header-name {
+      font-weight: 900;
+      font-size: 22px;
+      color: var(--color-text);
+      letter-spacing: -0.02em;
+    }
+    .header-nav { display: flex; gap: 28px; font-size: 14px; font-weight: 500; }
+    .header-nav a { color: var(--color-text-muted); transition: color 0.2s; }
+    .header-nav a:hover { color: var(--color-accent); }
+
+    .calc-link { color: var(--color-accent) !important; }
+
+    .btn-header {
+      background: var(--color-accent); color: #fff; border: none;
+      padding: 9px 22px; border-radius: var(--radius-sm);
+      font-family: 'Rubik', sans-serif; font-size: 13px; font-weight: 600;
+      cursor: pointer; transition: background 0.3s;
+    }
+    .btn-header:hover { background: var(--color-accent-hover); }
+
+    .menu-toggle { display: none; background: none; border: none; cursor: pointer; padding: 8px; }
+    .menu-toggle span {
+      display: block; width: 22px; height: 2px;
+      background: var(--color-text); margin: 5px 0; transition: 0.3s;
+    }
+
+    /* ===== HERO ===== */
+    .hero {
+      padding: 80px 0 70px;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+    .hero::before {
+      content: '';
+      position: absolute;
+      top: -40%; left: -20%;
+      width: 140%; height: 120%;
+      background: radial-gradient(ellipse at 40% 30%, rgba(196, 96, 74, 0.06) 0%, transparent 50%);
+      pointer-events: none;
+    }
+    .hero::after {
+      content: '';
+      position: absolute;
+      bottom: -10%; right: -5%;
+      width: 40%; height: 60%;
+      background: radial-gradient(ellipse at 60% 50%, rgba(58, 90, 110, 0.05) 0%, transparent 50%);
+      pointer-events: none;
+    }
+
+    .hero-decor {
+      position: absolute;
+      top: 10%;
+      right: 3%;
+      width: 340px;
+      height: 280px;
+      pointer-events: none;
+      opacity: 0.3;
+    }
+    .hero-decor svg { width: 100%; height: 100%; }
+
+    .hero-decor-2 {
+      position: absolute;
+      bottom: 5%;
+      left: 2%;
+      width: 120px;
+      height: 120px;
+      pointer-events: none;
+      opacity: 0.2;
+    }
+    .hero-decor-2 svg { width: 100%; height: 100%; }
+    .hero .container { position: relative; }
+
+    .hero-label {
+      font-size: 12px;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--color-accent);
+      font-weight: 600;
+      margin-bottom: 20px;
+    }
+    .hero h1 { margin-bottom: 16px; max-width: 820px; margin-left: auto; margin-right: auto; }
+    .hero h1 .accent { color: var(--color-accent); }
+    .hero p {
+      font-size: clamp(17px, 1.6vw, 19px);
+      color: var(--color-text-muted);
+      max-width: 640px;
+      margin: 0 auto 28px;
+      line-height: 1.7;
+    }
+    .hero-pain-list {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 12px;
+      margin-bottom: 32px;
+    }
+    .hero-pain-item {
+      background: var(--color-accent-light);
+      border-radius: 100px;
+      padding: 8px 18px;
+      font-size: 14px;
+      color: var(--color-text);
+      font-weight: 500;
+    }
+    .hero-buttons { display: flex; gap: 14px; justify-content: center; flex-wrap: wrap; }
+
+    .hero-secondary-path {
+      margin-top: 40px;
+      padding-top: 28px;
+      border-top: 1px solid var(--color-border);
+    }
+    .hero-secondary-path p {
+      font-size: 14px;
+      color: var(--color-text-muted);
+      margin-bottom: 12px;
+    }
+    .hero-secondary-path a {
+      font-size: 15px;
+      font-weight: 600;
+      color: var(--color-secondary);
+      transition: color 0.2s;
+    }
+    .hero-secondary-path a:hover { color: var(--color-accent); }
+
+    /* ===== NUMBERS ===== */
+    .numbers {
+      background: var(--color-bg-alt);
+      padding: 56px 0;
+    }
+    .numbers-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 24px;
+    }
+    .num-item { text-align: center; }
+    .num-value {
+      font-weight: 900;
+      font-size: clamp(34px, 4vw, 48px);
+      color: var(--color-accent);
+      line-height: 1;
+    }
+    .num-label {
+      font-size: 13px;
+      color: var(--color-text-muted);
+      margin-top: 6px;
+      line-height: 1.4;
+    }
+
+    /* ===== PROBLEMS ===== */
+    .problems { background: var(--color-bg-alt); }
+    .problems-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+      margin-top: 36px;
+    }
+    .problem-card {
+      background: var(--color-bg);
+      border-radius: var(--radius-md);
+      padding: 24px 26px;
+      border-left: 3px solid var(--color-accent);
+      transition: all 0.3s;
+      text-align: left;
+    }
+    .problem-card:nth-child(2) { border-left-color: var(--color-secondary); }
+    .problem-card h3 { font-size: 17px; margin-bottom: 5px; }
+    .problem-card p { font-size: 14px; color: var(--color-text-muted); line-height: 1.5; }
+    .problem-card:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 8px 24px var(--color-shadow);
+    }
+
+    /* ===== FINANCE SOLUTION ===== */
+    .finance-solution { background: var(--color-bg); position: relative; }
+    .finance-lead {
+      text-align: center;
+      max-width: 580px;
+      margin: 0 auto 40px;
+      font-size: 18px;
+      color: var(--color-text);
+      line-height: 1.7;
+    }
+    .fs-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 24px;
+    }
+    .fs-card {
+      border-radius: var(--radius-lg);
+      padding: 34px 30px;
+      border: 1px solid var(--color-border);
+    }
+    .fs-card--core { background: var(--color-accent-light); border-color: rgba(196, 96, 74, 0.12); }
+    .fs-card--auto { background: var(--color-bg-alt); }
+    .fs-card h3 { margin-bottom: 12px; }
+    .fs-card p {
+      font-size: 14px; color: var(--color-text-muted); line-height: 1.6; margin-bottom: 14px;
+    }
+    .fs-card ul li {
+      font-size: 14px; color: var(--color-text-muted);
+      padding: 6px 0 6px 22px; position: relative;
+    }
+    .fs-card ul li::before { content: '✓'; position: absolute; left: 0; font-weight: 700; }
+    .fs-card--core ul li::before { color: var(--color-accent); }
+    .fs-card--auto ul li::before { color: var(--color-secondary); }
+
+    .fs-badge {
+      display: inline-block;
+      font-size: 10px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.08em;
+      padding: 3px 10px; border-radius: 4px;
+      vertical-align: middle; margin-left: 6px;
+    }
+    .fs-card--core .fs-badge { background: var(--color-accent); color: #fff; }
+    .fs-card--auto .fs-badge { background: var(--color-secondary); color: #fff; }
+
+    .fs-card--auto .portfolio-hint-inline {
+      margin-top: 12px;
+      padding: 12px 14px;
+      background: var(--color-bg);
+      border-radius: var(--radius-sm);
+      border: 1px dashed rgba(58, 90, 110, 0.2);
+      font-size: 13px;
+      color: var(--color-text-muted);
+      line-height: 1.5;
+    }
+    .fs-card--auto .portfolio-hint-inline strong { color: var(--color-text); }
+
+    .fs-decor {
+      position: absolute;
+      right: 2%; top: 8%;
+      width: 100px; height: 100px;
+      pointer-events: none;
+      opacity: 0.08;
+    }
+    .fs-decor svg { width: 100%; height: 100%; }
+
+    .fs-cta {
+      text-align: center;
+      margin-top: 36px;
+    }
+
+    /* ===== ADVANTAGES ===== */
+    .advantages { background: var(--color-bg-alt); }
+    .advantages-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 20px;
+      margin-top: 40px;
+    }
+    .advantage-card {
+      border-radius: var(--radius-md);
+      padding: 28px 24px;
+      border: 1px solid var(--color-border);
+      transition: all 0.3s;
+      background: var(--color-bg);
+    }
+    .advantage-card:hover {
+      transform: translateY(-4px) scale(1.02);
+      box-shadow: 0 12px 32px var(--color-shadow);
+      border-color: rgba(196, 96, 74, 0.12);
+    }
+    .advantage-card:hover .advantage-icon {
+      transform: scale(1.1);
+      background: var(--color-accent-light);
+    }
+    .advantage-icon { transition: transform 0.3s ease, background 0.3s ease; }
+    .advantage-icon {
+      width: 44px; height: 44px;
+      display: flex; align-items: center; justify-content: center;
+      background: var(--color-accent-light);
+      border-radius: 10px;
+      margin-bottom: 14px;
+      color: var(--color-accent);
+    }
+    .advantage-card h3 { font-size: 16px; margin-bottom: 6px; }
+    .advantage-card p { color: var(--color-text-muted); font-size: 14px; line-height: 1.6; }
+
+    /* ===== CALCULATOR ===== */
+    .calculator {
+      background: var(--color-bg);
+      position: relative;
+      overflow: hidden;
+    }
+    .calculator::before {
+      content: '';
+      position: absolute;
+      bottom: -30%; right: -20%;
+      width: 60%; height: 100%;
+      background: radial-gradient(ellipse at 60% 70%, rgba(196, 96, 74, 0.04) 0%, transparent 60%);
+      pointer-events: none;
+    }
+    .calculator .container { position: relative; }
+    .calc-inner { max-width: 640px; margin: 0 auto; }
+
+    .calc-progress {
+      display: flex;
+      justify-content: center;
+      gap: 8px;
+      margin-bottom: 36px;
+    }
+    .calc-dot {
+      width: 10px; height: 10px;
+      border-radius: 50%;
+      background: var(--color-border);
+      transition: all 0.4s;
+    }
+    .calc-dot--active { background: var(--color-accent); transform: scale(1.3); }
+    .calc-dot--done { background: var(--color-success); }
+
+    .calc-step {
+      display: none;
+      animation: calcFadeIn 0.4s ease;
+    }
+    .calc-step--active { display: block; }
+
+    @keyframes calcFadeIn {
+      from { opacity: 0; transform: translateY(12px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .calc-step-label {
+      font-size: 12px;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: var(--color-text-muted);
+      font-weight: 600;
+      margin-bottom: 6px;
+    }
+    .calc-step h3 { margin-bottom: 24px; }
+
+    .calc-slider-wrap {
+      margin-bottom: 28px;
+    }
+    .calc-slider-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 8px;
+    }
+    .calc-slider-header label {
+      font-size: 15px;
+      font-weight: 600;
+      color: var(--color-text);
+    }
+    .calc-slider-value {
+      font-family: 'Rubik', sans-serif;
+      font-weight: 800;
+      font-size: 20px;
+      color: var(--color-accent);
+    }
+    .calc-slider {
+      -webkit-appearance: none;
+      width: 100%;
+      height: 5px;
+      border-radius: 3px;
+      background: var(--color-border);
+      outline: none;
+      transition: background 0.3s;
+    }
+    .calc-slider::-webkit-slider-thumb {
+      -webkit-appearance: none;
+      width: 22px; height: 22px;
+      border-radius: 50%;
+      background: var(--color-accent);
+      cursor: pointer;
+      box-shadow: 0 2px 8px rgba(196, 96, 74, 0.3);
+      transition: transform 0.2s;
+    }
+    .calc-slider::-webkit-slider-thumb:hover { transform: scale(1.15); }
+    .calc-slider::-moz-range-thumb {
+      width: 22px; height: 22px;
+      border-radius: 50%;
+      background: var(--color-accent);
+      cursor: pointer;
+      border: none;
+    }
+    .calc-slider-labels {
+      display: flex;
+      justify-content: space-between;
+      font-size: 12px;
+      color: var(--color-text-muted);
+      margin-top: 6px;
+    }
+
+    .calc-options-compact {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+      margin-bottom: 24px;
+    }
+    .calc-option-compact {
+      padding: 14px 18px;
+      border: 1px solid var(--color-border);
+      border-radius: var(--radius-md);
+      background: var(--color-bg);
+      cursor: pointer;
+      transition: all 0.25s;
+      text-align: center;
+      font-family: 'PT Sans', sans-serif;
+      font-size: 14px;
+      color: var(--color-text);
+    }
+    .calc-option-compact:hover {
+      border-color: var(--color-accent);
+      background: var(--color-accent-light);
+    }
+    .calc-option-compact--selected {
+      border-color: var(--color-accent);
+      background: var(--color-accent-light);
+      box-shadow: 0 0 0 1px var(--color-accent);
+    }
+
+    .calc-result {
+      display: none;
+      text-align: center;
+      padding: 36px 28px;
+      background: var(--color-accent-light);
+      border-radius: var(--radius-lg);
+      border: 1px solid rgba(196, 96, 74, 0.12);
+    }
+    .calc-result--visible { display: block; }
+    .calc-result-amount {
+      font-family: 'Rubik', sans-serif;
+      font-weight: 900;
+      font-size: clamp(42px, 5vw, 60px);
+      color: var(--color-accent);
+      line-height: 1;
+      margin: 12px 0;
+    }
+    .calc-result-label { font-size: 15px; color: var(--color-text-muted); margin-bottom: 8px; }
+    .calc-result-desc {
+      font-size: 15px;
+      color: var(--color-text);
+      line-height: 1.6;
+      max-width: 480px;
+      margin: 0 auto 20px;
+    }
+
+    .calc-nav {
+      display: flex;
+      gap: 12px;
+      justify-content: space-between;
+      margin-top: 20px;
+    }
+    .calc-nav .btn-secondary { min-width: 120px; }
+    .calc-nav .btn-primary { min-width: 120px; flex: 1; }
+
+    /* ===== PRICING: FINANCE ===== */
+    .pricing-finance { background: var(--color-bg-alt); }
+    .finance-tabs {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 20px;
+      align-items: start;
+    }
+    .finance-card {
+      border-radius: var(--radius-lg);
+      border: 1px solid var(--color-border);
+      background: var(--color-bg);
+      overflow: hidden;
+      transition: all 0.3s;
+      display: flex; flex-direction: column;
+    }
+    .finance-card:hover {
+      transform: translateY(-4px) scale(1.02);
+      box-shadow: 0 12px 32px var(--color-shadow);
+    }
+    .finance-card--premium:hover { border-color: rgba(196, 96, 74, 0.25); }
+    .finance-card:hover .finance-tier { color: var(--color-accent-hover); }
+    .finance-tier { transition: color 0.3s; }
+    .finance-card--premium {
+      border-color: rgba(196, 96, 74, 0.15);
+      box-shadow: 0 0 0 1px rgba(196, 96, 74, 0.08);
+    }
+    .finance-card-header {
+      padding: 28px 24px 20px;
+      border-bottom: 1px solid var(--color-border);
+      text-align: center;
+    }
+    .finance-tier {
+      font-family: 'Rubik', sans-serif;
+      font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.12em;
+      color: var(--color-accent); margin-bottom: 8px;
+    }
+    .finance-price {
+      font-family: 'Rubik', sans-serif;
+      font-weight: 800; font-size: 28px; color: var(--color-text); margin-bottom: 6px;
+    }
+    .finance-price .sub { font-weight: 400; font-size: 14px; color: var(--color-text-muted); }
+    .finance-desc { font-size: 13px; color: var(--color-text-muted); margin: 6px 0 12px; line-height: 1.5; }
+    .finance-limits {
+      font-size: 12px; color: var(--color-text-muted); font-weight: 500;
+      background: var(--color-bg-alt); display: inline-block; padding: 3px 12px; border-radius: 20px;
+    }
+    .finance-card-body { padding: 0 20px 20px; flex-grow: 1; }
+    .f-checklist { display: flex; flex-direction: column; gap: 5px; margin-bottom: 14px; }
+    .f-checklist span {
+      font-size: 12px; line-height: 1.5; padding: 4px 8px 4px 22px; position: relative;
+      border-radius: 4px; color: var(--color-text);
+    }
+    .f-checklist span::before { position: absolute; left: 6px; font-weight: 700; font-size: 11px; top: 4px; }
+    .f-yes { background: rgba(61, 122, 94, 0.06); }
+    .f-yes::before { content: '✓'; color: var(--color-success); }
+    .f-no { background: rgba(93, 95, 110, 0.04); color: var(--color-text-muted) !important; }
+    .f-no::before { content: '—'; color: var(--color-text-muted); opacity: 0.4; }
+    .f-comm {
+      font-size: 12px; color: var(--color-text-muted); line-height: 1.6;
+      padding: 10px 12px; background: var(--color-bg-alt); border-radius: 6px;
+    }
+    .f-plus { font-size: 11px; color: var(--color-accent); font-weight: 500; margin-top: 6px; }
+    .finance-btn { margin: 0 20px 20px; text-align: center; }
+
+    /* ===== TECH SERVICES (visually separate) ===== */
+    .tech-services {
+      background: var(--color-secondary-light);
+      border-top: 1px solid rgba(58, 90, 110, 0.12);
+      border-bottom: 1px solid rgba(58, 90, 110, 0.12);
+    }
+    .tech-lede {
+      text-align: center;
+      max-width: 580px;
+      margin: 0 auto 36px;
+      padding: 20px 24px;
+      background: var(--color-secondary-light);
+      border-radius: var(--radius-md);
+      border: 1px dashed rgba(58, 90, 110, 0.2);
+    }
+    .tech-lede p { font-size: 15px; color: var(--color-text); line-height: 1.6; }
+    .tech-lede strong { color: var(--color-secondary); }
+    .tech-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 16px;
+    }
+    .tech-card {
+      background: var(--color-bg-alt);
+      border-radius: var(--radius-md);
+      padding: 26px 20px;
+      border: 1px solid var(--color-border);
+      transition: all 0.3s;
+      text-align: center;
+      display: flex;
+      flex-direction: column;
+    }
+    .tech-card p { flex-grow: 1; }
+    .tech-card:hover {
+      transform: translateY(-4px) scale(1.02);
+      box-shadow: 0 12px 32px var(--color-shadow);
+      border-color: rgba(58, 90, 110, 0.2);
+    }
+    .tech-card:hover .tech-icon {
+      transform: scale(1.1);
+      background: var(--color-secondary-light);
+    }
+    .tech-icon { transition: transform 0.3s ease, background 0.3s ease; }
+    .tech-icon {
+      width: 40px; height: 40px;
+      display: flex; align-items: center; justify-content: center;
+      background: var(--color-secondary-light);
+      color: var(--color-secondary);
+      border-radius: 10px;
+      margin: 0 auto 14px;
+    }
+    .tech-card h3 { font-size: 16px; margin-bottom: 6px; }
+    .tech-card p { color: var(--color-text-muted); font-size: 13px; line-height: 1.5; margin-bottom: 14px; }
+    .tech-price { font-weight: 700; font-size: 18px; color: var(--color-secondary); margin-bottom: 14px; }
+
+    /* ===== BLOG ===== */
+    .blog-section { background: var(--color-bg-alt); }
+    .blog-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 20px;
+      margin-top: 36px;
+    }
+    .blog-card {
+      display: block;
+      border-radius: var(--radius-lg);
+      border: 1px solid var(--color-border);
+      overflow: hidden;
+      transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+      background: var(--color-bg);
+    }
+    .blog-card:hover {
+      transform: translateY(-4px) scale(1.01);
+      box-shadow: 0 12px 32px var(--color-shadow);
+      border-color: var(--color-accent);
+    }
+    .blog-card-body { padding: 28px 26px; }
+    .blog-tag {
+      display: inline-block;
+      font-size: 10px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.08em;
+      padding: 3px 10px;
+      background: var(--color-accent-light);
+      color: var(--color-accent);
+      border-radius: 4px;
+      margin-bottom: 12px;
+    }
+    .blog-card-body h3 { font-size: 18px; margin-bottom: 8px; }
+    .blog-card-body p { color: var(--color-text-muted); font-size: 14px; line-height: 1.6; margin-bottom: 14px; }
+    .blog-read { font-size: 13px; font-weight: 600; color: var(--color-accent); }
+    .blog-card:hover .blog-read { text-decoration: underline; }
+    .blog-card--all .blog-tag { background: var(--color-text); color: #fff; }
+
+    /* ===== PROCESS ===== */
+    .process { background: var(--color-bg); }
+    .process-steps {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 18px;
+      margin-top: 40px;
+    }
+    .step {
+      text-align: center;
+      padding: 28px 18px;
+      border-radius: var(--radius-md);
+      border: 1px solid var(--color-border);
+      transition: all 0.3s;
+      background: var(--color-bg-alt);
+    }
+    .step:hover {
+      transform: translateY(-4px) scale(1.02);
+      box-shadow: 0 12px 32px var(--color-shadow);
+    }
+    .step-num {
+      font-weight: 900; font-size: 40px;
+      color: var(--color-accent); line-height: 1; margin-bottom: 10px;
+      position: relative;
+      display: inline-block;
+    }
+    .step-num::after {
+      content: '';
+      position: absolute;
+      bottom: 4px; left: -4px;
+      width: 32px; height: 8px;
+      background: rgba(196, 96, 74, 0.12);
+      border-radius: 4px;
+      z-index: -1;
+    }
+    .step h3 { font-size: 16px; margin-bottom: 6px; }
+    .step p { font-size: 13px; color: var(--color-text-muted); line-height: 1.5; }
+
+    /* ===== ABOUT ===== */
+    .about { background: var(--color-bg-alt); }
+    .about-header { text-align: center; margin-bottom: 40px; }
+    .about-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 24px;
+    }
+    .about-card {
+      background: var(--color-bg);
+      border-radius: var(--radius-lg);
+      padding: 32px 28px;
+      border: 1px solid var(--color-border);
+      transition: all 0.3s;
+    }
+    .about-card:hover {
+      transform: translateY(-4px) scale(1.02);
+      box-shadow: 0 12px 32px var(--color-shadow);
+    }
+    .about-avatar {
+      width: 64px; height: 64px;
+      border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      font-weight: 700; font-size: 24px;
+      color: #fff; margin-bottom: 16px;
+    }
+    .about-avatar--1 { background: var(--color-accent); }
+    .about-avatar--2 { background: var(--color-secondary); }
+    .about-card h3 { margin-bottom: 2px; }
+    .about-role { font-size: 13px; color: var(--color-text-muted); font-weight: 500; margin-bottom: 14px; }
+    .about-card--1 .about-role { color: var(--color-accent); }
+    .about-card--2 .about-role { color: var(--color-secondary); }
+    .about-card p { color: var(--color-text-muted); font-size: 14px; line-height: 1.7; margin-bottom: 10px; }
+    .about-tags { display: flex; flex-wrap: wrap; gap: 6px; margin: 12px 0; }
+    .about-tag {
+      background: var(--color-accent-light); color: var(--color-text);
+      padding: 4px 12px; font-size: 11px; font-weight: 500;
+      border-radius: 4px;
+    }
+    .about-card--2 .about-tag { background: var(--color-secondary-light); }
+    .about-contact-link {
+      display: inline-flex; align-items: center; gap: 5px;
+      font-size: 13px; font-weight: 500;
+      color: var(--color-accent); transition: color 0.2s; margin-top: 6px;
+    }
+    .about-contact-link:hover { color: var(--color-accent-hover); }
+    .about-card--2 .about-contact-link { color: var(--color-secondary); }
+    .about-card--2 .about-contact-link:hover { opacity: 0.7; }
+
+    /* ===== PORTFOLIO ===== */
+    .portfolio { background: var(--color-bg); }
+    .portfolio-box {
+      max-width: 580px;
+      margin: 36px auto 0;
+      padding: 28px 32px;
+      text-align: center;
+      background: var(--color-bg-alt);
+      border-radius: var(--radius-lg);
+      border: 1px dashed var(--color-border);
+    }
+    .portfolio-box p { font-size: 15px; color: var(--color-text-muted); line-height: 1.7; }
+    .portfolio-box strong { color: var(--color-text); }
+    .portfolio-box a { color: var(--color-accent); font-weight: 600; text-decoration: underline; }
+
+    /* ===== FAQ ===== */
+    .faq-list { max-width: 680px; margin: 40px auto 0; }
+    .faq-item { border-bottom: 1px solid var(--color-border); padding: 18px 0; }
+    .faq-question {
+      font-weight: 600; font-size: 16px; color: var(--color-text);
+      cursor: pointer; display: flex; justify-content: space-between;
+      align-items: center; user-select: none; gap: 16px;
+    }
+    .faq-question::after {
+      content: '+'; font-size: 20px; color: var(--color-accent);
+      transition: transform 0.3s; flex-shrink: 0;
+    }
+    .faq-question.open::after { content: '−'; }
+    .faq-answer {
+      max-height: 0; overflow: hidden;
+      transition: max-height 0.3s ease, padding 0.3s ease;
+      color: var(--color-text-muted); font-size: 15px; line-height: 1.6;
+    }
+    .faq-answer.open { max-height: 300px; padding-top: 12px; }
+
+    /* ===== CONTACT ===== */
+    .contact { background: var(--color-bg-alt); text-align: center; }
+    .contact .section-sub { margin: 0 auto 36px; }
+    .contact-form { max-width: 500px; margin: 0 auto; text-align: left; }
+    .form-group { margin-bottom: 14px; }
+    .form-group label { font-size: 13px; font-weight: 600; color: var(--color-text); display: block; margin-bottom: 5px; }
+    .form-group input, .form-group textarea, .form-group select {
+      width: 100%; padding: 12px 16px;
+      border: 1px solid var(--color-border); border-radius: var(--radius-sm);
+      font-family: 'Rubik', sans-serif; font-size: 15px;
+      color: var(--color-text); background: var(--color-bg);
+      transition: border-color 0.3s; outline: none;
+    }
+    .form-group input:focus, .form-group textarea:focus, .form-group select:focus { border-color: var(--color-accent); }
+    .form-group textarea { min-height: 90px; resize: vertical; }
+    .form-group select {
+      appearance: none;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath fill='%235D5F6E' d='M1.41 0L6 4.58 10.59 0 12 1.41l-6 6-6-6z'/%3E%3C/svg%3E");
+      background-repeat: no-repeat; background-position: right 14px center; padding-right: 36px;
+    }
+    .form-checkbox { display: flex; gap: 10px; align-items: flex-start; margin-bottom: 18px; }
+    .form-checkbox input { width: 16px; height: 16px; margin-top: 3px; accent-color: var(--color-accent); flex-shrink: 0; }
+    .form-checkbox label { font-size: 12px; color: var(--color-text-muted); line-height: 1.4; }
+    .form-checkbox label a { color: var(--color-text-muted); text-decoration: underline; text-underline-offset: 2px; }
+    .form-checkbox label a:hover { color: var(--color-accent); }
+    .contact .btn-primary { width: 100%; font-size: 16px; padding: 16px 32px; }
+    .contact .btn-primary:disabled { opacity: 0.6; cursor: not-allowed; transform: none; }
+    .contact-direct { margin-top: 20px; font-size: 13px; color: var(--color-text-muted); }
+    .contact-direct a { color: var(--color-accent); font-weight: 600; }
+    .contact-direct a:hover { color: var(--color-accent-hover); }
+    .form-extras-toggle {
+      font-size: 13px; color: var(--color-accent); cursor: pointer; font-weight: 500;
+      margin-bottom: 14px; user-select: none;
+    }
+    .form-extras-toggle:hover { color: var(--color-accent-hover); }
+
+    .lead-magnet {
+      max-width: 500px; margin: 28px auto 0; padding: 16px 20px;
+      background: var(--color-accent); border-radius: var(--radius-md);
+      display: flex; align-items: center; gap: 14px; flex-wrap: wrap;
+    }
+    .lead-magnet-icon {
+      width: 40px; height: 40px; flex-shrink: 0;
+      display: flex; align-items: center; justify-content: center;
+      background: rgba(255,255,255,0.2); color: #fff; border-radius: 8px;
+    }
+    .lead-magnet-text { flex: 1; font-size: 14px; line-height: 1.5; min-width: 180px; color: #fff; }
+    .lead-magnet-text strong { color: #fff; }
+    .lead-magnet-hint { font-size: 12px; opacity: 0.8; color: #fff; }
+    .lead-magnet-btn { font-size: 13px !important; padding: 9px 18px !important; flex-shrink: 0; }
+    .lead-magnet .btn-secondary { background: rgba(255,255,255,0.15); color: #fff; border-color: rgba(255,255,255,0.3); }
+    .lead-magnet .btn-secondary:hover { background: rgba(255,255,255,0.25); }
+    .lead-magnet-form {
+      display: none;
+      flex-wrap: wrap;
+      gap: 10px;
+      width: 100%;
+      margin-top: 8px;
+    }
+    .lead-magnet-form--show { display: flex; }
+    .lead-magnet-form input {
+      flex: 1;
+      min-width: 140px;
+      padding: 10px 14px;
+      border: 1px solid rgba(255,255,255,0.3);
+      border-radius: var(--radius-sm);
+      background: rgba(255,255,255,0.12);
+      color: #fff;
+      font-family: 'PT Sans', sans-serif;
+      font-size: 14px;
+      outline: none;
+      transition: border-color 0.3s;
+    }
+    .lead-magnet-form input::placeholder { color: rgba(255,255,255,0.6); }
+    .lead-magnet-form input:focus { border-color: rgba(255,255,255,0.6); }
+    .lead-magnet-form .btn-primary {
+      font-size: 13px !important;
+      padding: 10px 20px !important;
+      flex-shrink: 0;
+      background: rgba(255,255,255,0.25) !important;
+    }
+    .lead-magnet-form .btn-primary:hover { background: rgba(255,255,255,0.35) !important; }
+    .lead-magnet-success {
+      display: none;
+      font-size: 14px;
+      color: #fff;
+      padding: 8px 0;
+      width: 100%;
+    }
+    .lead-magnet-success--show { display: block; }
+
+    /* ===== FOOTER ===== */
+    footer { border-top: 1px solid var(--color-border); padding: 36px 0; }
+    .footer-inner { display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 16px; }
+    .footer-name { font-weight: 800; font-size: 16px; color: var(--color-text); }
+    .footer-meta { font-size: 12px; color: var(--color-text-muted); }
+    .footer-links { display: flex; gap: 20px; font-size: 13px; }
+    .footer-links a { color: var(--color-text-muted); transition: color 0.2s; }
+    .footer-links a:hover { color: var(--color-accent); }
+
+    /* Toast */
+    .toast {
+      position: fixed; bottom: 28px; right: 28px;
+      padding: 14px 22px; border-radius: var(--radius-sm);
+      color: #fff; font-size: 14px; font-weight: 500;
+      z-index: 1000;
+      opacity: 0; transform: translateY(16px);
+      transition: all 0.4s; max-width: 380px;
+      box-shadow: 0 8px 24px rgba(0,0,0,0.1);
+    }
+    .toast.show { opacity: 1; transform: translateY(0); }
+    .toast--success { background: var(--color-success); }
+    .toast--error { background: var(--color-accent); }
+
+    /* ===== TESTIMONIALS ===== */
+    .testimonials { background: var(--color-bg); }
+    .testimonials-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 20px;
+      margin-top: 40px;
+    }
+    .testimonial-card {
+      background: var(--color-bg-alt);
+      border-radius: var(--radius-lg);
+      padding: 28px 24px;
+      border: 1px solid var(--color-border);
+      transition: all 0.3s;
+      display: flex;
+      flex-direction: column;
+    }
+    .testimonial-card:hover {
+      transform: translateY(-4px) scale(1.02);
+      box-shadow: 0 12px 32px var(--color-shadow);
+      border-color: rgba(196, 96, 74, 0.12);
+    }
+    .testimonial-stars {
+      color: #E8A838;
+      font-size: 16px;
+      letter-spacing: 2px;
+      margin-bottom: 12px;
+    }
+    .testimonial-text {
+      font-size: 14px;
+      color: var(--color-text);
+      line-height: 1.7;
+      flex-grow: 1;
+      margin-bottom: 16px;
+      font-style: italic;
+    }
+    .testimonial-author {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-top: auto;
+      padding-top: 14px;
+      border-top: 1px solid var(--color-border);
+    }
+    .testimonial-avatar {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: 'Rubik', sans-serif;
+      font-weight: 700;
+      font-size: 16px;
+      color: #fff;
+      flex-shrink: 0;
+    }
+    .testimonial-avatar--1 { background: var(--color-accent); }
+    .testimonial-avatar--2 { background: var(--color-secondary); }
+    .testimonial-avatar--3 { background: var(--color-success); }
+    .testimonial-info strong {
+      display: block;
+      font-size: 14px;
+      color: var(--color-text);
+      font-family: 'Rubik', sans-serif;
+      font-weight: 600;
+    }
+    .testimonial-info span {
+      font-size: 12px;
+      color: var(--color-text-muted);
+    }
+
+    /* ===== CASE STUDIES ===== */
+    .cases-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 24px;
+      margin-top: 36px;
+    }
+    .case-card {
+      display: block;
+      border-radius: var(--radius-lg);
+      border: 1px solid var(--color-border);
+      overflow: hidden;
+      transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+      background: var(--color-bg);
+      text-decoration: none;
+      color: inherit;
+    }
+    .case-card:hover {
+      transform: translateY(-4px) scale(1.01);
+      box-shadow: 0 12px 32px var(--color-shadow);
+      border-color: var(--color-accent);
+    }
+    .case-thumb {
+      height: 180px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: var(--color-bg-alt);
+      color: var(--color-text-muted);
+      position: relative;
+      overflow: hidden;
+    }
+    .case-thumb svg { width: 48px; height: 48px; opacity: 0.3; }
+    .case-thumb::after {
+      content: '';
+      position: absolute;
+      bottom: 0; left: 0; right: 0;
+      height: 60%;
+      background: linear-gradient(to top, var(--color-bg) 0%, transparent 100%);
+    }
+    .case-card-body { padding: 0 24px 24px; }
+    .case-tag {
+      display: inline-block;
+      font-size: 10px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.08em;
+      padding: 3px 10px;
+      background: var(--color-accent-light);
+      color: var(--color-accent);
+      border-radius: 4px;
+      margin-bottom: 10px;
+      position: relative;
+      top: -12px;
+    }
+    .case-card-body h3 { font-size: 17px; margin-bottom: 10px; }
+    .case-metrics {
+      display: flex;
+      gap: 16px;
+      margin-bottom: 10px;
+      flex-wrap: wrap;
+    }
+    .case-metrics span {
+      font-size: 13px;
+      color: var(--color-text-muted);
+    }
+    .case-metrics strong {
+      color: var(--color-accent);
+      font-weight: 700;
+    }
+    .case-card-body p {
+      font-size: 14px;
+      color: var(--color-text-muted);
+      line-height: 1.6;
+      margin-bottom: 12px;
+    }
+    .case-read {
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--color-accent);
+    }
+    .case-card:hover .case-read { text-decoration: underline; }
+    .cases-cta {
+      text-align: center;
+      margin-top: 28px;
+    }
+    .cases-cta p {
+      font-size: 15px;
+      color: var(--color-text-muted);
+      line-height: 1.6;
+    }
+    .cases-cta a {
+      color: var(--color-accent);
+      font-weight: 600;
+      text-decoration: underline;
+    }
+
+    /* ===== CHAT WIDGET ===== */
+    .chat-button {
+      position: fixed; bottom: 24px; right: 24px;
+      width: 56px; height: 56px;
+      border-radius: 50%;
+      background: var(--color-accent);
+      color: #fff;
+      border: none;
+      cursor: pointer;
+      box-shadow: 0 4px 20px rgba(196, 96, 74, 0.35);
+      z-index: 999;
+      display: flex; align-items: center; justify-content: center;
+      transition: transform 0.3s, box-shadow 0.3s;
+    }
+    .chat-button:hover { transform: scale(1.1); box-shadow: 0 6px 24px rgba(196, 96, 74, 0.5); }
+    .chat-button svg { width: 24px; height: 24px; }
+
+    .chat-dialog {
+      position: fixed; bottom: 90px; right: 24px;
+      width: 360px; max-width: calc(100vw - 48px);
+      height: 500px; max-height: calc(100vh - 120px);
+      background: var(--color-bg);
+      border-radius: var(--radius-lg);
+      box-shadow: 0 8px 40px rgba(0,0,0,0.12);
+      z-index: 999;
+      display: none; flex-direction: column;
+      overflow: hidden;
+      animation: chatSlideUp 0.3s ease;
+    }
+    .chat-dialog--open { display: flex; }
+
+    @keyframes chatSlideUp {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .chat-header {
+      padding: 16px 18px;
+      background: var(--color-accent);
+      color: #fff;
+      display: flex; justify-content: space-between; align-items: center;
+      font-family: 'Rubik', sans-serif; font-weight: 600; font-size: 15px;
+    }
+    .chat-header-sub {
+      font-size: 11px; opacity: 0.8; font-weight: 400;
+    }
+    .chat-close {
+      background: none; border: none; color: #fff; cursor: pointer; font-size: 22px; line-height: 1; padding: 0 4px;
+    }
+    .chat-messages {
+      flex: 1; overflow-y: auto; padding: 16px;
+      display: flex; flex-direction: column; gap: 10px;
+    }
+    .chat-msg {
+      max-width: 85%; padding: 10px 14px; border-radius: var(--radius-md);
+      font-size: 14px; line-height: 1.5; animation: msgIn 0.3s ease;
+    }
+    .chat-msg--bot { background: var(--color-bg-alt); align-self: flex-start; border-bottom-left-radius: 4px; }
+    .chat-msg--user { background: var(--color-accent-light); align-self: flex-end; border-bottom-right-radius: 4px; }
+    @keyframes msgIn { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
+    .chat-typing { color: var(--color-text-muted); font-size: 13px; padding: 8px 14px; align-self: flex-start; font-style: italic; }
+
+    .chat-input-area {
+      padding: 12px; border-top: 1px solid var(--color-border);
+      display: flex; gap: 8px;
+    }
+    .chat-input {
+      flex: 1; padding: 10px 14px;
+      border: 1px solid var(--color-border); border-radius: var(--radius-sm);
+      font-family: 'PT Sans', sans-serif; font-size: 14px;
+      outline: none; transition: border-color 0.3s;
+    }
+    .chat-input:focus { border-color: var(--color-accent); }
+    .chat-send {
+      padding: 10px 16px; background: var(--color-accent); color: #fff;
+      border: none; border-radius: var(--radius-sm); cursor: pointer;
+      font-family: 'Rubik', sans-serif; font-weight: 600; font-size: 13px;
+      transition: background 0.3s; white-space: nowrap;
+    }
+    .chat-send:hover { background: var(--color-accent-hover); }
+    .chat-send:disabled { opacity: 0.5; cursor: not-allowed; }
+
+    @media (max-width: 480px) {
+      .chat-dialog {
+        bottom: 0; right: 0;
+        width: 100vw; max-width: 100vw;
+        height: 100vh; max-height: 100vh;
+        border-radius: 0;
+      }
+      .chat-button { bottom: 16px; right: 16px; width: 50px; height: 50px; }
+    }
+
+    /* ===== REVEAL ===== */
+    .reveal {
+      opacity: 0;
+      transform: translateY(24px);
+      transition: opacity 0.6s ease, transform 0.6s ease;
+    }
+    .reveal.visible { opacity: 1; transform: translateY(0); }
+    .reveal-delay-1 { transition-delay: 0.1s; }
+    .reveal-delay-2 { transition-delay: 0.2s; }
+    .reveal-delay-3 { transition-delay: 0.3s; }
+    .reveal-delay-4 { transition-delay: 0.4s; }
+    .reveal-delay-5 { transition-delay: 0.5s; }
+
+    /* ===== RESPONSIVE ===== */
+    @media (max-width: 1024px) {
+      .tech-grid { grid-template-columns: repeat(2, 1fr); }
+      .finance-tabs { grid-template-columns: 1fr; max-width: 420px; margin: 0 auto; }
+    }
+    @media (max-width: 900px) {
+      .header-nav { display: none; }
+      .header-nav.mobile-open {
+        display: flex; flex-direction: column;
+        position: absolute; top: 60px; left: 0; right: 0;
+        background: rgba(249, 247, 244, 0.98);
+        padding: 20px; border-bottom: 1px solid var(--color-border);
+        gap: 14px; z-index: 100;
+      }
+      .btn-header.desktop { display: none; }
+      .menu-toggle { display: block; }
+      .process-steps { grid-template-columns: repeat(2, 1fr); gap: 14px; }
+      .calc-options-compact { grid-template-columns: 1fr; }
+    }
+    @media (max-width: 768px) {
+      section { padding: 56px 0; }
+      .hero { padding: 70px 0 56px; }
+      .numbers-grid { grid-template-columns: repeat(2, 1fr); gap: 28px; }
+      .hero-pain-list { gap: 8px; }
+      .hero-pain-item { font-size: 12px; padding: 6px 14px; }
+      .hero-decor, .hero-decor-2 { display: none; }
+      .fs-decor { display: none; }
+      .problems-grid,
+      .fs-grid,
+      .about-grid { grid-template-columns: 1fr; }
+      .process-steps { grid-template-columns: 1fr; }
+      .advantages-grid { grid-template-columns: 1fr; }
+      .testimonials-grid { grid-template-columns: 1fr; }
+      .hero-buttons { flex-direction: column; align-items: stretch; }
+      .hero-buttons .btn-primary, .hero-buttons .btn-secondary { text-align: center; }
+      .calc-nav { flex-direction: column; }
+      .finance-tabs { max-width: 100%; }
+      .tech-grid { grid-template-columns: 1fr; }
+      .blog-grid { grid-template-columns: 1fr; }
+      .cases-grid { grid-template-columns: 1fr; }
+      .footer-inner { flex-direction: column; text-align: center; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- HEADER -->
+  <header>
+    <div class="container header-inner">
+      <a href="#hero" class="header-brand">
+        <span class="header-name">Цифра</span>
+        <span class="header-subtitle">финансы и технологии</span>
+      </a>
+      <nav class="header-nav" id="main-nav">
+        <a href="#calculator" class="calc-link">Калькулятор</a>
+        <a href="#finance-pricing">Тарифы</a>
+        <a href="#cases">Кейсы</a>
+        <a href="#tech-services">Сайты и боты</a>
+        <a href="#about">Команда</a>
+        <a href="#blog">Статьи</a>
+      </nav>
+      <a href="#contact" class="btn-header desktop">Связаться</a>
+      <button class="menu-toggle" id="menu-toggle" aria-label="Меню">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </header>
+
+  <!-- HERO -->
+  <section class="hero" id="hero">
+    <div class="hero-decor">
+      <svg viewBox="0 0 400 340" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <circle cx="200" cy="170" r="160" stroke="#C4604A" stroke-width="0.5" fill="none" opacity="0.08"/>
+        <circle cx="200" cy="170" r="120" stroke="#C4604A" stroke-width="0.5" fill="none" opacity="0.06"/>
+        <rect x="48" y="180" width="18" height="100" rx="4" fill="#C4604A" opacity="0.15"/>
+        <rect x="78" y="140" width="18" height="140" rx="4" fill="#C4604A" opacity="0.25"/>
+        <rect x="108" y="160" width="18" height="120" rx="4" fill="#C4604A" opacity="0.35"/>
+        <rect x="138" y="100" width="18" height="180" rx="4" fill="#C4604A" opacity="0.5"/>
+        <rect x="168" y="130" width="18" height="150" rx="4" fill="#C4604A" opacity="0.65"/>
+        <rect x="198" y="70" width="18" height="210" rx="4" fill="#C4604A"/>
+        <rect x="238" y="110" width="14" height="170" rx="3" fill="#3A5A6E" opacity="0.15"/>
+        <rect x="262" y="150" width="14" height="130" rx="3" fill="#3A5A6E" opacity="0.25"/>
+        <rect x="286" y="90" width="14" height="190" rx="3" fill="#3A5A6E" opacity="0.35"/>
+        <path d="M40 280 L90 240 L130 200 L170 210 L210 160 L250 170 L290 130 L330 140" stroke="#C4604A" stroke-width="1.5" fill="none" stroke-linecap="round" opacity="0.3"/>
+        <circle cx="90" cy="240" r="3" fill="#C4604A" opacity="0.4"/>
+        <circle cx="130" cy="200" r="3" fill="#C4604A" opacity="0.4"/>
+        <circle cx="210" cy="160" r="4" fill="#C4604A" opacity="0.7"/>
+        <circle cx="290" cy="130" r="3" fill="#C4604A" opacity="0.4"/>
+        <path d="M320 148 L330 140 L338 148" stroke="#3A5A6E" stroke-width="1.2" fill="none" stroke-linecap="round" stroke-linejoin="round" opacity="0.4"/>
+      </svg>
+    </div>
+    <div class="hero-decor-2">
+      <svg viewBox="0 0 200 200" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <rect x="10" y="40" width="6" height="30" rx="3" fill="#3A5A6E" opacity="0.08"/>
+        <rect x="22" y="20" width="6" height="50" rx="3" fill="#3A5A6E" opacity="0.06"/>
+        <rect x="34" y="55" width="6" height="15" rx="3" fill="#3A5A6E" opacity="0.1"/>
+        <circle cx="68" cy="50" r="3" fill="#C4604A" opacity="0.08"/>
+        <circle cx="68" cy="50" r="8" fill="none" stroke="#C4604A" stroke-width="0.5" opacity="0.06"/>
+        <circle cx="68" cy="50" r="14" fill="none" stroke="#C4604A" stroke-width="0.5" opacity="0.04"/>
+        <path d="M100 60 L120 45 L140 55 L160 35" stroke="#3A5A6E" stroke-width="0.8" fill="none" stroke-linecap="round" opacity="0.06"/>
+        <circle cx="100" cy="60" r="2" fill="#3A5A6E" opacity="0.08"/>
+        <circle cx="120" cy="45" r="2" fill="#3A5A6E" opacity="0.06"/>
+        <circle cx="140" cy="55" r="2" fill="#C4604A" opacity="0.08"/>
+      </svg>
+    </div>
+    <div class="container">
+      <div class="hero-label reveal">«Цифра» — технологии и финансы для вашего бизнеса</div>
+      <h1 class="reveal reveal-delay-1">
+        Хватит гадать, сколько заработали.<br />
+        <span class="accent">Наведём порядок в деньгах и процессах.</span>
+      </h1>
+      <p class="reveal reveal-delay-2">
+        Управленческий учёт, финансовая отчётность и сбор данных —<br />
+        одна команда, без посредников и лишних сервисов.
+      </p>
+
+      <div class="hero-pain-list reveal reveal-delay-3">
+        <span class="hero-pain-item">Не знаете реальную прибыль</span>
+        <span class="hero-pain-item">Тратите часы на ручной учёт</span>
+        <span class="hero-pain-item">Данные в разрозненных сервисах</span>
+        <span class="hero-pain-item">Пробовали нанять — без результата</span>
+      </div>
+
+      <div class="hero-buttons reveal reveal-delay-4">
+        <a href="#calculator" class="btn-primary">Бесплатная диагностика за 2 минуты →</a>
+        <a href="#finance-pricing" class="btn-secondary">Смотреть тарифы</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- NUMBERS -->
+  <section class="numbers">
+    <div class="container">
+      <div class="numbers-grid">
+        <div class="num-item reveal reveal-delay-1">
+          <div class="num-value">50+</div>
+          <div class="num-label">бизнесов с настроенным<br />финансовым учётом</div>
+        </div>
+        <div class="num-item reveal reveal-delay-2">
+          <div class="num-value">10+</div>
+          <div class="num-label">проектов по автоматизации<br />и разработке</div>
+        </div>
+        <div class="num-item reveal reveal-delay-3">
+          <div class="num-value">7+</div>
+          <div class="num-label">лет совокупного опыта<br />в технологиях и финансах</div>
+        </div>
+        <div class="num-item reveal reveal-delay-4">
+          <div class="num-value">2 в 1</div>
+          <div class="num-label">финансы + технологии —<br />одна команда вместо двух</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- PROBLEMS -->
+  <section class="problems" id="problems">
+    <div class="container">
+      <h2 class="section-title">Узнаёте себя?</h2>
+      <p class="section-sub" style="margin-bottom:12px;">
+        Торгуете на маркетплейсах, ведёте онлайн-школу или сервисный бизнес?<br />
+        Если хотя бы один пункт про вас — уже повод поговорить.
+      </p>
+      <div class="problems-grid">
+        <div class="problem-card reveal">
+          <h3>Не знаете реальную прибыль</h3>
+          <p>Деньги приходят, деньги уходят. Сколько заработали по факту — непонятно. ДДС нет, ОПиУ нет, только «кажется, в плюсе».</p>
+        </div>
+        <div class="problem-card reveal">
+          <h3>Тратите часы на отчёты вручную</h3>
+          <p>Каждый вечер — перенос данных из кассы в Excel, из Telegram в таблицу, из банка в отчёт. А время могло бы работать на рост бизнеса.</p>
+        </div>
+        <div class="problem-card reveal">
+          <h3>Пробовали нанять финдиректора</h3>
+          <p>Дорого, непонятно, данные собирать всё равно самим. В итоге платите за контроль, а воз и ныне там.</p>
+        </div>
+        <div class="problem-card reveal">
+          <h3>Данные в разрозненных сервисах</h3>
+          <p>Касса, CRM, Telegram, банк, Excel — информация размазана, ничего не сходится, целостной картины нет.</p>
+        </div>
+      </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FINANCE SOLUTION -->
+  <section class="finance-solution" id="finance-solution">
+    <div class="fs-decor">
+      <svg viewBox="0 0 200 200" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M20 160 L60 120 L100 140 L140 80 L180 100" stroke="#C4604A" stroke-width="1.5" fill="none" stroke-linecap="round"/>
+        <circle cx="60" cy="120" r="4" fill="#C4604A"/>
+        <circle cx="100" cy="140" r="4" fill="#C4604A"/>
+        <circle cx="140" cy="80" r="4" fill="#C4604A"/>
+        <circle cx="180" cy="100" r="4" fill="#C4604A"/>
+        <path d="M20 180 L60 160 L100 170 L140 130 L180 145" stroke="#3A5A6E" stroke-width="1" fill="none" stroke-linecap="round" opacity="0.4"/>
+      </svg>
+    </div>
+    <div class="container">
+      <div class="section-label">Решение</div>
+      <h2 class="section-title">Финансы под контролем — за 1–2 недели</h2>
+      <p class="finance-lead">
+        Не нанимать финдиректора за 200 тысяч в месяц.<br />
+        Не осваивать сложные учётные системы.<br />
+        Работаем с владельцами маркетплейсов, онлайн-школ и сервисного бизнеса.
+      </p>
+
+      <div class="fs-grid">
+        <div class="fs-card fs-card--core reveal">
+          <h3>Управленческий учёт <span class="fs-badge">Основное</span></h3>
+          <p>Отчёты, которые показывают реальную картину бизнеса. Без лишних таблиц — только то, что нужно для решений.</p>
+          <ul>
+            <li>ОПиУ — сколько заработали и потратили за период</li>
+            <li>ДДС — куда ушли деньги, сколько осталось на счетах</li>
+            <li>Платежный и кредитный календарь</li>
+            <li>ABC-анализ и юнит-экономика</li>
+            <li>Финансовая модель и прогнозы</li>
+            <li>Подготовка к кредитованию и инвесторам</li>
+          </ul>
+        </div>
+        <div class="fs-card fs-card--auto reveal">
+          <h3>Чтобы данные не терялись <span class="fs-badge">Автоматизация</span></h3>
+          <p>Если данные размазаны по кассе, банку, CRM и таблицам — их можно собирать в одном месте без ручных переносов. Как именно — зависит от вашего бизнеса: какие источники, в каком формате, с какой периодичностью удобно видеть картину.</p>
+          <ul>
+            <li>Подключаем источники, которые уже есть: касса, банк-клиент, CRM, Telegram, маркетплейсы</li>
+            <li>Отчёты формируются с той периодичностью, которая нужна вам: раз в день, неделю, месяц</li>
+            <li>Данные собираются в Google-таблицах, Telegram-боте или вашей внутренней системе</li>
+            <li>Подстраиваемся под ваши процессы, а не наоборот — вы не меняете свои привычки</li>
+            <li>Вы всегда видите, откуда берутся цифры — никаких чёрных ящиков</li>
+          </ul>
+          <div class="portfolio-hint-inline">
+            Это новое направление: первые проекты веду лично, от начала до конца. Поэтому и подход персональный, и цена ниже.
+          </div>
+        </div>
+      </div>
+
+      <div class="fs-cta">
+        <p style="margin-bottom:14px;font-size:15px;color:var(--color-text-muted);">
+          Можно начать с учёта — и подключить автоматизацию позже, или наоборот.
+        </p>
+        <a href="#calculator" class="btn-primary">Пройти диагностику →</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ADVANTAGES -->
+  <section class="advantages" id="advantages">
+    <div class="container">
+      <div class="section-label">Почему мы</div>
+      <h2 class="section-title">Почему нам стоит довериться</h2>
+      <div class="advantages-grid">
+        <div class="advantage-card reveal">
+          <div class="advantage-icon">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+          </div>
+          <h3>Прозрачность до копейки</h3>
+          <p>Никаких «примерно столько». Вы знаете точную картину: сколько заработали, куда ушло, сколько осталось. Каждую неделю.</p>
+        </div>
+        <div class="advantage-card reveal">
+          <div class="advantage-icon">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="13 2 3 14 12 14 11 22 21 10 12 10"/></svg>
+          </div>
+          <h3>Автоматизация без рутины</h3>
+          <p>Настраиваем связки между сервисами, чтобы данные не приходилось переносить вручную. Без лишних подписок и сложных платформ.</p>
+        </div>
+        <div class="advantage-card reveal">
+          <div class="advantage-icon">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20a9 9 0 0 0 9-9 9 9 0 0 0-9-9 9 9 0 0 0-9 9 9 9 0 0 0 4.93 8.07"/><path d="M3 12h18"/><path d="M12 3v18"/></svg>
+          </div>
+          <h3>Фиксированные цены</h3>
+          <p>Цена известна до старта. Не меняется в процессе. 14 дней бесплатных правок, если что-то не устроило.</p>
+        </div>
+        <div class="advantage-card reveal">
+          <div class="advantage-icon">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+          </div>
+          <h3>Финансовый эксперт + технолог</h3>
+          <p>Два профи в одном проекте. Вы не платите за лишние звенья и не тратите время на перевод с «финансового» на «технический».</p>
+        </div>
+        <div class="advantage-card reveal">
+          <div class="advantage-icon">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="13 2 3 14 12 14 11 22 21 10 12 10"/></svg>
+          </div>
+          <h3>Быстрый старт</h3>
+          <p>Учёт — 1–2 недели. Настройка сбора данных — ещё от недели. Не месяцы ожидания, а быстрый результат.</p>
+        </div>
+        <div class="advantage-card reveal">
+          <div class="advantage-icon">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+          </div>
+          <h3>Поддержка, а не «сдали и забыли»</h3>
+          <p>Обучаем, передаём доступы, отвечаем на вопросы. Вы не остаётесь один на один с системой.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- TESTIMONIALS -->
+  <section class="testimonials" id="testimonials">
+    <div class="container">
+      <div class="section-label reveal">Отзывы</div>
+      <h2 class="section-title reveal reveal-delay-1">Нам доверяют</h2>
+      <p class="section-sub reveal reveal-delay-2" style="margin:0 auto;">
+        Реальные результаты наших клиентов.
+      </p>
+
+      <div class="testimonials-grid">
+        <div class="testimonial-card reveal">
+          <div class="testimonial-stars">★★★★★</div>
+          <p class="testimonial-text">«Евгения навела порядок в финансах за две недели. Раньше я не понимала, сколько зарабатываю на самом деле — просто цифры в кассе. Теперь вижу полную картину: ОПиУ, ДДС, юнит-экономику. Это изменило подход к ценообразованию».</p>
+          <div class="testimonial-author">
+            <div class="testimonial-avatar testimonial-avatar--1">А</div>
+            <div class="testimonial-info">
+              <strong>Анна</strong>
+              <span>Онлайн-школа английского, Москва</span>
+            </div>
+          </div>
+        </div>
+        <div class="testimonial-card reveal reveal-delay-2">
+          <div class="testimonial-stars">★★★★★</div>
+          <p class="testimonial-text">«Заказали Telegram-бота для записи в салон красоты. Раньше мастер тратил 5+ часов в неделю на переписку — теперь клиенты записываются сами через бота, а напоминания снизили количество неявок на 30%. Окупилось за месяц».</p>
+          <div class="testimonial-author">
+            <div class="testimonial-avatar testimonial-avatar--2">Е</div>
+            <div class="testimonial-info">
+              <strong>Елена</strong>
+              <span>Салон красоты, Казань</span>
+            </div>
+          </div>
+        </div>
+        <div class="testimonial-card reveal reveal-delay-3">
+          <div class="testimonial-stars">★★★★★</div>
+          <p class="testimonial-text">«Долго искали, кто сможет и сайт сделать, и учёт настроить. Обычно это два разных подрядчика, которые не стыкуются. Здесь получили комплекс: лендинг + Telegram-бот + управленческий учёт. Всё работает как единая система».</p>
+          <div class="testimonial-author">
+            <div class="testimonial-avatar testimonial-avatar--3">М</div>
+            <div class="testimonial-info">
+              <strong>Михаил</strong>
+              <span>Сервис доставки, Новосибирск</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CALCULATOR -->
+  <section class="calculator" id="calculator">
+    <div class="container">
+      <div class="section-label">Диагностика</div>
+      <h2 class="section-title">Сколько времени и денег вы теряете?</h2>
+      <p class="section-sub" style="margin: 0 auto 36px;">
+        Не нужно ничего считать — просто двигайте ползунки и выбирайте варианты.
+      </p>
+
+      <div class="calc-inner">
+        <div class="calc-steps" id="calc">
+          <!-- Progress -->
+          <div class="calc-progress">
+            <span class="calc-dot calc-dot--active" data-dot="1"></span>
+            <span class="calc-dot" data-dot="2"></span>
+            <span class="calc-dot" data-dot="3"></span>
+          </div>
+
+          <!-- Step 1: Time -->
+          <div class="calc-step calc-step--active" data-step="1">
+            <div class="calc-step-label">Шаг 1 из 3</div>
+            <h3>Сколько времени в неделю тратите<br />на отчёты и перенос данных вручную?</h3>
+            <div class="calc-slider-wrap">
+              <div class="calc-slider-header">
+                <label for="time-slider">Часов в неделю</label>
+                <span class="calc-slider-value" id="time-value">5 часов</span>
+              </div>
+              <input type="range" class="calc-slider" id="time-slider" min="1" max="30" value="5" step="1">
+              <div class="calc-slider-labels">
+                <span>1 час</span>
+                <span>15 часов</span>
+                <span>30+ часов</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Step 2: Pain -->
+          <div class="calc-step" data-step="2">
+            <div class="calc-step-label">Шаг 2 из 3</div>
+            <h3>Что из этого про вас?</h3>
+            <div class="calc-options-compact" id="pain-options">
+              <div class="calc-option-compact" data-value="chaos" data-step="2">Данные в 5+ сервисах — ничего не сходится</div>
+              <div class="calc-option-compact" data-value="blind" data-step="2">Не знаю реальную прибыль</div>
+              <div class="calc-option-compact" data-value="mistakes" data-step="2">Были ошибки в учёте — терял деньги</div>
+              <div class="calc-option-compact" data-value="stuck" data-step="2">Пробовал нанять — дорого и без толку</div>
+            </div>
+          </div>
+
+          <!-- Step 3: Current setup -->
+          <div class="calc-step" data-step="3">
+            <div class="calc-step-label">Шаг 3 из 3</div>
+            <h3>Как сейчас ведёте учёт?</h3>
+            <div class="calc-options-compact" id="setup-options">
+              <div class="calc-option-compact" data-value="excel" data-step="3">В Excel / таблицах своими руками</div>
+              <div class="calc-option-compact" data-value="none" data-step="3">Никак, всё в голове</div>
+              <div class="calc-option-compact" data-value="buh" data-step="3">Есть бухгалтер, но нет системы</div>
+              <div class="calc-option-compact" data-value="start" data-step="3">Хочу наладить, но не знаю как</div>
+            </div>
+          </div>
+
+          <!-- Result -->
+          <div class="calc-result" id="calc-result">
+            <div class="calc-step-label">Результат диагностики</div>
+            <div class="calc-result-amount" id="calc-time-result">~260 часов/год</div>
+            <div class="calc-result-label" id="calc-cost-result">около 130 000 ₽ в год</div>
+            <div class="calc-result-desc" id="calc-desc">
+              С настроенным учётом и автоматизацией вы вернёте это время и деньги.
+            </div>
+            <a href="#contact" class="btn-primary">Заказать консультацию 15 мин</a>
+            <div style="margin-top:12px;">
+              <a href="#finance-pricing" style="font-size:14px;color:var(--color-text-muted);">Посмотреть тарифы →</a>
+            </div>
+          </div>
+
+          <!-- Nav -->
+          <div class="calc-nav" id="calc-nav">
+            <button class="btn-secondary" id="calc-prev" style="visibility:hidden;">← Назад</button>
+            <button class="btn-primary" id="calc-next" style="display:none;">Дальше →</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- PRICING: FINANCE -->
+  <section class="pricing-finance" id="finance-pricing">
+    <div class="container">
+      <div class="section-label">Тарифы — Финансы</div>
+      <h2 class="section-title">Ежемесячное финансовое сопровождение</h2>
+      <p class="section-sub" style="margin: 0 auto 36px;">
+        Цена фиксированная — называем до старта.<br />
+        Можно начать с любого тарифа и перейти на другой.<br />
+        Если ваш бизнес меньше объёмов «Лайт» — <a href="#contact" style="color:var(--color-accent);text-decoration:underline;">обсудим индивидуальный формат</a>.
+      </p>
+
+      <div class="finance-tabs">
+        <div class="finance-card reveal">
+          <div class="finance-card-header">
+            <div class="finance-tier">Лайт</div>
+            <div class="finance-price">30 000 ₽<span class="sub">/ мес</span></div>
+            <div class="finance-limits">до 30 позиций · 1–2 кабинета</div>
+          </div>
+          <div class="finance-card-body">
+            <p class="finance-desc">Базовый учёт: отчёты, ДДС, ОПиУ.</p>
+            <div class="f-checklist">
+              <span class="f-yes">Выгрузка отчётов по продажам и продвижению</span>
+              <span class="f-yes">ДДС — доходы, расходы, сверка остатков</span>
+              <span class="f-yes">ОПиУ и ДДС — еженедельно</span>
+              <span class="f-no">Платежный календарь — ведёте сами</span>
+              <span class="f-no">ABC-анализ, юнит-экономика, финмодель</span>
+            </div>
+            <div class="f-comm"><strong>Созвоны:</strong> еженедельно</div>
+          </div>
+          <a href="#contact" class="btn-primary finance-btn">Выбрать Лайт</a>
+        </div>
+
+        <div class="finance-card reveal finance-card--premium">
+          <div class="finance-card-header">
+            <div class="finance-tier">Стандарт+</div>
+            <div class="finance-price">50 000 ₽<span class="sub">/ мес</span></div>
+            <div class="finance-limits">до 500 позиций · до 3 кабинетов</div>
+          </div>
+          <div class="finance-card-body">
+            <p class="finance-desc">Полный контроль: учёт, аналитика, планирование.</p>
+            <div class="f-checklist">
+              <span class="f-yes">Всё из тарифа Лайт</span>
+              <span class="f-yes">Платежный и кредитный календарь</span>
+              <span class="f-yes">ОПиУ, ДДС, капитализация, баланс</span>
+              <span class="f-yes">ABC-анализ + юнит-экономика + финмодель</span>
+              <span class="f-yes">Подготовка к кредитованию</span>
+            </div>
+            <div class="f-comm"><strong>Созвоны:</strong> еженедельно + экстренные · <strong>Консультации:</strong> 1–3 в мес</div>
+            <div class="f-plus">Доп. кабинет: +12 000 ₽</div>
+          </div>
+          <a href="#contact" class="btn-primary finance-btn">Выбрать Стандарт+</a>
+        </div>
+
+        <div class="finance-card reveal">
+          <div class="finance-card-header">
+            <div class="finance-tier">Всё включено</div>
+            <div class="finance-price">75 000 ₽<span class="sub">/ мес</span></div>
+            <div class="finance-limits">без ограничений</div>
+          </div>
+          <div class="finance-card-body">
+            <p class="finance-desc">Максимум: без лимитов, безлимит консультаций.</p>
+            <div class="f-checklist">
+              <span class="f-yes">Всё из тарифа Стандарт+</span>
+              <span class="f-yes">Факторный и трендовый анализ</span>
+              <span class="f-yes">Расчёт KPI</span>
+              <span class="f-yes">Подготовка к кредитованию и инвесторам</span>
+              <span class="f-yes">Персональная презентация по итогам месяца</span>
+            </div>
+            <div class="f-comm"><strong>Созвоны:</strong> безлимит · <strong>Консультации:</strong> безлимит</div>
+          </div>
+          <a href="#contact" class="btn-primary finance-btn">Выбрать Всё включено</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- TECH SERVICES (portfolio-building mode) -->
+  <section class="tech-services" id="tech-services">
+    <div class="container">
+      <div class="section-label">Сайты, боты и автоматизация</div>
+      <h2 class="section-title">Нужны технологии — без финансов?</h2>
+
+      <div class="tech-lede">
+        <p>
+          Сайты, боты, AI-помощники — разработка под ключ. Понимаю бизнес-процессы,<br />
+          поэтому каждый проект решает задачу, а не просто хорошо выглядит.
+        </p>
+      </div>
+
+      <div class="tech-grid">
+        <div class="tech-card reveal">
+          <div class="tech-icon">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="3" width="20" height="14" rx="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>
+          </div>
+          <h3>Продающий сайт</h3>
+          <p>Лендинг под ключ: дизайн, вёрстка, форма заявки, интеграция. Адаптивный, быстрый.</p>
+          <div class="tech-price">от 5 000 ₽</div>
+          <a href="#contact" class="btn-secondary btn-secondary--accent" style="font-size:13px;padding:8px 20px;">Заказать</a>
+        </div>
+        <div class="tech-card reveal">
+          <div class="tech-icon">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="6" width="16" height="12" rx="3"/><circle cx="9" cy="11" r="1" fill="currentColor"/><circle cx="15" cy="11" r="1" fill="currentColor"/><path d="M9 15c1.5.8 4.5.8 6 0"/></svg>
+          </div>
+          <h3>Telegram-бот</h3>
+          <p>Запись, заявки, напоминания, рассылки. Клиенты записываются сами 24/7. Работает без выходных.</p>
+          <div class="tech-price">от 5 000 ₽</div>
+          <a href="#contact" class="btn-secondary btn-secondary--accent" style="font-size:13px;padding:8px 20px;">Заказать</a>
+        </div>
+        <div class="tech-card reveal">
+          <div class="tech-icon">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+          </div>
+          <h3>AI-ассистент</h3>
+          <p>Отвечает на вопросы 24/7, помогает с контентом, обрабатывает заявки — даже ночью.</p>
+          <div class="tech-price">от 8 000 ₽</div>
+          <a href="#contact" class="btn-secondary btn-secondary--accent" style="font-size:13px;padding:8px 20px;">Заказать</a>
+        </div>
+        <div class="tech-card reveal">
+          <div class="tech-icon">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg>
+          </div>
+          <h3>Связка сервисов</h3>
+          <p>API-интеграции, обмен данными между CRM, Telegram, таблицами. Настрою связки, чтобы информация передавалась без вашего участия.</p>
+          <div class="tech-price">от 4 000 ₽</div>
+          <a href="#contact" class="btn-secondary btn-secondary--accent" style="font-size:13px;padding:8px 20px;">Заказать</a>
+        </div>
+      </div>
+
+      <div style="text-align:center;margin-top:28px;">
+        <a href="#contact" class="btn-primary">Нужна консультация →</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- BLOG -->
+  <section class="blog-section" id="blog">
+    <div class="container">
+      <div class="section-label">Полезные статьи</div>
+      <h2 class="section-title">Разбираемся в финансах и автоматизации<br />простым языком</h2>
+
+      <div class="blog-grid">
+        <a href="blog.html" class="blog-card blog-card--all" target="_blank">
+          <div class="blog-card-body">
+            <span class="blog-tag">Блог</span>
+            <h3>Финансы, учёт, автоматизация — простым языком</h3>
+            <p>Разбираемся в управленческом учёте, финмоделях, автоматизации сбора данных. Без сложных терминов, для владельцев бизнеса.</p>
+            <span class="blog-read">Все статьи →</span>
+          </div>
+        </a>
+        <a href="blog.html" class="blog-card" target="_blank">
+          <div class="blog-card-body">
+            <span class="blog-tag">Скоро</span>
+            <h3>Готовим новые статьи по финансам и автоматизации</h3>
+            <p>Скоро здесь появятся полезные материалы. Подпишитесь в Telegram, чтобы не пропустить.</p>
+            <span class="blog-read">Перейти в блог →</span>
+          </div>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- PROCESS -->
+  <section class="process" id="process">
+    <div class="container">
+      <div class="section-label">Как мы работаем</div>
+      <h2 class="section-title">Прозрачный процесс без сюрпризов</h2>
+      <div class="process-steps">
+        <div class="step reveal">
+          <div class="step-num">01</div>
+          <h3>Знакомство</h3>
+          <p>15-минутный звонок. Рассказываете о бизнесе — мы определяем, с чего начать. Бесплатно, без обязательств.</p>
+        </div>
+        <div class="step reveal">
+          <div class="step-num">02</div>
+          <h3>Аудит</h3>
+          <p>Смотрим, что с деньгами и процессами. Готовим план: что наладить, что автоматизировать, сколько это стоит.</p>
+        </div>
+        <div class="step reveal">
+          <div class="step-num">03</div>
+          <h3>Настройка системы</h3>
+          <p>Настраиваем учёт и автоматизируем сбор данных. Отчёты формируются с минимальным вашим участием — вы просто открываете и видите.</p>
+        </div>
+        <div class="step reveal">
+          <div class="step-num">04</div>
+          <h3>Поддержка</h3>
+          <p>Вы работаете над бизнесом. Мы следим за цифрами и отвечаем на вопросы. Не бросаем после сдачи.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CASE STUDIES -->
+  <section class="portfolio" id="cases">
+    <div class="container">
+      <div class="section-label reveal">Кейсы</div>
+      <h2 class="section-title reveal reveal-delay-1">Реальные проекты и результаты</h2>
+      <p class="section-sub reveal reveal-delay-2" style="margin:0 auto;">
+        Примеры того, как мы наводим порядок в финансах и процессах.
+      </p>
+
+      <div class="cases-grid">
+        <a href="cases.html#case-1" class="case-card reveal">
+          <div class="case-thumb">
+            <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="3" width="20" height="14" rx="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>
+          </div>
+          <div class="case-card-body">
+            <span class="case-tag">Финансовый учёт</span>
+            <h3>Автоматизация учёта для магазина на Wildberries</h3>
+            <div class="case-metrics">
+              <span><strong>15 ч/нед</strong> экономии</span>
+              <span><strong>5</strong> кабинетов WB в одной таблице</span>
+            </div>
+            <p>Настроили еженедельную выгрузку данных из 5 кабинетов Wildberries в единую Google-таблицу с ОПиУ, ДДС и ABC-анализом. Владелец перестал тратить выходные на отчёты.</p>
+            <span class="case-read">Смотреть кейс →</span>
+          </div>
+        </a>
+
+        <a href="cases.html#case-2" class="case-card reveal reveal-delay-2">
+          <div class="case-thumb">
+            <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="6" width="16" height="12" rx="3"/><circle cx="9" cy="11" r="1" fill="currentColor"/><circle cx="15" cy="11" r="1" fill="currentColor"/><path d="M9 15c1.5.8 4.5.8 6 0"/></svg>
+          </div>
+          <div class="case-card-body">
+            <span class="case-tag">Telegram-бот</span>
+            <h3>Бот для записи в салон красоты</h3>
+            <div class="case-metrics">
+              <span><strong>−30%</strong> неявок</span>
+              <span><strong>5+ ч/нед</strong> экономии мастера</span>
+            </div>
+            <p>Telegram-бот с каталогом услуг, записью на свободное время и автоматическими напоминаниями. Клиенты записываются сами 24/7, мастер получает уведомления.</p>
+            <span class="case-read">Смотреть кейс →</span>
+          </div>
+        </a>
+      </div>
+
+      <div class="cases-cta reveal">
+        <p>Хотите такой же результат? <a href="#contact">Расскажите о своём проекте</a></p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ABOUT -->
+  <section class="about" id="about">
+    <div class="container">
+      <div class="about-header reveal">
+        <div class="section-label">Команда</div>
+        <h2 class="section-title">Кто стоит за «Цифрой»</h2>
+        <p class="section-sub" style="margin: 0 auto;">
+          Два эксперта в одной команде. Финансы + технологии — без посредников.
+        </p>
+      </div>
+
+      <div class="about-grid">
+        <div class="about-card about-card--1 reveal">
+          <div class="about-avatar about-avatar--1">Е</div>
+          <h3>Евгения Яровая</h3>
+          <div class="about-role">Финансы и учёт</div>
+          <p>Больше 5 лет веду учёт для бизнеса: работала с владельцами маркетплейсов (Wildberries, Ozon), онлайн-школ и сервисных проектов. Навожу порядок в цифрах — от ежедневных отчётов до финансовых моделей.</p>
+          <div class="about-tags">
+            <span class="about-tag">Управленческий учёт</span>
+            <span class="about-tag">Финмодели</span>
+            <span class="about-tag">Сбор данных</span>
+            <span class="about-tag">Аналитика</span>
+          </div>
+          <a href="https://t.me/EugeniaYar" target="_blank" class="about-contact-link">@EugeniaYar →</a>
+        </div>
+        <div class="about-card about-card--2 reveal">
+          <div class="about-avatar about-avatar--2">О</div>
+          <h3>Ольга Соломатина</h3>
+          <div class="about-role">Технологии и автоматизация</div>
+          <p>Разрабатываю сайты, ботов, AI-ассистентов и связки сервисов. Сама веду проекты — знаю, как должно работать, чтобы приносить результат, а не просто «красивый код». Понимаю бизнес-процессы, поэтому говорю с вами на одном языке.</p>
+          <div class="about-tags">
+            <span class="about-tag">Лендинги</span>
+            <span class="about-tag">Telegram-боты</span>
+            <span class="about-tag">AI-решения</span>
+            <span class="about-tag">Автоматизация</span>
+          </div>
+          <a href="https://t.me/solstudio_ai" target="_blank" class="about-contact-link">@solstudio_ai →</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FAQ -->
+  <section id="faq">
+    <div class="container">
+      <div class="section-label">Частые вопросы</div>
+      <h2 class="section-title">Всё, что вы хотели спросить</h2>
+
+      <div class="faq-list">
+        <div class="faq-item">
+          <div class="faq-question" onclick="toggleFaq(this)">Сколько это стоит?</div>
+          <div class="faq-answer">
+            Финансовое сопровождение — от 30 000 до 75 000 ₽/мес в зависимости от объёма. Сайты и боты — разовые проекты от 5 000 до 18 000 ₽. Можете начать с одного направления и подключить второе позже. Цена фиксированная, называем до старта.
+          </div>
+        </div>
+        <div class="faq-item">
+          <div class="faq-question" onclick="toggleFaq(this)">Я ничего не понимаю в финансах и технологиях. Справимся?</div>
+          <div class="faq-answer">
+            Для того мы и нужны. Вы разбираетесь в своём деле, мы — в своём. Проведём за руку: настроим учёт, автоматизируем сбор данных, научим пользоваться. С вашей стороны — только рассказать о бизнесе. Всё остальное берём на себя.
+          </div>
+        </div>
+        <div class="faq-item">
+          <div class="faq-question" onclick="toggleFaq(this)">А если мне не понравится результат?</div>
+          <div class="faq-answer">
+            Даём 14 дней бесплатных правок после сдачи. Если в итоге результат вас не устраивает — вернём деньги. Мы работаем на репутацию, поэтому наша мотивация — сделать выше ваших ожиданий.
+          </div>
+        </div>
+        <div class="faq-item">
+          <div class="faq-question" onclick="toggleFaq(this)">Что будет с данными, если вы пропадёте?</div>
+          <div class="faq-answer">
+            Все отчёты, доступы и данные — ваши. Мы ничего не блокируем. Учёт и система продолжают работать независимо от нас. Но мы не пропадаем.
+          </div>
+        </div>
+        <div class="faq-item">
+          <div class="faq-question" onclick="toggleFaq(this)">Работаете с ИП и самозанятыми?</div>
+          <div class="faq-answer">
+            Да. Оплата — переводом на карту (Т-Банк, Сбер), ЮMoney или USDT. Если нужны документы — обсуждаем индивидуально.
+          </div>
+        </div>
+        <div class="faq-item">
+          <div class="faq-question" onclick="toggleFaq(this)">Мне нужно и то, и другое. С чего начать?</div>
+          <div class="faq-answer">
+            Начните с аудита. Мы смотрим на ваш бизнес, определяем, что болит сильнее, и предлагаем план. Можно стартовать с учёта и подключить автоматизацию позже или наоборот. Вы не переплачиваете за то, что не нужно прямо сейчас.
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CONTACT -->
+  <section class="contact" id="contact">
+    <div class="container">
+      <div class="section-label">Свяжитесь с нами</div>
+      <h2 class="section-title">Давайте обсудим ваш проект</h2>
+      <p class="section-sub">Ответим в течение нескольких часов.</p>
+
+      <form class="contact-form" id="contact-form" onsubmit="handleSubmit(event)">
+        <div class="form-group">
+          <label for="name">Как к вам обращаться <span style="color:var(--color-accent)">*</span></label>
+          <input type="text" id="name" name="name" placeholder="Например: Анна" required />
+        </div>
+        <div class="form-group">
+          <label for="contact-data">Telegram / WhatsApp / Email <span style="color:var(--color-accent)">*</span></label>
+          <input type="text" id="contact-data" name="contact" placeholder="@username или +7 999 123-45-67" required />
+        </div>
+
+        <div class="form-group" style="display:none" id="extra-fields-group">
+          <label for="service-type">Что интересует? (необязательно)</label>
+          <select id="service-type" name="service_type">
+            <option value="">— Выберите направление —</option>
+            <option value="finance">Финансы (учёт, аналитика, сопровождение)</option>
+            <option value="tech">Технологии (сайт, бот, AI, автоматизация)</option>
+            <option value="both">Финансы + технологии вместе</option>
+            <option value="dont-know">Нужна консультация</option>
+          </select>
+        </div>
+        <div class="form-group" style="display:none" id="extra-fields-group2">
+          <label for="task">Опишите задачу (необязательно)</label>
+          <textarea id="task" name="task" placeholder="Расскажите вкратце о вашем бизнесе..."></textarea>
+        </div>
+
+        <div class="form-extras-toggle" id="extras-toggle" onclick="toggleExtraFields()">
+          + Добавить подробности
+        </div>
+
+        <div class="form-checkbox">
+          <input type="checkbox" id="privacy" required />
+          <label for="privacy">
+            Даю согласие на обработку персональных данных в соответствии с
+            <a href="privacy-policy.html" target="_blank">Политикой конфиденциальности</a>
+          </label>
+        </div>
+
+        <button type="submit" class="btn-primary" id="submit-btn">Отправить заявку</button>
+      </form>
+
+      <div class="lead-magnet" id="lead-magnet-block">
+        <div class="lead-magnet-icon">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/></svg>
+        </div>
+        <div class="lead-magnet-text" id="lead-magnet-text">
+          <strong>Чек-лист:</strong> «5 шагов к порядку в финансах»<br />
+          <span class="lead-magnet-hint">Оставьте контакт — пришлём в Telegram</span>
+        </div>
+        <button class="btn-secondary lead-magnet-btn" id="lead-cta-btn" onclick="showLeadForm()">Получить →</button>
+        <div class="lead-magnet-form" id="lead-form">
+          <input type="text" id="lead-name" placeholder="Ваше имя" />
+          <input type="text" id="lead-contact" placeholder="@username в Telegram" />
+          <button class="btn-primary" onclick="requestChecklist()">Получить →</button>
+        </div>
+        <div class="lead-magnet-success" id="lead-success">
+          Спасибо! Мы отправим чек-лист в Telegram в ближайшее время ✅
+        </div>
+      </div>
+
+      <p class="contact-direct">
+        Или пишите напрямую:
+        <a href="https://t.me/EugeniaYar" target="_blank">@EugeniaYar</a> (финансы) ·
+        <a href="https://t.me/solstudio_ai" target="_blank">@solstudio_ai</a> (технологии)
+      </p>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer>
+    <div class="container footer-inner">
+      <div>
+        <span class="footer-name">Цифра</span>
+        <span class="header-subtitle" style="display:block;margin-top:2px;">финансы и технологии</span>
+      </div>
+      <span class="footer-meta">Технологии и финансы &copy; 2026</span>
+      <div class="footer-links">
+        <a href="https://t.me/solstudio_ai" target="_blank">Telegram</a>
+        <a href="privacy-policy.html" target="_blank">Политика конфиденциальности</a>
+      </div>
+    </div>
+  </footer>
+
+  <div class="toast" id="toast"></div>
+
+  <!-- CHAT WIDGET -->
+  <button class="chat-button" id="chat-button" onclick="toggleChat()" aria-label="Открыть чат">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>
+    </svg>
+  </button>
+  <div class="chat-dialog" id="chat-dialog">
+    <div class="chat-header">
+      <div>
+        <div>Консультант Цифры</div>
+        <div class="chat-header-sub">AI на DeepSeek · отвечает на вопросы</div>
+      </div>
+      <button class="chat-close" onclick="toggleChat()">&times;</button>
+    </div>
+    <div class="chat-messages" id="chat-messages">
+      <div class="chat-msg chat-msg--bot">Здравствуйте! Я консультант «Цифры». Задайте любой вопрос — помогу разобраться с финансами, учётом или автоматизацией. Или расскажу о наших тарифах.</div>
+    </div>
+    <div class="chat-input-area">
+      <input class="chat-input" id="chat-input" type="text" placeholder="Напишите вопрос..." onkeydown="if(event.key==='Enter') sendChat()" />
+      <button class="chat-send" id="chat-send" onclick="sendChat()">Отправить</button>
+    </div>
+  </div>
+
+  <script>
+    // === Reveal on scroll ===
+    function setupReveal() {
+      const els = document.querySelectorAll('.reveal');
+      if (!els.length) return;
+      const obs = new IntersectionObserver((entries) => {
+        entries.forEach(e => {
+          if (e.isIntersecting) { e.target.classList.add('visible'); obs.unobserve(e.target); }
+        });
+      }, { threshold: 0.15, rootMargin: '0px 0px -40px 0px' });
+      els.forEach(el => obs.observe(el));
+    }
+
+    // === Counter animation ===
+    function animateCounters() {
+      const counters = document.querySelectorAll('.num-value');
+      if (!counters.length) return;
+      const obs = new IntersectionObserver((entries) => {
+        entries.forEach(e => {
+          if (!e.isIntersecting) return;
+          const el = e.target;
+          const text = el.textContent.trim();
+          const num = parseInt(text.replace(/[^0-9]/g, ''));
+          if (!num) return;
+          const suffix = text.replace(/[0-9]/g, '').trim();
+          let current = 0;
+          const step = Math.max(1, Math.floor(num / 30));
+          const timer = setInterval(() => {
+            current = Math.min(current + step, num);
+            el.textContent = current + (suffix ? ' ' + suffix : '');
+            if (current >= num) { clearInterval(timer); el.textContent = text; }
+          }, 40);
+          obs.unobserve(el);
+        });
+      }, { threshold: 0.5 });
+      counters.forEach(el => obs.observe(el));
+    }
+
+    document.addEventListener('DOMContentLoaded', () => { setupReveal(); animateCounters(); initCalculator(); });
+
+    // === Mobile menu ===
+    document.getElementById('menu-toggle').addEventListener('click', () => {
+      document.getElementById('main-nav').classList.toggle('mobile-open');
+    });
+    document.querySelectorAll('.header-nav a').forEach(l => {
+      l.addEventListener('click', () => document.getElementById('main-nav').classList.remove('mobile-open'));
+    });
+
+    // === FAQ ===
+    function toggleFaq(el) {
+      el.classList.toggle('open');
+      el.nextElementSibling.classList.toggle('open');
+    }
+    document.querySelector('.faq-question')?.classList.add('open');
+    document.querySelector('.faq-answer')?.classList.add('open');
+
+    // === Extra fields ===
+    function toggleExtraFields() {
+      const g1 = document.getElementById('extra-fields-group');
+      const g2 = document.getElementById('extra-fields-group2');
+      const t = document.getElementById('extras-toggle');
+      const isHidden = g1.style.display === 'none';
+      g1.style.display = isHidden ? 'block' : 'none';
+      g2.style.display = isHidden ? 'block' : 'none';
+      t.textContent = isHidden ? '− Скрыть подробности' : '+ Добавить подробности';
+    }
+
+    // === Lead magnet (inline mini-form) ===
+    function showLeadForm() {
+      document.getElementById('lead-cta-btn').style.display = 'none';
+      document.getElementById('lead-form').classList.add('lead-magnet-form--show');
+      document.getElementById('lead-name').focus();
+    }
+
+    async function requestChecklist() {
+      const name = document.getElementById('lead-name').value.trim();
+      const contact = document.getElementById('lead-contact').value.trim();
+      if (!name || !contact) {
+        showToast('Заполните имя и контакт в Telegram', 'error');
+        return;
+      }
+
+      const btn = document.querySelector('#lead-form .btn-primary');
+      btn.disabled = true;
+      btn.textContent = 'Отправляем...';
+
+      try {
+        const r = await fetch('/api/send-message', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ name, contact, service_type: 'lead', task: 'Хочу чек-лист «5 шагов к порядку в финансах»' })
+        });
+        if (!r.ok) throw new Error('API error');
+        document.getElementById('lead-form').classList.remove('lead-magnet-form--show');
+        document.getElementById('lead-magnet-text').style.display = 'none';
+        document.getElementById('lead-success').classList.add('lead-magnet-success--show');
+      } catch {
+        showToast('Не удалось отправить. Напишите нам напрямую в Telegram 🙏', 'error');
+      } finally {
+        btn.disabled = false;
+        btn.textContent = 'Получить →';
+      }
+    }
+
+    // === Toast ===
+    function showToast(msg, type) {
+      const t = document.getElementById('toast');
+      t.textContent = msg; t.className = 'toast toast--' + type + ' show';
+      setTimeout(() => t.classList.remove('show'), 5000);
+    }
+
+    // === Form submit ===
+    async function handleSubmit(e) {
+      e.preventDefault();
+      const btn = document.getElementById('submit-btn');
+      btn.disabled = true; btn.textContent = 'Отправляем...';
+      const f = e.target;
+
+      try {
+        const r = await fetch('/api/send-message', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            name: f.name.value,
+            contact: f.contact.value,
+            service_type: f.service_type?.value || '',
+            task: f.task?.value || ''
+          })
+        });
+        if (!r.ok) throw new Error('API error');
+        showToast('Спасибо! Мы ответим в ближайшее время 🙌', 'success');
+        f.reset();
+      } catch {
+        try {
+          const msg = `Заявка с сайта «Цифра»\n\nИмя: ${f.name.value}\nКонтакты: ${f.contact.value}`;
+          await navigator.clipboard.writeText(msg);
+          showToast('Не удалось отправить. Текст скопирован — отправьте нам в Telegram 🙏', 'error');
+        } catch {
+          showToast('Что-то пошло не так. Напишите нам напрямую в Telegram 🙏', 'error');
+        }
+      } finally {
+        btn.disabled = false;
+        btn.textContent = 'Отправить заявку';
+      }
+    }
+
+    // === CALCULATOR ===
+    function initCalculator() {
+      const steps = document.querySelectorAll('.calc-step');
+      const dots = document.querySelectorAll('.calc-dot');
+      const prevBtn = document.getElementById('calc-prev');
+      const nextBtn = document.getElementById('calc-next');
+      const resultEl = document.getElementById('calc-result');
+      const timeResultEl = document.getElementById('calc-time-result');
+      const costResultEl = document.getElementById('calc-cost-result');
+      const descEl = document.getElementById('calc-desc');
+      const navEl = document.getElementById('calc-nav');
+
+      // Slider
+      const timeSlider = document.getElementById('time-slider');
+      const timeValue = document.getElementById('time-value');
+
+      let currentStep = 1;
+      const answers = {};
+
+      // Slider update
+      if (timeSlider) {
+        timeSlider.addEventListener('input', () => {
+          const val = parseInt(timeSlider.value);
+          timeValue.textContent = val + ' часов';
+          answers[1] = val;
+          // Auto advance after brief delay if slider moved past initial
+          showNextButton(1);
+        });
+        // Set initial
+        setTimeout(() => { answers[1] = 5; }, 100);
+      }
+
+      // Pain options
+      document.querySelectorAll('#pain-options .calc-option-compact').forEach(opt => {
+        opt.addEventListener('click', () => {
+          document.querySelectorAll('#pain-options .calc-option-compact').forEach(o => o.classList.remove('calc-option-compact--selected'));
+          opt.classList.add('calc-option-compact--selected');
+          answers[2] = opt.dataset.value;
+          setTimeout(() => { goToStep(3); }, 400);
+        });
+      });
+
+      // Setup options
+      document.querySelectorAll('#setup-options .calc-option-compact').forEach(opt => {
+        opt.addEventListener('click', () => {
+          document.querySelectorAll('#setup-options .calc-option-compact').forEach(o => o.classList.remove('calc-option-compact--selected'));
+          opt.classList.add('calc-option-compact--selected');
+          answers[3] = opt.dataset.value;
+          setTimeout(() => { goToStep(4); }, 400);
+        });
+      });
+
+      function goToStep(step) {
+        currentStep = step;
+        updateStep(step);
+      }
+
+      function updateStep(step) {
+        // Steps
+        steps.forEach(s => s.classList.toggle('calc-step--active', parseInt(s.dataset.step) === step));
+
+        // Dots
+        dots.forEach(d => {
+          const n = parseInt(d.dataset.dot);
+          d.classList.toggle('calc-dot--active', n === step);
+          d.classList.toggle('calc-dot--done', n < step);
+        });
+
+        // Prev
+        prevBtn.style.visibility = step <= 1 ? 'hidden' : 'visible';
+
+        if (step > 3) {
+          showResult();
+        } else {
+          resultEl.classList.remove('calc-result--visible');
+          navEl.style.display = 'flex';
+          showNextButton(step);
+        }
+      }
+
+      function showNextButton(step) {
+        if (answers[step]) {
+          nextBtn.style.display = 'inline-block';
+          nextBtn.onclick = () => {
+            if (step < 3) goToStep(step + 1);
+            else goToStep(4);
+          };
+        } else {
+          nextBtn.style.display = 'none';
+        }
+      }
+
+      function showResult() {
+        resultEl.classList.add('calc-result--visible');
+        navEl.style.display = 'none';
+
+        const hours = parseInt(answers[1]) || 10;
+        const yearlyHours = hours * 4 * 12;
+        const yearlyCost = Math.round(yearlyHours * 500); // ~500₽/hour average
+
+        timeResultEl.textContent = '~' + yearlyHours.toLocaleString('ru-RU') + ' часов/год';
+        costResultEl.textContent = 'около ' + yearlyCost.toLocaleString('ru-RU') + ' ₽ в год';
+
+        // Personalize based on pain
+        const pain = answers[2] || '';
+        const setup = answers[3] || '';
+        let desc = '';
+
+        if (pain === 'blind' || setup === 'none') {
+          desc = 'Без учёта вы работаете вслепую. С настроенной системой вы будете точно знать, сколько заработали и куда двигаться.';
+        } else if (pain === 'mistakes') {
+          desc = 'Ошибки в учёте — это прямые убытки. Автоматизация исключит человеческий фактор и сэкономит ваши деньги.';
+        } else if (pain === 'stuck' || setup === 'start') {
+          desc = 'Вы уже пробовали — и это нормально, что не получилось. Мы сделаем по-другому: прозрачно, без сложностей, с поддержкой.';
+        } else {
+          desc = 'С настроенным учётом и автоматизацией вы вернёте время и деньги, которые сейчас уходят на рутину.';
+        }
+        descEl.textContent = desc;
+
+        // Scroll to result
+        document.getElementById('calculator').scrollIntoView({ behavior: 'smooth', block: 'center' });
+      }
+
+      // Prev
+      prevBtn.addEventListener('click', () => {
+        if (currentStep > 1) goToStep(currentStep - 1);
+      });
+
+      updateStep(1);
+    }
+
+    // === Chat Widget (DeepSeek) ===
+    const CHAT_CONTEXT_MAX = 10;
+    let chatHistory = [];
+
+    function toggleChat() {
+      const d = document.getElementById('chat-dialog');
+      d.classList.toggle('chat-dialog--open');
+      if (d.classList.contains('chat-dialog--open')) {
+        setTimeout(() => document.getElementById('chat-input').focus(), 300);
+      }
+    }
+
+    function addChatMessage(text, role) {
+      const container = document.getElementById('chat-messages');
+      const msg = document.createElement('div');
+      msg.className = 'chat-msg chat-msg--' + role;
+      msg.textContent = text;
+      container.appendChild(msg);
+      container.scrollTop = container.scrollHeight;
+    }
+
+    async function sendChat() {
+      const input = document.getElementById('chat-input');
+      const btn = document.getElementById('chat-send');
+      const text = input.value.trim();
+      if (!text) return;
+
+      input.value = '';
+      btn.disabled = true;
+      addChatMessage(text, 'user');
+      chatHistory.push({ role: 'user', content: text });
+
+      // Show typing indicator
+      const container = document.getElementById('chat-messages');
+      const typing = document.createElement('div');
+      typing.className = 'chat-typing';
+      typing.id = 'chat-typing';
+      typing.textContent = 'Печатает...';
+      container.appendChild(typing);
+      container.scrollTop = container.scrollHeight;
+
+      try {
+        const res = await fetch('/api/chat', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            message: text,
+            history: chatHistory.slice(-CHAT_CONTEXT_MAX)
+          })
+        });
+        const data = await res.json();
+        document.getElementById('chat-typing')?.remove();
+        addChatMessage(data.reply || 'Извините, не удалось получить ответ.', 'bot');
+        chatHistory.push({ role: 'assistant', content: data.reply || '' });
+      } catch {
+        document.getElementById('chat-typing')?.remove();
+        addChatMessage('Извините, произошла ошибка. Попробуйте позже или напишите нам в Telegram @EugeniaYar', 'bot');
+      } finally {
+        btn.disabled = false;
+        input.focus();
+      }
+    }
+  </script>
+</body>
+</html>

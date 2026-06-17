@@ -1,0 +1,329 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Чек-лист: 5 шагов к порядку в финансах — Цифра</title>
+  <meta name="description" content="Бесплатный чек-лист: 5 шагов к порядку в финансах для владельцев малого бизнеса, маркетплейсов и онлайн-школ." />
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Rubik:wght@400;500;600;700;800;900&family=PT+Sans:wght@400;700&display=swap" rel="stylesheet" />
+
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --color-bg: #F9F7F4;
+      --color-bg-alt: #F0EDE6;
+      --color-text: #1C1E26;
+      --color-text-muted: #5D5F6E;
+      --color-accent: #C4604A;
+      --color-accent-hover: #A94F3B;
+      --color-accent-light: rgba(196, 96, 74, 0.07);
+      --color-secondary: #3A5A6E;
+      --color-border: rgba(28, 30, 38, 0.07);
+      --container: 720px;
+      --radius-sm: 6px;
+      --radius-md: 12px;
+      --radius-lg: 18px;
+    }
+    body {
+      font-family: 'PT Sans', sans-serif;
+      font-size: 17px;
+      line-height: 1.6;
+      color: var(--color-text);
+      background: var(--color-bg);
+      -webkit-font-smoothing: antialiased;
+    }
+    .container { max-width: var(--container); margin: 0 auto; padding: 0 24px; }
+    h1, h2, h3 { font-family: 'Rubik', sans-serif; font-weight: 800; line-height: 1.2; color: var(--color-text); }
+    a { color: var(--color-accent); text-decoration: none; }
+    a:hover { color: var(--color-accent-hover); text-decoration: underline; }
+
+    /* Header */
+    header {
+      padding: 16px 0;
+      border-bottom: 1px solid var(--color-border);
+      position: sticky; top: 0; z-index: 100;
+      backdrop-filter: blur(10px);
+      background: rgba(249, 247, 244, 0.92);
+    }
+    .header-inner {
+      max-width: 1160px;
+      margin: 0 auto;
+      padding: 0 24px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .header-brand { display: flex; flex-direction: column; text-decoration: none; }
+    .header-name { font-family: 'Rubik', sans-serif; font-weight: 900; font-size: 20px; color: var(--color-text); letter-spacing: -0.02em; }
+    .header-subtitle { font-family: 'Rubik', sans-serif; font-size: 9px; color: var(--color-text-muted); letter-spacing: 0.1em; font-weight: 500; margin-top: -1px; line-height: 1.2; }
+
+    /* Checklist */
+    .checklist-page { padding: 50px 0 80px; }
+    .checklist-hero {
+      text-align: center;
+      margin-bottom: 50px;
+    }
+    .checklist-badge {
+      display: inline-block;
+      font-size: 10px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.12em;
+      padding: 4px 14px;
+      background: var(--color-accent-light);
+      color: var(--color-accent);
+      border-radius: 4px;
+      margin-bottom: 14px;
+    }
+    .checklist-hero h1 { font-size: clamp(28px, 3.6vw, 38px); margin-bottom: 12px; }
+    .checklist-hero p {
+      font-size: 16px;
+      color: var(--color-text-muted);
+      max-width: 520px;
+      margin: 0 auto 20px;
+    }
+
+    .checklist-print-hint {
+      font-size: 12px;
+      color: var(--color-text-muted);
+      background: var(--color-bg-alt);
+      display: inline-block;
+      padding: 4px 14px;
+      border-radius: 20px;
+    }
+
+    .step-card {
+      background: var(--color-bg-alt);
+      border-radius: var(--radius-lg);
+      padding: 30px 28px;
+      margin-bottom: 20px;
+      border: 1px solid var(--color-border);
+      transition: all 0.3s;
+    }
+    .step-card:hover {
+      border-color: rgba(196, 96, 74, 0.15);
+      box-shadow: 0 4px 16px rgba(28,30,38,0.04);
+    }
+    .step-header {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      margin-bottom: 16px;
+    }
+    .step-number {
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      background: var(--color-accent);
+      color: #fff;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: 'Rubik', sans-serif;
+      font-weight: 800;
+      font-size: 16px;
+      flex-shrink: 0;
+    }
+    .step-header h2 { font-size: 18px; margin-bottom: 0; }
+
+    .step-card p {
+      font-size: 15px;
+      color: var(--color-text-muted);
+      line-height: 1.7;
+      margin-bottom: 14px;
+    }
+
+    .checklist-items {
+      list-style: none;
+      padding: 0;
+    }
+    .checklist-items li {
+      padding: 8px 0 8px 32px;
+      position: relative;
+      font-size: 15px;
+      color: var(--color-text);
+      line-height: 1.5;
+    }
+    .checklist-items li::before {
+      content: '☐';
+      position: absolute;
+      left: 0;
+      font-size: 18px;
+      color: var(--color-accent);
+    }
+
+    .step-tip {
+      margin-top: 14px;
+      padding: 12px 16px;
+      background: var(--color-accent-light);
+      border-radius: var(--radius-sm);
+      font-size: 13px;
+      color: var(--color-text-muted);
+      line-height: 1.5;
+    }
+    .step-tip strong { color: var(--color-text); }
+
+    /* CTA */
+    .checklist-cta {
+      text-align: center;
+      margin-top: 50px;
+      padding: 40px;
+      background: var(--color-bg-alt);
+      border-radius: var(--radius-lg);
+      border: 1px solid var(--color-border);
+    }
+    .checklist-cta h2 { margin-bottom: 10px; }
+    .checklist-cta p { color: var(--color-text-muted); margin-bottom: 24px; font-size: 16px; }
+
+    .btn-primary {
+      display: inline-block;
+      font-family: 'Rubik', sans-serif;
+      font-weight: 600;
+      font-size: 16px;
+      padding: 15px 34px;
+      border-radius: var(--radius-sm);
+      background: var(--color-accent);
+      color: #fff;
+      border: none;
+      cursor: pointer;
+      transition: all 0.3s;
+      text-decoration: none;
+    }
+    .btn-primary:hover {
+      background: var(--color-accent-hover);
+      transform: translateY(-1px);
+      box-shadow: 0 4px 16px rgba(196, 96, 74, 0.25);
+      text-decoration: none;
+      color: #fff;
+    }
+
+    /* Footer */
+    footer { border-top: 1px solid var(--color-border); padding: 32px 0; text-align: center; font-size: 13px; color: var(--color-text-muted); }
+    footer a { color: var(--color-text-muted); }
+    footer a:hover { color: var(--color-accent); }
+
+    @media print {
+      header, footer, .checklist-cta, .checklist-print-hint { display: none; }
+      .step-card { break-inside: avoid; border: 1px solid #ddd; }
+      body { background: #fff; }
+    }
+    @media (max-width: 640px) {
+      .step-card { padding: 22px 18px; }
+      .checklist-cta { padding: 28px 20px; }
+    }
+  </style>
+</head>
+<body>
+
+<header>
+  <div class="header-inner">
+    <a href="index.html" class="header-brand">
+      <span class="header-name">Цифра</span>
+      <span class="header-subtitle">финансы и технологии</span>
+    </a>
+    <a href="index.html" style="font-size:13px;font-weight:600;">← На главную</a>
+  </div>
+</header>
+
+<section class="checklist-page">
+  <div class="container">
+    <div class="checklist-hero">
+      <div class="checklist-badge">Бесплатный чек-лист</div>
+      <h1>5 шагов к порядку в финансах</h1>
+      <p>Практическое руководство для владельцев малого бизнеса, маркетплейсов и онлайн-школ</p>
+      <span class="checklist-print-hint">🖨 Можно распечатать — отмечайте шаги ☐</span>
+    </div>
+
+    <!-- Step 1 -->
+    <div class="step-card">
+      <div class="step-header">
+        <div class="step-number">1</div>
+        <h2>Зафиксируйте все источники доходов</h2>
+      </div>
+      <p>Прежде чем наводить порядок, нужно понять, откуда вообще приходят деньги. Часто владельцы бизнеса называют цифру «на глаз», а реальная картина отличается.</p>
+      <ul class="checklist-items">
+        <li>Выпишите все каналы, откуда приходят деньги: касса, расчётный счёт, наличные, маркетплейсы, переводы от партнёров</li>
+        <li>Определите регулярные доходы (ежемесячные) и сезонные/разовые</li>
+        <li>Заведите таблицу доходов с разбивкой по источникам — хотя бы в Google Таблицах</li>
+      </ul>
+      <div class="step-tip"><strong>Совет:</strong> Достаточно одной недели, чтобы собрать данные и увидеть реальную структуру доходов. Не стремитесь к идеалу с первого дня — просто начните фиксировать.</div>
+    </div>
+
+    <!-- Step 2 -->
+    <div class="step-card">
+      <div class="step-header">
+        <div class="step-number">2</div>
+        <h2>Разделите расходы на категории</h2>
+      </div>
+      <p>Когда доходы учтены, смотрим на расходы. Без категорий — это просто «куда-то ушли деньги». С категориями — вы видите, на что уходит больше всего и где можно оптимизировать.</p>
+      <ul class="checklist-items">
+        <li><strong>Постоянные расходы:</strong> аренда, зарплата, подписки, связь — то, что повторяется каждый месяц</li>
+        <li><strong>Переменные расходы:</strong> реклама, закупки, логистика, комиссии — зависят от объёма продаж</li>
+        <li><strong>Личные расходы:</strong> если с бизнес-счета оплачиваете личные покупки — выделите их отдельно</li>
+        <li><strong>Налоги и сборы:</strong> откладывайте заранее, чтобы не было сюрпризов в конце квартала</li>
+      </ul>
+      <div class="step-tip"><strong>Совет:</strong> Начните с 5–7 крупных категорий. Не нужно 50 детальных статей — на старте важна общая картина.</div>
+    </div>
+
+    <!-- Step 3 -->
+    <div class="step-card">
+      <div class="step-header">
+        <div class="step-number">3</div>
+        <h2>Внедрите регулярность учёта</h2>
+      </div>
+      <p>Хаос в финансах возникает не от отсутствия системы, а от нерегулярности. Если вносить данные раз в месяц — вы ничего не увидите вовремя.</p>
+      <ul class="checklist-items">
+        <li><strong>Ежедневно:</strong> фиксация операций — 5–10 минут в день (или настройте автоматический сбор)</li>
+        <li><strong>Еженедельно:</strong> сверка остатков по всем счетам и кассам — 20–30 минут</li>
+        <li><strong>Ежемесячно:</strong> полный отчёт — ОПиУ (сколько заработали) и ДДС (движение денег)</li>
+      </ul>
+      <div class="step-tip"><strong>Совет:</strong> Закрепите конкретное время в календаре. Например, «пятница, 10:00 — сверка за неделю». Когда это привычка, а не подвиг — работает без усилий.</div>
+    </div>
+
+    <!-- Step 4 -->
+    <div class="step-card">
+      <div class="step-header">
+        <div class="step-number">4</div>
+        <h2>Настройте простую отчётность</h2>
+      </div>
+      <p>Отчёты нужны не бухгалтеру, а вам — для решений. Не нужно осваивать сложные системы. Два базовых отчёта дают 80% нужной информации.</p>
+      <ul class="checklist-items">
+        <li><strong>ДДС (движение денежных средств):</strong> сколько денег пришло, сколько ушло, сколько осталось на счетах — простой поток</li>
+        <li><strong>ОПиУ (отчёт о прибылях и убытках):</strong> сколько вы заработали на самом деле, с учётом всех расходов и налогов</li>
+        <li><strong>Платежный календарь:</strong> какие платежи вас ждут в ближайшие 2–4 недели — чтобы не было кассовых разрывов</li>
+      </ul>
+      <div class="step-tip"><strong>Совет:</strong> ОПиУ и ДДС — это разные вещи. ДДС показывает, сколько денег в кассе. ОПиУ — заработали вы или нет. Часто бизнес «в деньгах», но в минусе. И наоборот.</div>
+    </div>
+
+    <!-- Step 5 -->
+    <div class="step-card">
+      <div class="step-header">
+        <div class="step-number">5</div>
+        <h2>Автоматизируйте сбор данных</h2>
+      </div>
+      <p>Ручной учёт — это надёжно, но отнимает время. Когда данные собираются автоматически — вы просто открываете отчёт и видите картину. Без вечеров за таблицами.</p>
+      <ul class="checklist-items">
+        <li>Подключите банк к таблицам — выписки приходят автоматически</li>
+        <li>Настройте выгрузку из кабинета маркетплейса (Wildberries, Ozon) — данные по продажам и комиссиям</li>
+        <li>Используйте Telegram-бота для быстрого ввода расходов — на ходу, без накопления чеков</li>
+        <li>Свяжите кассу и CRM — чтобы заказы сразу попадали в учёт</li>
+      </ul>
+      <div class="step-tip"><strong>Совет:</strong> Не пытайтесь автоматизировать всё сразу. Выберите один самый болезненный процесс (чаще всего — сбор данных из маркетплейсов) и начните с него. Остальное подключите потом.</div>
+    </div>
+
+    <div class="checklist-cta">
+      <h2>Нужна помощь с внедрением?</h2>
+      <p>Мы поможем настроить учёт и автоматизировать сбор данных за 1–2 недели</p>
+      <a href="index.html#contact" class="btn-primary">Заказать консультацию 15 мин →</a>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="container">
+    <p>Цифра — технологии и финансы &copy; 2026 | <a href="privacy-policy.html">Политика конфиденциальности</a></p>
+  </div>
+</footer>
+
+</body>
+</html>

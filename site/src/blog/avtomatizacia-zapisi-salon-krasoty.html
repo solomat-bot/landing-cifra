@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Бот для записи: как не терять клиентов и экономить 5+ часов в неделю | Цифра</title>
+  <meta name="description" content="Пошаговый гайд для мастеров красоты: как Telegram-бот помогает не терять клиентов, автоматически напоминать о записи и вести учёт." />
+  <meta name="keywords" content="бот для записи, telegram бот для записи клиентов, автоматизация записи, бот для косметолога" />
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Rubik:wght@400;500;600;700;800;900&family=PT+Sans:wght@400;700&display=swap" rel="stylesheet" />
+
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --color-bg: #F9F7F4;
+      --color-bg-alt: #F0EDE6;
+      --color-text: #1C1E26;
+      --color-text-muted: #5D5F6E;
+      --color-accent: #C4604A;
+      --color-accent-hover: #A94F3B;
+      --color-accent-light: rgba(196, 96, 74, 0.07);
+      --color-secondary: #3A5A6E;
+      --color-border: rgba(28, 30, 38, 0.07);
+      --container: 760px;
+      --radius-sm: 6px;
+      --radius-md: 12px;
+      --radius-lg: 18px;
+    }
+    body {
+      font-family: 'PT Sans', sans-serif;
+      font-size: 17px;
+      line-height: 1.7;
+      color: var(--color-text);
+      background: var(--color-bg);
+      -webkit-font-smoothing: antialiased;
+    }
+    .container { max-width: var(--container); margin: 0 auto; padding: 0 24px; }
+    h1, h2, h3 { font-family: 'Rubik', sans-serif; font-weight: 800; line-height: 1.2; color: var(--color-text); }
+    a { color: var(--color-accent); text-decoration: none; }
+    a:hover { color: var(--color-accent-hover); text-decoration: underline; }
+
+    /* Header */
+    header {
+      padding: 16px 0;
+      border-bottom: 1px solid var(--color-border);
+      position: sticky; top: 0; z-index: 100;
+      backdrop-filter: blur(10px);
+      background: rgba(249, 247, 244, 0.92);
+    }
+    .header-inner {
+      max-width: 1160px;
+      margin: 0 auto;
+      padding: 0 24px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .header-brand { display: flex; flex-direction: column; text-decoration: none; }
+    .header-name { font-family: 'Rubik', sans-serif; font-weight: 900; font-size: 20px; color: var(--color-text); letter-spacing: -0.02em; }
+    .header-subtitle { font-family: 'Rubik', sans-serif; font-size: 9px; color: var(--color-text-muted); letter-spacing: 0.1em; font-weight: 500; margin-top: -1px; line-height: 1.2; }
+    .header-nav a { font-size: 14px; color: var(--color-text-muted); text-decoration: none; margin-left: 24px; font-family: 'Rubik', sans-serif; font-weight: 500; transition: color 0.2s; }
+    .header-nav a:hover { color: var(--color-accent); text-decoration: none; }
+
+    /* Article */
+    .article { padding: 60px 0 80px; }
+    .article-meta {
+      font-size: 12px;
+      color: var(--color-accent);
+      margin-bottom: 12px;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      font-weight: 600;
+    }
+    .article h1 { font-size: clamp(26px, 3.6vw, 38px); margin-bottom: 16px; }
+    .article .lead {
+      font-size: 18px;
+      color: var(--color-text-muted);
+      margin-bottom: 32px;
+      line-height: 1.7;
+    }
+    .article h2 { font-size: 24px; margin: 40px 0 14px; }
+    .article p { margin-bottom: 16px; color: var(--color-text-muted); }
+    .article ul, .article ol { margin: 16px 0 24px 24px; color: var(--color-text-muted); }
+    .article li { margin-bottom: 8px; }
+    .article strong { color: var(--color-text); }
+    .article .highlight-box {
+      background: var(--color-accent-light);
+      border-left: 3px solid var(--color-accent);
+      padding: 18px 22px;
+      border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
+      margin: 24px 0;
+    }
+    .article .highlight-box p { margin-bottom: 0; }
+    .article .cta-box {
+      background: var(--color-bg-alt);
+      border-radius: var(--radius-lg);
+      padding: 32px;
+      text-align: center;
+      margin: 40px 0;
+      border: 1px solid var(--color-border);
+    }
+    .article .cta-box h3 { margin-bottom: 12px; }
+    .article .cta-box p { margin-bottom: 20px; }
+    .btn-primary {
+      display: inline-block;
+      background: var(--color-accent);
+      color: #fff;
+      font-family: 'Rubik', sans-serif;
+      font-weight: 600;
+      font-size: 15px;
+      padding: 13px 30px;
+      border-radius: var(--radius-sm);
+      text-decoration: none;
+      transition: all 0.3s;
+    }
+    .btn-primary:hover { background: var(--color-accent-hover); text-decoration: none; color: #fff; transform: translateY(-1px); }
+    .back-link {
+      display: inline-block;
+      margin-bottom: 24px;
+      color: var(--color-accent);
+      font-weight: 600;
+      text-decoration: none;
+      font-size: 14px;
+    }
+    .back-link:hover { text-decoration: underline; }
+
+    /* Footer */
+    footer { border-top: 1px solid var(--color-border); padding: 32px 0; text-align: center; font-size: 13px; color: var(--color-text-muted); }
+    footer a { color: var(--color-text-muted); }
+    footer a:hover { color: var(--color-accent); }
+  </style>
+</head>
+<body>
+
+<header>
+  <div class="header-inner">
+    <a href="../index.html" class="header-brand">
+      <span class="header-name">Цифра</span>
+      <span class="header-subtitle">финансы и технологии</span>
+    </a>
+    <nav class="header-nav">
+      <a href="../index.html#tech-services">Сайты и боты</a>
+      <a href="../index.html#contact">Контакты</a>
+    </nav>
+  </div>
+</header>
+
+<section class="article">
+  <div class="container">
+    <a href="../blog.html" class="back-link">&larr; Все статьи</a>
+    <div class="article-meta">Автоматизация • Боты • Июнь 2026</div>
+    <h1>Бот для записи: как мастеру красоты не терять клиентов и экономить 5+ часов в неделю</h1>
+    <p class="lead">
+      Если вы мастер маникюра, косметолог или бровист — вы знаете эту боль:
+      клиенты пишут в Telegram, вы отвлекаетесь от работы, путаете время, забываете напомнить.
+      А потом клиент не приходит, и вы теряете деньги. Рассказываю, как это исправить.
+    </p>
+
+    <h2>Почему «записать в заметки» больше не работает</h2>
+    <p>
+      Когда вы работаете сами на себя — каждый клиент на счету. Но чем больше клиентов,
+      тем сложнее удерживать всё в голове или в заметках телефона.
+    </p>
+    <p>
+      По статистике, мастера тратят до <strong>5–10 часов в неделю</strong> только на переписку:
+      отвечают на вопросы, согласовывают время, напоминают о записи.
+      Это время можно было бы потратить на дополнительный приём или отдых.
+    </p>
+
+    <div class="highlight-box">
+      <p><strong>Цифра:</strong> 70% сообщений от клиентов — это стандартные вопросы: «Есть окошко?», «Сколько стоит?», «Можно перенести?». На них может отвечать бот — быстро и без ошибок.</p>
+    </div>
+
+    <h2>Как выглядит автоматизация на практике</h2>
+    <p>Представьте: клиентка хочет записаться на маникюр. Вместо того чтобы писать вам и ждать ответа, она:</p>
+    <ol>
+      <li>Заходит в вашего Telegram-бота</li>
+      <li>Нажимает «Записаться»</li>
+      <li>Выбирает услугу из списка</li>
+      <li>Видит свободные окна — выбирает удобное время</li>
+      <li>Вводит имя и номер телефона</li>
+      <li>Получает подтверждение и напоминание за 2 часа до визита</li>
+    </ol>
+    <p>Всё. Заявка уже в Google-таблице, вы видите запись, клиент получил напоминание. <strong>Ни одного лишнего сообщения.</strong></p>
+
+    <h2>Какие задачи решает бот</h2>
+    <ul>
+      <li><strong>Приём заявок 24/7</strong> — клиенты записываются даже ночью, пока вы спите</li>
+      <li><strong>Автоматические напоминания</strong> — клиенты перестают забывать о записи</li>
+      <li><strong>Единая база</strong> — Google-таблица, где видно всё расписание</li>
+      <li><strong>Ничего не теряется</strong> — имена, телефоны, услуги сохраняются автоматически</li>
+      <li><strong>Экономия времени</strong> — до 5 часов в неделю, которые вы тратили на переписку</li>
+    </ul>
+
+    <div class="highlight-box">
+      <p><strong>Для сравнения:</strong> крупные салоны используют YClients — это CRM с абонентской платой от 15 000 ₽/мес. Вам как частному мастеру это ни к чему. Бот от 5 000 ₽ решает те же задачи — запись, напоминания, учёт — без переплат.</p>
+    </div>
+
+    <h2>Сколько это стоит?</h2>
+    <p>
+      В студиях разработка такого бота стоит от 50 000 до 150 000 ₽.
+      У нас — от <strong>5 000 ₽</strong> (на старте портфолио первые проекты по спеццене).
+    </p>
+    <p>
+      В пакет входит: бот записи, связка с Google-таблицей, настройка напоминаний, обучение и поддержка.
+    </p>
+
+    <h2>3 шага к автоматизации</h2>
+    <ol>
+      <li><strong>Напишите нам</strong> в Telegram — расскажите о своей сфере</li>
+      <li><strong>Мы предлагаем решение</strong> — подходящий функционал и цену</li>
+      <li><strong>Через 3–5 дней</strong> бот уже работает и принимает записи</li>
+    </ol>
+
+    <div class="cta-box">
+      <h3>Хотите так же?</h3>
+      <p>Напишите в Telegram — бесплатно проанализируем вашу ситуацию и скажем, как сэкономить время и не терять клиентов.</p>
+      <a href="https://t.me/solstudio_ai" class="btn-primary" target="_blank">Написать нам</a>
+    </div>
+
+    <p><strong>Читайте также:</strong></p>
+    <ul>
+      <li><a href="#">5 признаков, что вашему бизнесу нужен Telegram-бот</a> (скоро)</li>
+      <li><a href="#">Чек-лист: готов ли ваш бизнес к автоматизации?</a> (скоро)</li>
+    </ul>
+  </div>
+</section>
+
+<footer>
+  <div class="container">
+    <p>Цифра — технологии и финансы &copy; 2026 | <a href="../privacy-policy.html">Политика конфиденциальности</a></p>
+  </div>
+</footer>
+
+</body>
+</html>

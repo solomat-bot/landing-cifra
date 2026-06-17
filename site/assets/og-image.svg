@@ -1,0 +1,64 @@
+<svg width="1200" height="630" viewBox="0 0 1200 630" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <!-- Background -->
+  <rect width="1200" height="630" fill="#F9F7F4"/>
+
+  <!-- Warm accent overlay -->
+  <rect width="1200" height="630" fill="url(#grad)" opacity="0.04"/>
+  <defs>
+    <linearGradient id="grad" x1="0" y1="0" x2="1200" y2="630">
+      <stop offset="0%" stop-color="#C4604A"/>
+      <stop offset="100%" stop-color="#3A5A6E"/>
+    </linearGradient>
+  </defs>
+
+  <!-- Subtle decorative circles -->
+  <circle cx="1050" cy="100" r="200" stroke="#C4604A" stroke-width="0.5" fill="none" opacity="0.08"/>
+  <circle cx="1050" cy="100" r="150" stroke="#C4604A" stroke-width="0.5" fill="none" opacity="0.06"/>
+  <circle cx="1050" cy="100" r="100" stroke="#C4604A" stroke-width="0.5" fill="none" opacity="0.04"/>
+
+  <!-- Chart bars decorative -->
+  <rect x="920" y="260" width="16" height="80" rx="4" fill="#C4604A" opacity="0.12"/>
+  <rect x="948" y="230" width="16" height="110" rx="4" fill="#C4604A" opacity="0.2"/>
+  <rect x="976" y="210" width="16" height="130" rx="4" fill="#C4604A" opacity="0.3"/>
+  <rect x="1004" y="170" width="16" height="170" rx="4" fill="#C4604A" opacity="0.45"/>
+  <rect x="1032" y="120" width="16" height="220" rx="4" fill="#C4604A" opacity="0.7"/>
+  <rect x="1060" y="150" width="14" height="190" rx="3" fill="#3A5A6E" opacity="0.15"/>
+  <rect x="1084" y="190" width="14" height="150" rx="3" fill="#3A5A6E" opacity="0.1"/>
+  <rect x="1108" y="140" width="14" height="200" rx="3" fill="#3A5A6E" opacity="0.2"/>
+
+  <!-- Line graph -->
+  <path d="M910 350 L950 310 L990 330 L1030 270 L1070 250 L1110 220" stroke="#C4604A" stroke-width="2" fill="none" stroke-linecap="round" opacity="0.15"/>
+  <circle cx="950" cy="310" r="4" fill="#C4604A" opacity="0.2"/>
+  <circle cx="1030" cy="270" r="5" fill="#C4604A" opacity="0.3"/>
+  <circle cx="1070" cy="250" r="4" fill="#C4604A" opacity="0.2"/>
+
+  <!-- Decorative dots bottom left -->
+  <circle cx="60" cy="540" r="3" fill="#C4604A" opacity="0.06"/>
+  <circle cx="76" cy="540" r="3" fill="#C4604A" opacity="0.06"/>
+  <circle cx="92" cy="540" r="3" fill="#C4604A" opacity="0.06"/>
+  <circle cx="60" cy="556" r="3" fill="#C4604A" opacity="0.06"/>
+  <circle cx="76" cy="556" r="3" fill="#C4604A" opacity="0.06"/>
+  <circle cx="92" cy="556" r="3" fill="#C4604A" opacity="0.06"/>
+
+  <!-- Vertical line accent left -->
+  <rect x="70" y="140" width="3" height="80" rx="1.5" fill="#C4604A" opacity="0.15"/>
+  <rect x="70" y="140" width="3" height="40" rx="1.5" fill="#C4604A" opacity="0.35"/>
+
+  <!-- Brand name -->
+  <text x="90" y="220" font-family="system-ui, -apple-system, sans-serif" font-weight="900" font-size="64" fill="#1C1E26" letter-spacing="-0.03">Цифра</text>
+
+  <!-- Tagline -->
+  <text x="90" y="270" font-family="system-ui, -apple-system, sans-serif" font-weight="400" font-size="26" fill="#5D5F6E">Технологии и финансы для вашего бизнеса</text>
+
+  <!-- Description -->
+  <text x="90" y="320" font-family="system-ui, -apple-system, sans-serif" font-weight="400" font-size="20" fill="#5D5F6E" opacity="0.8">Управленческий учёт · Автоматизация · Финансовое сопровождение</text>
+
+  <!-- CTA text box -->
+  <rect x="88" y="362" width="260" height="50" rx="8" fill="#C4604A"/>
+  <text x="218" y="394" font-family="system-ui, -apple-system, sans-serif" font-weight="600" font-size="18" fill="#FFFFFF" text-anchor="middle">Бесплатная консультация</text>
+
+  <!-- Bottom stripe -->
+  <rect x="0" y="580" width="1200" height="50" fill="#1C1E26" opacity="0.03"/>
+  <text x="90" y="612" font-family="system-ui, -apple-system, sans-serif" font-weight="400" font-size="15" fill="#5D5F6E">cifra.ru</text>
+  <text x="1140" y="612" font-family="system-ui, -apple-system, sans-serif" font-weight="400" font-size="15" fill="#5D5F6E" text-anchor="end">Прозрачно · Фиксированные цены · 14 дней правок</text>
+</svg>

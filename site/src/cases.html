@@ -1,0 +1,530 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Кейсы — Цифра | Реальные проекты и результаты</title>
+  <meta name="description" content="Реальные кейсы финансового учёта, Telegram-ботов и AI-ассистентов от команды «Цифра». Результаты в цифрах и экономия времени." />
+
+  <meta property="og:title" content="Кейсы — Цифра | Реальные проекты и результаты" />
+  <meta property="og:description" content="Примеры проектов по фин учёту, автоматизации и AI-ассистентам." />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://site-iota-bice.vercel.app/cases.html" />
+  <meta property="og:locale" content="ru_RU" />
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Rubik:wght@400;500;600;700;800;900&family=PT+Sans:wght@400;700&display=swap" rel="stylesheet" />
+
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+
+    :root {
+      --color-bg: #F9F7F4;
+      --color-bg-alt: #F0EDE6;
+      --color-text: #1C1E26;
+      --color-text-muted: #5D5F6E;
+      --color-accent: #C4604A;
+      --color-accent-hover: #A94F3B;
+      --color-accent-light: rgba(196, 96, 74, 0.07);
+      --color-secondary: #3A5A6E;
+      --color-secondary-light: rgba(58, 90, 110, 0.07);
+      --color-border: rgba(28, 30, 38, 0.07);
+      --color-shadow: rgba(28, 30, 38, 0.04);
+      --color-success: #3D7A5E;
+      --container: 860px;
+      --radius-sm: 6px;
+      --radius-md: 12px;
+      --radius-lg: 18px;
+    }
+
+    body {
+      font-family: 'PT Sans', sans-serif;
+      font-size: 17px;
+      line-height: 1.6;
+      color: var(--color-text);
+      background: var(--color-bg);
+      -webkit-font-smoothing: antialiased;
+    }
+
+    .container { max-width: var(--container); margin: 0 auto; padding: 0 24px; }
+
+    h1, h2, h3 { font-family: 'Rubik', sans-serif; font-weight: 800; line-height: 1.15; color: var(--color-text); }
+    h1 { font-size: clamp(30px, 4vw, 42px); }
+    h2 { font-size: clamp(22px, 2.8vw, 30px); margin-bottom: 16px; }
+    h3 { font-size: clamp(17px, 1.6vw, 20px); margin-bottom: 10px; }
+
+    a { color: var(--color-accent); text-decoration: none; }
+    a:hover { color: var(--color-accent-hover); text-decoration: underline; }
+    img { max-width: 100%; display: block; }
+
+    /* HEADER */
+    header {
+      padding: 16px 0;
+      border-bottom: 1px solid var(--color-border);
+      position: sticky; top: 0; z-index: 100;
+      backdrop-filter: blur(10px);
+      background: rgba(249, 247, 244, 0.92);
+    }
+    .header-inner { display: flex; justify-content: space-between; align-items: center; }
+    .header-brand { display: flex; flex-direction: column; text-decoration: none; }
+    .header-name {
+      font-family: 'Rubik', sans-serif;
+      font-weight: 900;
+      font-size: 20px;
+      color: var(--color-text);
+      letter-spacing: -0.02em;
+    }
+    .header-subtitle {
+      font-family: 'Rubik', sans-serif;
+      font-size: 9px;
+      color: var(--color-text-muted);
+      letter-spacing: 0.1em;
+      font-weight: 500;
+      margin-top: -1px;
+      line-height: 1.2;
+    }
+    .header-back {
+      font-family: 'Rubik', sans-serif;
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--color-accent);
+      text-decoration: none;
+    }
+    .header-back:hover { text-decoration: underline; }
+
+    /* HERO */
+    .case-hero {
+      padding: 60px 0 40px;
+      text-align: center;
+    }
+    .case-tag {
+      display: inline-block;
+      font-size: 10px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.08em;
+      padding: 4px 12px;
+      background: var(--color-accent-light);
+      color: var(--color-accent);
+      border-radius: 4px;
+      margin-bottom: 12px;
+    }
+    .case-hero h1 { margin-bottom: 14px; }
+    .case-hero p {
+      font-size: 16px;
+      color: var(--color-text-muted);
+      max-width: 580px;
+      margin: 0 auto;
+    }
+
+    /* METRICS */
+    .case-metrics {
+      display: flex;
+      justify-content: center;
+      gap: 32px;
+      margin: 32px 0 40px;
+      flex-wrap: wrap;
+    }
+    .case-metric {
+      text-align: center;
+    }
+    .case-metric-value {
+      font-family: 'Rubik', sans-serif;
+      font-weight: 900;
+      font-size: clamp(28px, 3vw, 38px);
+      color: var(--color-accent);
+      line-height: 1;
+    }
+    .case-metric-label {
+      font-size: 12px;
+      color: var(--color-text-muted);
+      margin-top: 4px;
+    }
+
+    /* CONTENT */
+    .case-section {
+      padding: 40px 0;
+      border-bottom: 1px solid var(--color-border);
+    }
+    .case-section:last-of-type { border-bottom: none; }
+    .case-section p {
+      color: var(--color-text-muted);
+      font-size: 16px;
+      line-height: 1.7;
+      margin-bottom: 14px;
+    }
+    .case-section ul {
+      list-style: none;
+      margin: 16px 0;
+    }
+    .case-section ul li {
+      color: var(--color-text-muted);
+      font-size: 15px;
+      padding: 6px 0 6px 24px;
+      position: relative;
+    }
+    .case-section ul li::before {
+      content: '✓';
+      position: absolute;
+      left: 0;
+      color: var(--color-accent);
+      font-weight: 700;
+    }
+
+    .case-highlight {
+      background: var(--color-accent-light);
+      border-left: 3px solid var(--color-accent);
+      padding: 20px 22px;
+      border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
+      margin: 20px 0;
+    }
+    .case-highlight p {
+      margin-bottom: 0;
+      font-size: 15px;
+    }
+    .case-highlight strong { color: var(--color-text); }
+
+    /* CTA */
+    .case-cta {
+      text-align: center;
+      padding: 50px 0 60px;
+      background: var(--color-bg-alt);
+      border-radius: var(--radius-lg);
+      margin: 40px 0 60px;
+    }
+    .case-cta h2 { margin-bottom: 10px; }
+    .case-cta p {
+      color: var(--color-text-muted);
+      margin-bottom: 24px;
+      font-size: 16px;
+    }
+    .btn-primary {
+      display: inline-block;
+      font-family: 'Rubik', sans-serif;
+      font-weight: 600;
+      font-size: 16px;
+      padding: 15px 34px;
+      border-radius: var(--radius-sm);
+      background: var(--color-accent);
+      color: #fff;
+      border: none;
+      cursor: pointer;
+      transition: all 0.3s;
+      text-decoration: none;
+    }
+    .btn-primary:hover {
+      background: var(--color-accent-hover);
+      transform: translateY(-1px);
+      box-shadow: 0 4px 16px rgba(196, 96, 74, 0.25);
+      text-decoration: none;
+      color: #fff;
+    }
+    .btn-secondary {
+      display: inline-block;
+      font-family: 'Rubik', sans-serif;
+      font-weight: 600;
+      font-size: 14px;
+      padding: 11px 24px;
+      border-radius: var(--radius-sm);
+      background: transparent;
+      color: var(--color-text);
+      border: 1px solid var(--color-border);
+      cursor: pointer;
+      transition: all 0.3s;
+      text-decoration: none;
+      margin-top: 12px;
+      margin-left: 10px;
+    }
+    .btn-secondary:hover {
+      border-color: var(--color-accent);
+      color: var(--color-accent);
+      text-decoration: none;
+    }
+
+    /* FOOTER */
+    footer { border-top: 1px solid var(--color-border); padding: 36px 0; }
+    .footer-inner { display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 16px; }
+    .footer-name { font-family: 'Rubik', sans-serif; font-weight: 800; font-size: 15px; color: var(--color-text); }
+    .footer-meta { font-size: 12px; color: var(--color-text-muted); }
+    .footer-links { display: flex; gap: 20px; font-size: 13px; }
+    .footer-links a { color: var(--color-text-muted); transition: color 0.2s; }
+    .footer-links a:hover { color: var(--color-accent); }
+
+    /* Cases selector */
+    .case-page { display: none; }
+    .case-page--active { display: block; }
+
+    .case-nav-list {
+      max-width: 580px;
+      margin: 0 auto;
+      padding: 40px 0;
+      text-align: center;
+    }
+    .case-nav-list h2 { margin-bottom: 12px; }
+    .case-nav-list p { color: var(--color-text-muted); margin-bottom: 20px; }
+    .case-nav-cards {
+      display: grid;
+      gap: 12px;
+    }
+    .case-nav-card {
+      display: block;
+      padding: 14px 18px;
+      border: 1px solid var(--color-border);
+      border-radius: var(--radius-sm);
+      background: var(--color-bg);
+      color: var(--color-text);
+      font-family: 'Rubik', sans-serif;
+      font-weight: 600;
+      font-size: 14px;
+      transition: all 0.3s;
+      text-decoration: none;
+    }
+    .case-nav-card:hover {
+      border-color: var(--color-accent);
+      background: var(--color-accent-light);
+      text-decoration: none;
+      color: var(--color-text);
+    }
+
+    @media (max-width: 768px) {
+      .case-metrics { gap: 20px; }
+      .header-inner { gap: 12px; }
+      .case-cta { padding: 36px 20px 44px; }
+      .footer-inner { flex-direction: column; text-align: center; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- HEADER -->
+  <header>
+    <div class="container header-inner">
+      <a href="index.html" class="header-brand">
+        <span class="header-name">Цифра</span>
+        <span class="header-subtitle">финансы и технологии</span>
+      </a>
+      <a href="index.html" class="header-back">← На главную</a>
+    </div>
+  </header>
+
+  <!-- CASE SELECTOR (shown when no hash) -->
+  <div id="case-selector" class="case-page case-page--active">
+    <div class="container">
+      <div class="case-nav-list">
+        <div class="case-tag" style="margin-bottom:12px;">Кейсы</div>
+        <h2>Реальные проекты и результаты</h2>
+        <p>Выберите кейс, чтобы посмотреть подробности</p>
+        <div class="case-nav-cards">
+          <a href="#case-1" class="case-nav-card" onclick="showCase('case-1')">
+            📊 Автоматизация учёта для магазина на Wildberries
+          </a>
+          <a href="#case-2" class="case-nav-card" onclick="showCase('case-2')">
+            🤖 Бот для записи в салон красоты
+          </a>
+        </div>
+        <a href="index.html" style="display:inline-block;margin-top:20px;font-size:14px;">← На главную</a>
+      </div>
+    </div>
+  </div>
+
+  <!-- CASE 1: Wildberries Accounting -->
+  <div id="case-1" class="case-page">
+    <div class="container">
+      <div class="case-hero">
+        <span class="case-tag">Финансовый учёт</span>
+        <h1>Автоматизация учёта для магазина на Wildberries</h1>
+        <p>Как мы соединили 5 кабинетов WB в одну таблицу и вернули владельцу 15 часов в неделю</p>
+      </div>
+
+      <div class="case-metrics">
+        <div class="case-metric">
+          <div class="case-metric-value">15 ч/нед</div>
+          <div class="case-metric-label">Экономии времени</div>
+        </div>
+        <div class="case-metric">
+          <div class="case-metric-value">5</div>
+          <div class="case-metric-label">Кабинетов WB объединены</div>
+        </div>
+        <div class="case-metric">
+          <div class="case-metric-value">−100%</div>
+          <div class="case-metric-label">Ручного переноса данных</div>
+        </div>
+        <div class="case-metric">
+          <div class="case-metric-value">2 недели</div>
+          <div class="case-metric-label">На внедрение</div>
+        </div>
+      </div>
+
+      <div class="case-section">
+        <h2>Контекст</h2>
+        <p>Владелец магазина одежды на Wildberries — 5 кабинетов, общий оборот около 3 млн ₽/мес. До знакомства с нами учёт вёлся в Excel «на коленке»: раз в неделю владелец вручную выгружал отчёты из каждого кабинета, сводил их в таблицу и пытался понять, заработал или нет.</p>
+        <div class="case-highlight">
+          <p><strong>Проблема:</strong> «Я тратил каждую субботу на отчёты. Данные из кабинетов не сходились, налоги считал примерно. Чувствовал, что деньги утекают, но не видел, куда».</p>
+        </div>
+      </div>
+
+      <div class="case-section">
+        <h2>Что сделали</h2>
+        <ul>
+          <li>Настроили автоматическую выгрузку данных из 5 кабинетов WB в единую Google-таблицу</li>
+          <li>Разработали структуру отчётов: ОПиУ (прибыли/убытки), ДДС (движение денег), ABC-анализ товаров</li>
+          <li>Добавили платёжный календарь для контроля расходов (закупка, логистика, комиссии)</li>
+          <li>Настроили еженедельное обновление — владелец просто открывает таблицу и видит картину</li>
+          <li>Провели два обучения: как читать отчёты и как принимать решения на основе цифр</li>
+        </ul>
+      </div>
+
+      <div class="case-section">
+        <h2>Результат</h2>
+        <ul>
+          <li><strong>15 часов в неделю</strong> — столько владелец экономит на ручном сборе данных</li>
+          <li><strong>Полная прозрачность</strong> — видно реальную прибыль по каждому кабинету и товару</li>
+          <li><strong>ABC-анализ</strong> показал, что 20% товаров приносят 80% прибыли — скорректировали закупки</li>
+          <li><strong>Платежный календарь</strong> — ни одного просроченного платежа и штрафа за 3 месяца</li>
+        </ul>
+      </div>
+
+      <div class="case-section">
+        <h2>Отзыв клиента</h2>
+        <div class="case-highlight">
+          <p>«Раньше я каждые выходные просиживал за таблицами. Теперь открываю готовый отчёт в понедельник утром — и вижу, сколько заработал, какие товары тянут в минус, сколько нужно на налоги. Это избавило от постоянной тревоги».</p>
+        </div>
+      </div>
+
+      <div class="case-cta">
+        <h2>Хотите так же?</h2>
+        <p>Настроим учёт для вашего бизнеса за 1–2 недели</p>
+        <a href="index.html#contact" class="btn-primary">Заказать консультацию 15 мин</a>
+        <a href="index.html" class="btn-secondary">← На главную</a>
+      </div>
+    </div>
+  </div>
+
+  <!-- CASE 2: Bot for beauty salon -->
+  <div id="case-2" class="case-page">
+    <div class="container">
+      <div class="case-hero">
+        <span class="case-tag">Telegram-бот</span>
+        <h1>Бот для записи в салон красоты</h1>
+        <p>Как мы автоматизировали запись и снизили неявки на 30% с помощью Telegram-бота</p>
+      </div>
+
+      <div class="case-metrics">
+        <div class="case-metric">
+          <div class="case-metric-value">−30%</div>
+          <div class="case-metric-label">Неявок</div>
+        </div>
+        <div class="case-metric">
+          <div class="case-metric-value">5+ ч/нед</div>
+          <div class="case-metric-label">Экономии времени мастера</div>
+        </div>
+        <div class="case-metric">
+          <div class="case-metric-value">24/7</div>
+          <div class="case-metric-label">Запись без выходных</div>
+        </div>
+        <div class="case-metric">
+          <div class="case-metric-value">4 дня</div>
+          <div class="case-metric-label">На разработку</div>
+        </div>
+      </div>
+
+      <div class="case-section">
+        <h2>Контекст</h2>
+        <p>Небольшой салон красоты в спальном районе: 2 мастера, около 40 клиентов в неделю. Запись велась в Instagram Direct и WhatsApp — сообщения терялись, мастер забывал подтвердить, клиенты не приходили. Потеря выручки из-за неявок — около 15%.</p>
+        <div class="case-highlight">
+          <p><strong>Проблема:</strong> «Я физически не успевала отвечать на сообщения во время работы. Клиенты писали в Instagram, я переносила в блокнот, потом напоминала за час. Если забывала — приходил не тот, кто записался, или никто».</p>
+        </div>
+      </div>
+
+      <div class="case-section">
+        <h2>Что сделали</h2>
+        <ul>
+          <li>Разработали Telegram-бота с каталогом услуг (фото, описание, цена)</li>
+          <li>Реализовали выбор свободного времени из актуального расписания</li>
+          <li>Настроили автоматические напоминания за 24 часа и за 2 часа до записи</li>
+          <li>Добавили кнопку «Отменить» — если клиент отменяет, слот сразу освобождается</li>
+          <li>Интегрировали базу клиентов с историей посещений</li>
+        </ul>
+      </div>
+
+      <div class="case-section">
+        <h2>Результат</h2>
+        <ul>
+          <li><strong>Снижение неявок на 30%</strong> — автоматические напоминания решили проблему забывчивости</li>
+          <li><strong>Экономия 5+ часов в неделю</strong> — мастер больше не тратит время на переписку</li>
+          <li><strong>Запись 24/7</strong> — клиенты записываются ночью, в выходные, в нерабочее время</li>
+          <li><strong>Ни одного потерянного сообщения</strong> — вся запись в одном месте, ничего не теряется</li>
+          <li><strong>Окупился за месяц</strong> — стоимость разработки = выручка от 2-х спасённых записей</li>
+        </ul>
+      </div>
+
+      <div class="case-section">
+        <h2>Отзыв клиента</h2>
+        <div class="case-highlight">
+          <p>«Я боялась, что бот — это сложно и дорого. Оказалось, что за 4 дня сделали, и стоит как один абонемент. Теперь клиенты сами записываются, напоминалки приходят, я перестала отвечать на сообщения по вечерам. Лучшее вложение в бизнес».</p>
+        </div>
+      </div>
+
+      <div class="case-cta">
+        <h2>Хотите такой же бот?</h2>
+        <p>Разработаем Telegram-бота для вашего бизнеса от 5 000 ₽</p>
+        <a href="index.html#contact" class="btn-primary">Заказать разработку</a>
+        <a href="index.html" class="btn-secondary">← На главную</a>
+      </div>
+    </div>
+  </div>
+
+  <!-- FOOTER -->
+  <footer>
+    <div class="container footer-inner">
+      <div>
+        <span class="footer-name">Цифра</span>
+        <span style="display:block;font-family:'Rubik',sans-serif;font-size:9px;color:var(--color-text-muted);letter-spacing:0.1em;font-weight:500;margin-top:2px;">финансы и технологии</span>
+      </div>
+      <span class="footer-meta">Технологии и финансы &copy; 2026</span>
+      <div class="footer-links">
+        <a href="https://t.me/solstudio_ai" target="_blank">Telegram</a>
+        <a href="privacy-policy.html" target="_blank">Политика конфиденциальности</a>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    // Hash-based case routing
+    function showCase(id) {
+      document.querySelectorAll('.case-page').forEach(el => el.classList.remove('case-page--active'));
+      const target = document.getElementById(id);
+      if (target) {
+        target.classList.add('case-page--active');
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+      }
+    }
+
+    function handleHash() {
+      const hash = window.location.hash.replace('#', '');
+      if (hash && document.getElementById(hash)) {
+        showCase(hash);
+      } else {
+        document.getElementById('case-selector').classList.add('case-page--active');
+      }
+    }
+
+    // Handle initial hash
+    window.addEventListener('DOMContentLoaded', handleHash);
+
+    // Handle hash change (when clicking nav links)
+    window.addEventListener('hashchange', handleHash);
+
+    // Handle clicks on case-nav-card links
+    document.querySelectorAll('a[href^="#case-"]').forEach(link => {
+      link.addEventListener('click', function(e) {
+        const hash = this.getAttribute('href').replace('#', '');
+        if (document.getElementById(hash)) {
+          e.preventDefault();
+          window.location.hash = hash;
+          showCase(hash);
+        }
+      });
+    });
+  </script>
+</body>
+</html>

@@ -1,0 +1,354 @@
+// Telegram Bot Webhook — @CifraConsultBot продажник
+// Установка webhook: https://api.telegram.org/bot<TOKEN>/setWebhook?url=https://site-iota-bice.vercel.app/api/bot
+// Удалить: https://api.telegram.org/bot<TOKEN>/deleteWebhook
+
+const TELEGRAM_BOT_TOKEN = process.env.TELEGRAM_BOT_TOKEN || '8941756158:AAHvdtkOpm-bQqce99vgKspfACA-1lZtB-c';
+const TELEGRAM_CHAT_ID = process.env.TELEGRAM_CHAT_ID || '502930155';
+
+const CHECKLIST_TEXT = `📋 ЧЕК-ЛИСТ: 5 шагов к порядку в финансах
+
+Шаг 1. Зафиксируйте все источники доходов
+→ Выпишите все каналы, откуда приходят деньги
+→ Определите регулярные и сезонные доходы
+→ Заведите таблицу доходов
+
+Шаг 2. Разделите расходы на категории
+→ Постоянные (аренда, зарплата, подписки)
+→ Переменные (реклама, закупки)
+→ Налоги и сборы
+
+Шаг 3. Внедрите регулярность
+→ Ежедневно: фиксация операций (5-10 мин)
+→ Еженедельно: сверка остатков
+→ Ежемесячно: ОПиУ, ДДС
+
+Шаг 4. Настройте отчётность
+→ ДДС — движение денег
+→ ОПиУ — реальная прибыль
+→ Платежный календарь
+
+Шаг 5. Автоматизируйте сбор данных
+→ Подключите банк к таблицам
+→ Выгрузка из маркетплейсов
+→ Telegram-бот для быстрого ввода
+
+Полная версия: https://site-iota-bice.vercel.app/lead-magnet-checklist.html`;
+
+// In-memory user states (сбрасываются при перезапуске функции)
+const userStates = new Map();
+
+function getInlineKeyboard(buttons) {
+  return {
+    reply_markup: {
+      inline_keyboard: buttons.map(row =>
+        row.map(btn => ({
+          text: btn.text,
+          callback_data: btn.data,
+        }))
+      ),
+    },
+  };
+}
+
+async function sendTelegram(chatId, text, extra = {}) {
+  const url = `https://api.telegram.org/bot${TELEGRAM_BOT_TOKEN}/sendMessage`;
+  const body = { chat_id: chatId, text, parse_mode: 'HTML', ...extra };
+  try {
+    const res = await fetch(url, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(body),
+    });
+    if (!res.ok) {
+      const err = await res.text();
+      console.error('Telegram send error:', err);
+    }
+  } catch (err) {
+    console.error('Telegram send error:', err);
+  }
+}
+
+async function editMessage(chatId, messageId, text, extra = {}) {
+  const url = `https://api.telegram.org/bot${TELEGRAM_BOT_TOKEN}/editMessageText`;
+  const body = { chat_id: chatId, message_id: messageId, text, parse_mode: 'HTML', ...extra };
+  try {
+    await fetch(url, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(body),
+    });
+  } catch (err) {
+    console.error('Telegram edit error:', err);
+  }
+}
+
+async function notifyTeam(text) {
+  await sendTelegram(TELEGRAM_CHAT_ID, text);
+}
+
+// ===== HANDLERS =====
+
+function handleStart(chatId) {
+  userStates.set(chatId, 'menu');
+  const welcome = `👋 Привет! Я консультант «Цифры».
+
+Мы помогаем микробизнесу наводить порядок в финансах и процессах:
+• 📊 Финансовый учёт и аналитика
+• 🤖 Telegram-боты и AI-ассистенты
+• 🔗 Автоматизация сбора данных
+
+Что вас интересует?`;
+
+  sendTelegram(chatId, welcome, getInlineKeyboard([
+    [{ text: '📊 Услуги и цены', data: 'services' }],
+    [{ text: '💎 Тарифы финансового учёта', data: 'pricing' }],
+    [{ text: '📖 Чек-лист по финансам', data: 'checklist' }],
+    [{ text: '📞 Связаться с командой', data: 'contact' }],
+  ]));
+}
+
+function handleServices(chatId, messageId = null) {
+  const text = `🔧 <b>Что мы делаем</b>
+
+<b>Финансы (Евгения):</b>
+• Управленческий учёт (ОПиУ, ДДС, баланс)
+• ABC-анализ и юнит-экономика
+• Финансовые модели и прогнозы
+• Подготовка к кредитованию
+Цена: от 30 000 ₽/мес
+
+<b>Технологии (Ольга):</b>
+• Продающие сайты и лендинги — от 5 000 ₽
+• Telegram-боты (запись, заявки) — от 5 000 ₽
+• AI-ассистенты — от 8 000 ₽
+• Связка сервисов — от 4 000 ₽
+
+Работаем с маркетплейсами (WB, Ozon), онлайн-школами и сервисным бизнесом.`;
+
+  if (messageId) {
+    editMessage(chatId, messageId, text, getInlineKeyboard([
+      [{ text: '💎 Подробнее о тарифах', data: 'pricing' }],
+      [{ text: '📞 Связаться', data: 'contact' }],
+      [{ text: '← Назад', data: 'menu' }],
+    ]));
+  } else {
+    sendTelegram(chatId, text, getInlineKeyboard([
+      [{ text: '💎 Подробнее о тарифах', data: 'pricing' }],
+      [{ text: '📞 Связаться', data: 'contact' }],
+      [{ text: '← В меню', data: 'menu' }],
+    ]));
+  }
+}
+
+function handlePricing(chatId, messageId = null) {
+  const text = `💎 <b>Тарифы финансового сопровождения</b>
+
+<b>Лайт</b> — 30 000 ₽/мес
+• до 30 позиций, 1-2 кабинета
+• ОПиУ + ДДС еженедельно
+• Созвоны еженедельно
+
+<b>Стандарт+</b> — 50 000 ₽/мес
+• до 500 позиций, до 3 кабинетов
+• Полный учёт + ABC-анализ + финмодель
+• Платежный календарь
+• Подготовка к кредитованию
+
+<b>Всё включено</b> — 75 000 ₽/мес
+• Без лимитов и ограничений
+• Безлимит консультаций
+• Трендовый анализ, KPI
+• Персональная презентация
+
+<b>Технологии — разовые проекты</b>
+• Сайт / лендинг: от 5 000 ₽
+• Telegram-бот: от 5 000 ₽
+• AI-ассистент: от 8 000 ₽
+• Связка API: от 4 000 ₽`;
+
+  if (messageId) {
+    editMessage(chatId, messageId, text, getInlineKeyboard([
+      [{ text: '📞 Нужна консультация', data: 'contact' }],
+      [{ text: '← Назад', data: 'services' }],
+    ]));
+  } else {
+    sendTelegram(chatId, text, getInlineKeyboard([
+      [{ text: '📞 Нужна консультация', data: 'contact' }],
+      [{ text: '← В меню', data: 'menu' }],
+    ]));
+  }
+}
+
+function handleChecklist(chatId, messageId = null) {
+  const text = CHECKLIST_TEXT + '\n\nХотите помочь с внедрением? Напишите нам — бесплатно проконсультируем:';
+  if (messageId) {
+    editMessage(chatId, messageId, text, getInlineKeyboard([
+      [{ text: '📞 Получить консультацию', data: 'contact' }],
+      [{ text: '← В меню', data: 'menu' }],
+    ]));
+  } else {
+    sendTelegram(chatId, text, getInlineKeyboard([
+      [{ text: '📞 Получить консультацию', data: 'contact' }],
+      [{ text: '← В меню', data: 'menu' }],
+    ]));
+  }
+}
+
+function handleContact(chatId, messageId = null) {
+  const text = `📞 <b>Связаться с нами</b>
+
+Напишите нам напрямую:
+• Евгения (финансы): @EugeniaYar
+• Ольга (технологии): @solstudio_ai
+
+Или оставьте заявку на сайте: https://site-iota-bice.vercel.app#contact
+
+Или просто напишите сообщение — я передам его команде!`;
+
+  if (messageId) {
+    editMessage(chatId, messageId, text, getInlineKeyboard([
+      [{ text: '← В меню', data: 'menu' }],
+    ]));
+  } else {
+    sendTelegram(chatId, text, getInlineKeyboard([
+      [{ text: '← В меню', data: 'menu' }],
+    ]));
+  }
+
+  userStates.set(chatId, 'awaiting_message');
+}
+
+function handleMenu(chatId, messageId = null) {
+  const text = `👋 Чем ещё могу помочь?`;
+
+  if (messageId) {
+    editMessage(chatId, messageId, text, getInlineKeyboard([
+      [{ text: '📊 Услуги и цены', data: 'services' }],
+      [{ text: '💎 Тарифы', data: 'pricing' }],
+      [{ text: '📖 Чек-лист', data: 'checklist' }],
+      [{ text: '📞 Связаться', data: 'contact' }],
+    ]));
+  } else {
+    sendTelegram(chatId, text, getInlineKeyboard([
+      [{ text: '📊 Услуги и цены', data: 'services' }],
+      [{ text: '💎 Тарифы', data: 'pricing' }],
+      [{ text: '📖 Чек-лист', data: 'checklist' }],
+      [{ text: '📞 Связаться', data: 'contact' }],
+    ]));
+  }
+  userStates.set(chatId, 'menu');
+}
+
+async function handleUserMessage(chatId, text) {
+  // Пересылаем сообщение команде
+  const state = userStates.get(chatId) || 'menu';
+
+  if (state === 'awaiting_message') {
+    await notifyTeam(
+      `💬 Сообщение из бота от пользователя\n\n`
+      + `👤 Chat ID: ${chatId}\n`
+      + `📝 Сообщение: ${text}\n\n`
+      + `Ответьте пользователю напрямую в Telegram, если знаете username.`
+    );
+
+    sendTelegram(chatId, `Спасибо! Я передал ваше сообщение команде. Мы ответим в ближайшее время 🙌
+
+А пока можете посмотреть:
+• Наши услуги — в меню ниже
+• Чек-лист по финансам — бесплатно`, getInlineKeyboard([
+      [{ text: '← В меню', data: 'menu' }],
+    ]));
+    userStates.set(chatId, 'menu');
+    return;
+  }
+
+  // Если не в режиме ожидания — показываем меню
+  handleStart(chatId);
+}
+
+// ===== MAIN HANDLER (Vercel Serverless Function) =====
+
+export default async function handler(req, res) {
+  // Только POST
+  if (req.method === 'GET') {
+    return res.status(200).json({ status: 'Bot webhook is active. Send POST with Telegram update.' });
+  }
+
+  if (req.method !== 'POST') {
+    return res.status(405).json({ error: 'Method not allowed' });
+  }
+
+  try {
+    const update = req.body;
+
+    // Callback query (inline button clicks)
+    if (update.callback_query) {
+      const { data, message, from } = update.callback_query;
+      const chatId = message.chat.id;
+      const messageId = message.message_id;
+
+      switch (data) {
+        case 'services':
+          handleServices(chatId, messageId);
+          break;
+        case 'pricing':
+          handlePricing(chatId, messageId);
+          break;
+        case 'checklist':
+          handleChecklist(chatId, messageId);
+          break;
+        case 'contact':
+          handleContact(chatId, messageId);
+          break;
+        case 'menu':
+          handleMenu(chatId, messageId);
+          break;
+      }
+
+      // Answer callback query (remove loading state)
+      const answerUrl = `https://api.telegram.org/bot${TELEGRAM_BOT_TOKEN}/answerCallbackQuery`;
+      await fetch(answerUrl, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ callback_query_id: update.callback_query.id }),
+      });
+
+      return res.status(200).json({ ok: true });
+    }
+
+    // Regular message
+    if (update.message?.text) {
+      const chatId = update.message.chat.id;
+      const text = update.message.text.trim();
+
+      if (text === '/start' || text === 'Меню' || text === 'меню') {
+        handleStart(chatId);
+      } else {
+        await handleUserMessage(chatId, text);
+      }
+
+      return res.status(200).json({ ok: true });
+    }
+
+    // /set_webbook — настройка вебхука (админ-команда)
+    if (update.message?.text === '/set_webhook') {
+      const chatId = update.message.chat.id;
+      // Only allow from configured chat
+      if (String(chatId) === TELEGRAM_CHAT_ID) {
+        const webhookUrl = `https://site-iota-bice.vercel.app/api/bot`;
+        const setUrl = `https://api.telegram.org/bot${TELEGRAM_BOT_TOKEN}/setWebhook?url=${webhookUrl}`;
+        const r = await fetch(setUrl);
+        const d = await r.json();
+        sendTelegram(chatId, `Webhook set: ${JSON.stringify(d)}`);
+      } else {
+        sendTelegram(chatId, 'Access denied.');
+      }
+      return res.status(200).json({ ok: true });
+    }
+
+    return res.status(200).json({ ok: true });
+  } catch (error) {
+    console.error('Bot handler error:', error);
+    return res.status(200).json({ ok: true }); // Always return 200 to Telegram
+  }
+}

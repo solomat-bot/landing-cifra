@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Блог — Цифра | Финансы, учёт и автоматизация для бизнеса</title>
+  <meta name="description" content="Полезные статьи про финансы, управленческий учёт, автоматизацию и Telegram-ботов для малого бизнеса, маркетплейсов и онлайн-школ." />
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Rubik:wght@400;500;600;700;800;900&family=PT+Sans:wght@400;700&display=swap" rel="stylesheet" />
+
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --color-bg: #F9F7F4;
+      --color-bg-alt: #F0EDE6;
+      --color-text: #1C1E26;
+      --color-text-muted: #5D5F6E;
+      --color-accent: #C4604A;
+      --color-accent-hover: #A94F3B;
+      --color-accent-light: rgba(196, 96, 74, 0.07);
+      --color-secondary: #3A5A6E;
+      --color-border: rgba(28, 30, 38, 0.07);
+      --container: 1000px;
+      --radius-sm: 6px;
+      --radius-md: 12px;
+      --radius-lg: 18px;
+    }
+    body {
+      font-family: 'PT Sans', sans-serif;
+      font-size: 17px;
+      line-height: 1.6;
+      color: var(--color-text);
+      background: var(--color-bg);
+      -webkit-font-smoothing: antialiased;
+    }
+    .container { max-width: var(--container); margin: 0 auto; padding: 0 24px; }
+    h1, h2, h3 { font-family: 'Rubik', sans-serif; font-weight: 800; line-height: 1.15; color: var(--color-text); }
+    h1 { font-size: clamp(28px, 3.6vw, 40px); }
+    a { color: var(--color-accent); text-decoration: none; }
+    a:hover { color: var(--color-accent-hover); text-decoration: underline; }
+
+    /* HEADER */
+    header {
+      padding: 16px 0;
+      border-bottom: 1px solid var(--color-border);
+      position: sticky; top: 0; z-index: 100;
+      backdrop-filter: blur(10px);
+      background: rgba(249, 247, 244, 0.92);
+    }
+    .header-inner { max-width: 1160px; margin: 0 auto; padding: 0 24px; display: flex; justify-content: space-between; align-items: center; }
+    .header-brand { display: flex; flex-direction: column; text-decoration: none; }
+    .header-name { font-family: 'Rubik', sans-serif; font-weight: 900; font-size: 20px; color: var(--color-text); letter-spacing: -0.02em; }
+    .header-subtitle { font-family: 'Rubik', sans-serif; font-size: 9px; color: var(--color-text-muted); letter-spacing: 0.1em; font-weight: 500; margin-top: -1px; line-height: 1.2; }
+    .header-nav a { font-size: 14px; color: var(--color-text-muted); text-decoration: none; margin-left: 24px; font-family: 'Rubik', sans-serif; font-weight: 500; transition: color 0.2s; }
+    .header-nav a:hover { color: var(--color-accent); text-decoration: none; }
+
+    /* BLOG */
+    .blog-page { padding: 60px 0 80px; }
+    .blog-page h1 { margin-bottom: 12px; }
+    .blog-page .subtitle { color: var(--color-text-muted); margin-bottom: 48px; font-size: 17px; max-width: 580px; }
+    .blog-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 20px; }
+    .blog-card {
+      background: var(--color-bg-alt);
+      border-radius: var(--radius-lg);
+      padding: 28px;
+      border: 1px solid var(--color-border);
+      transition: all 0.3s;
+      text-decoration: none;
+      color: inherit;
+      display: block;
+    }
+    .blog-card:hover { border-color: var(--color-accent); transform: translateY(-3px); box-shadow: 0 8px 24px rgba(28,30,38,0.04); }
+    .blog-card .tag { font-size: 11px; color: var(--color-accent); text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 10px; display: block; font-weight: 600; }
+    .blog-card h3 { font-size: 18px; margin-bottom: 10px; }
+    .blog-card p { font-size: 14px; color: var(--color-text-muted); line-height: 1.6; margin-bottom: 16px; }
+    .blog-card .read-more { font-size: 14px; font-weight: 600; color: var(--color-accent); }
+    .blog-card .status-badge {
+      display: inline-block;
+      font-size: 10px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.08em;
+      padding: 3px 10px;
+      border-radius: 4px;
+      background: var(--color-accent-light);
+      color: var(--color-accent);
+    }
+    .coming-soon { opacity: 0.55; }
+
+    /* FOOTER */
+    footer { border-top: 1px solid var(--color-border); padding: 32px 0; text-align: center; font-size: 13px; color: var(--color-text-muted); }
+    footer a { color: var(--color-text-muted); }
+    footer a:hover { color: var(--color-accent); }
+
+    @media (max-width: 640px) {
+      .blog-grid { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+<header>
+  <div class="header-inner">
+    <a href="index.html" class="header-brand">
+      <span class="header-name">Цифра</span>
+      <span class="header-subtitle">финансы и технологии</span>
+    </a>
+    <nav class="header-nav">
+      <a href="index.html#finance-pricing">Тарифы</a>
+      <a href="index.html#tech-services">Сайты и боты</a>
+      <a href="index.html#contact">Контакты</a>
+    </nav>
+  </div>
+</header>
+
+<section class="blog-page">
+  <div class="container">
+    <h1>Блог Цифры</h1>
+    <p class="subtitle">Финансы, учёт и автоматизация — простым языком для владельцев бизнеса</p>
+
+    <div class="blog-grid">
+      <a href="blog/avtomatizacia-zapisi-salon-krasoty.html" class="blog-card">
+        <span class="tag">Автоматизация • Боты</span>
+        <h3>Бот для записи: как мастеру красоты не терять клиентов и экономить 5+ часов в неделю</h3>
+        <p>Пошаговый гайд, как бот помогает не терять клиентов, напоминать о записи и вести учёт. Работает 24/7.</p>
+        <span class="read-more">Читать →</span>
+      </a>
+
+      <div class="blog-card coming-soon">
+        <span class="tag">Финансы • Учёт</span>
+        <h3>Управленческий учёт для маркетплейсов: с чего начать</h3>
+        <p>Разбираем, какие отчёты нужны продавцу на Wildberries и Ozon, чтобы видеть реальную прибыль.</p>
+        <span class="status-badge">Скоро</span>
+      </div>
+
+      <div class="blog-card coming-soon">
+        <span class="tag">Автоматизация • Инструменты</span>
+        <h3>Автоматизация без бюджета: 3 бесплатных инструмента для старта</h3>
+        <p>Google Таблицы, Make.com, Telegram Bot API — что можно настроить бесплатно и как это работает.</p>
+        <span class="status-badge">Скоро</span>
+      </div>
+
+      <div class="blog-card coming-soon">
+        <span class="tag">Финансы • Аналитика</span>
+        <h3>5 шагов к порядку в финансах: чек-лист для владельца бизнеса</h3>
+        <p>Практическое руководство: от фиксации доходов до автоматизации сбора данных.</p>
+        <span class="status-badge">Скоро</span>
+      </div>
+
+      <div class="blog-card coming-soon">
+        <span class="tag">Боты • Продажи</span>
+        <h3>5 признаков, что вашему бизнесу нужен Telegram-бот</h3>
+        <p>Простые признаки, по которым можно понять — пора автоматизировать общение с клиентами или ещё рано.</p>
+        <span class="status-badge">Скоро</span>
+      </div>
+
+      <div class="blog-card coming-soon">
+        <span class="tag">Кейсы</span>
+        <h3>Как мы настроили учёт для продавца на Wildberries: разбор кейса</h3>
+        <p>Реальный проект: автоматизация выгрузки из 5 кабинетов, ОПиУ, ДДС и ABC-анализ.</p>
+        <span class="status-badge">Скоро</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="container">
+    <p>Цифра — технологии и финансы &copy; 2026 | <a href="privacy-policy.html">Политика конфиденциальности</a></p>
+  </div>
+</footer>
+
+</body>
+</html>

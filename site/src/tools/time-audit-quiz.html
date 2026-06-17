@@ -1,0 +1,396 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Тест: сколько времени вы теряете на рутине? — Цифра</title>
+  <meta name="description" content="Пройдите тест из 4 вопросов и узнайте, сколько часов в неделю ваш бизнес теряет на ручных задачах. Персональная рекомендация." />
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Rubik:wght@400;500;600;700;800;900&family=PT+Sans:wght@400;700&display=swap" rel="stylesheet" />
+
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --color-bg: #F9F7F4;
+      --color-bg-alt: #F0EDE6;
+      --color-text: #1C1E26;
+      --color-text-muted: #5D5F6E;
+      --color-accent: #C4604A;
+      --color-accent-hover: #A94F3B;
+      --color-accent-light: rgba(196, 96, 74, 0.07);
+      --color-secondary: #3A5A6E;
+      --color-border: rgba(28, 30, 38, 0.07);
+      --container: 640px;
+      --radius-sm: 6px;
+      --radius-md: 12px;
+      --radius-lg: 18px;
+    }
+    body {
+      font-family: 'PT Sans', sans-serif;
+      font-size: 17px;
+      line-height: 1.6;
+      color: var(--color-text);
+      background: var(--color-bg);
+      -webkit-font-smoothing: antialiased;
+    }
+    .container { max-width: var(--container); margin: 0 auto; padding: 0 24px; }
+    h1, h2, h3 { font-family: 'Rubik', sans-serif; font-weight: 800; line-height: 1.2; color: var(--color-text); }
+    a { color: var(--color-accent); text-decoration: none; }
+    a:hover { color: var(--color-accent-hover); text-decoration: underline; }
+
+    /* Header */
+    header {
+      padding: 16px 0;
+      border-bottom: 1px solid var(--color-border);
+      position: sticky; top: 0; z-index: 100;
+      backdrop-filter: blur(10px);
+      background: rgba(249, 247, 244, 0.92);
+    }
+    .header-inner {
+      max-width: 1160px;
+      margin: 0 auto;
+      padding: 0 24px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .header-brand { display: flex; flex-direction: column; text-decoration: none; }
+    .header-name { font-family: 'Rubik', sans-serif; font-weight: 900; font-size: 20px; color: var(--color-text); letter-spacing: -0.02em; }
+    .header-subtitle { font-family: 'Rubik', sans-serif; font-size: 9px; color: var(--color-text-muted); letter-spacing: 0.1em; font-weight: 500; margin-top: -1px; line-height: 1.2; }
+
+    /* Quiz */
+    .quiz-page { padding: 40px 0 80px; }
+    .quiz-page h1 { font-size: clamp(26px, 3.6vw, 36px); text-align: center; margin-bottom: 8px; }
+    .quiz-subtitle { text-align: center; color: var(--color-text-muted); margin-bottom: 40px; font-size: 16px; }
+
+    .progress-bar {
+      width: 100%;
+      height: 4px;
+      background: var(--color-border);
+      border-radius: 4px;
+      margin-bottom: 40px;
+      overflow: hidden;
+    }
+    .progress-fill {
+      height: 100%;
+      background: var(--color-accent);
+      border-radius: 4px;
+      transition: width 0.5s ease;
+      width: 0%;
+    }
+
+    .quiz-step { display: none; }
+    .quiz-step.active { display: block; animation: fade 0.3s ease; }
+    @keyframes fade { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+
+    .quiz-step .step-number {
+      font-size: 12px;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      color: var(--color-accent);
+      margin-bottom: 12px;
+      font-weight: 600;
+    }
+    .quiz-step h2 { font-size: 22px; margin-bottom: 24px; }
+
+    .option-group { display: flex; flex-direction: column; gap: 10px; margin-bottom: 24px; }
+
+    .option-btn {
+      text-align: left;
+      padding: 14px 18px;
+      border: 1px solid var(--color-border);
+      border-radius: var(--radius-md);
+      background: var(--color-bg-alt);
+      cursor: pointer;
+      transition: all 0.3s;
+      font-family: 'PT Sans', sans-serif;
+      font-size: 15px;
+      color: var(--color-text);
+    }
+    .option-btn:hover { border-color: var(--color-accent); background: var(--color-accent-light); }
+    .option-btn.selected { border-color: var(--color-accent); background: var(--color-accent-light); box-shadow: 0 0 0 1px var(--color-accent); }
+
+    /* Result */
+    .quiz-result { display: none; }
+    .quiz-result.active { display: block; animation: fade 0.5s ease; }
+    .result-card {
+      background: var(--color-bg-alt);
+      border-radius: var(--radius-lg);
+      padding: 36px 28px;
+      border: 1px solid var(--color-border);
+      text-align: center;
+    }
+    .result-score {
+      font-family: 'Rubik', sans-serif;
+      font-weight: 900;
+      font-size: clamp(48px, 8vw, 64px);
+      color: var(--color-accent);
+      line-height: 1;
+      margin-bottom: 8px;
+    }
+    .result-label { font-size: 15px; color: var(--color-text-muted); margin-bottom: 24px; }
+    .result-text { font-size: 16px; color: var(--color-text-muted); line-height: 1.7; margin-bottom: 20px; text-align: left; }
+    .result-cta { margin-top: 24px; }
+    .result-detail {
+      background: var(--color-accent-light);
+      border-radius: var(--radius-md);
+      padding: 20px 22px;
+      text-align: left;
+      margin-bottom: 24px;
+    }
+    .result-detail h4 { font-family: 'Rubik', sans-serif; font-size: 16px; margin-bottom: 12px; }
+    .result-detail ul { list-style: none; padding: 0; }
+    .result-detail li { padding: 6px 0 6px 24px; position: relative; font-size: 14px; color: var(--color-text-muted); }
+    .result-detail li::before { content: '→'; position: absolute; left: 0; color: var(--color-accent); font-weight: 700; }
+
+    .btn-primary {
+      display: inline-block;
+      background: var(--color-accent);
+      color: #fff;
+      font-family: 'Rubik', sans-serif;
+      font-weight: 600;
+      font-size: 15px;
+      padding: 14px 32px;
+      border-radius: var(--radius-sm);
+      border: none;
+      cursor: pointer;
+      transition: all 0.3s;
+      text-decoration: none;
+    }
+    .btn-primary:hover { background: var(--color-accent-hover); transform: translateY(-1px); text-decoration: none; color: #fff; }
+
+    .btn-secondary {
+      display: inline-block;
+      background: transparent;
+      color: var(--color-text);
+      font-family: 'Rubik', sans-serif;
+      font-weight: 600;
+      font-size: 14px;
+      padding: 12px 24px;
+      border-radius: var(--radius-sm);
+      border: 1px solid var(--color-border);
+      cursor: pointer;
+      transition: all 0.3s;
+      text-decoration: none;
+      margin-top: 12px;
+    }
+    .btn-secondary:hover { border-color: var(--color-accent); color: var(--color-accent); }
+
+    .restart-btn {
+      position: fixed;
+      bottom: 24px;
+      left: 50%;
+      transform: translateX(-50%);
+      font-size: 12px;
+      color: var(--color-text-muted);
+      background: var(--color-bg);
+      border: 1px solid var(--color-border);
+      padding: 8px 18px;
+      border-radius: 20px;
+      cursor: pointer;
+      transition: all 0.3s;
+      z-index: 10;
+      font-family: 'PT Sans', sans-serif;
+    }
+    .restart-btn:hover { border-color: var(--color-accent); color: var(--color-accent); }
+
+    /* Footer */
+    footer { border-top: 1px solid var(--color-border); padding: 32px 0; text-align: center; font-size: 13px; color: var(--color-text-muted); margin-top: 60px; }
+    footer a { color: var(--color-text-muted); }
+    footer a:hover { color: var(--color-accent); }
+  </style>
+</head>
+<body>
+
+<header>
+  <div class="header-inner">
+    <a href="../index.html" class="header-brand">
+      <span class="header-name">Цифра</span>
+      <span class="header-subtitle">финансы и технологии</span>
+    </a>
+  </div>
+</header>
+
+<section class="quiz-page" id="quiz-app">
+  <div class="container">
+    <h1>Сколько времени вы теряете на рутине?</h1>
+    <p class="quiz-subtitle">Ответьте на 4 вопроса — получите расчёт потерянных часов и персональную рекомендацию</p>
+
+    <div class="progress-bar">
+      <div class="progress-fill" id="progress"></div>
+    </div>
+
+    <!-- Question 1 -->
+    <div class="quiz-step active" data-step="1">
+      <div class="step-number">Шаг 1 из 4</div>
+      <h2>Как вы принимаете записи от клиентов?</h2>
+      <div class="option-group">
+        <button class="option-btn" data-value="manual" onclick="select(this, 1)">Вручную (тетрадь, блокнот, заметки в телефоне)</button>
+        <button class="option-btn" data-value="messengers" onclick="select(this, 1)">В мессенджерах (Telegram, WhatsApp — вручную)</button>
+        <button class="option-btn" data-value="mixed" onclick="select(this, 1)">Частично автоматизировано (онлайн-календарь, но без интеграций)</button>
+        <button class="option-btn" data-value="auto" onclick="select(this, 1)">Всё автоматически (бот / CRM / онлайн-запись)</button>
+      </div>
+    </div>
+
+    <!-- Question 2 -->
+    <div class="quiz-step" data-step="2">
+      <div class="step-number">Шаг 2 из 4</div>
+      <h2>Сколько клиентов у вас в день?</h2>
+      <div class="option-group">
+        <button class="option-btn" data-value="1-5" onclick="select(this, 2)">До 5</button>
+        <button class="option-btn" data-value="5-10" onclick="select(this, 2)">5–10</button>
+        <button class="option-btn" data-value="10-20" onclick="select(this, 2)">10–20</button>
+        <button class="option-btn" data-value="20+" onclick="select(this, 2)">Более 20</button>
+      </div>
+    </div>
+
+    <!-- Question 3 -->
+    <div class="quiz-step" data-step="3">
+      <div class="step-number">Шаг 3 из 4</div>
+      <h2>Сколько времени в день уходит на общение с клиентами?</h2>
+      <div class="option-group">
+        <button class="option-btn" data-value="30min" onclick="select(this, 3)">До 30 минут — терпимо</button>
+        <button class="option-btn" data-value="1h" onclick="select(this, 3)">Около часа — уже отвлекает</button>
+        <button class="option-btn" data-value="2-3h" onclick="select(this, 3)">2–3 часа — съедает рабочий день</button>
+        <button class="option-btn" data-value="lots" onclick="select(this, 3)">Не считал, но чувствую, что много</button>
+      </div>
+    </div>
+
+    <!-- Question 4 -->
+    <div class="quiz-step" data-step="4">
+      <div class="step-number">Шаг 4 из 4</div>
+      <h2>Как вы ведёте учёт клиентов и финансов?</h2>
+      <div class="option-group">
+        <button class="option-btn" data-value="notebook" onclick="select(this, 4)">В тетради / блокноте / стикерах</button>
+        <button class="option-btn" data-value="excel" onclick="select(this, 4)">В Excel / Google-таблице (вручную)</button>
+        <button class="option-btn" data-value="crm" onclick="select(this, 4)">В CRM / специальной программе</button>
+        <button class="option-btn" data-value="no" onclick="select(this, 4)">Никак — всё в голове</button>
+      </div>
+    </div>
+
+    <!-- Result -->
+    <div class="quiz-result" id="result">
+      <div class="result-card">
+        <div class="result-score" id="result-score">0</div>
+        <div class="result-label">часов в неделю теряется на рутине</div>
+        <div class="result-detail">
+          <h4>Что это значит для вашего бизнеса</h4>
+          <ul id="result-details">
+            <li>Вы теряете деньги на задачах, которые может делать бот</li>
+            <li>Клиенты не дожидаются ответа и уходят к конкурентам</li>
+            <li>У вас нет времени на развитие — вы в операционке</li>
+          </ul>
+        </div>
+        <div class="result-text" id="result-text">
+          Хотите узнать, как автоматизация решит эти проблемы?
+        </div>
+        <div class="result-cta">
+          <a href="https://t.me/solstudio_ai" class="btn-primary" target="_blank">Написать в Telegram</a>
+          <button class="btn-secondary" onclick="restartQuiz()">Пройти ещё раз</button>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<footer>
+  <div class="container">
+    <p>Цифра — технологии и финансы &copy; 2026 | <a href="../privacy-policy.html">Политика конфиденциальности</a></p>
+  </div>
+</footer>
+
+<script>
+  const answers = {};
+
+  function select(btn, step) {
+    const parent = btn.parentElement;
+    parent.querySelectorAll('.option-btn').forEach(b => b.classList.remove('selected'));
+    btn.classList.add('selected');
+    answers[step] = btn.dataset.value;
+
+    if (step < 4) {
+      document.querySelector(`.quiz-step[data-step="${step}"]`).classList.remove('active');
+      document.querySelector(`.quiz-step[data-step="${step + 1}"]`).classList.add('active');
+      document.getElementById('progress').style.width = `${(step / 4) * 100}%`;
+    } else {
+      document.querySelector(`.quiz-step[data-step="4"]`).classList.remove('active');
+      document.getElementById('progress').style.width = '100%';
+      showResult();
+    }
+  }
+
+  function showResult() {
+    const q1 = answers[1];
+    const q2 = answers[2] || '5-10';
+    const q3 = answers[3];
+    const q4 = answers[4];
+
+    let hours = 0;
+
+    if (q1 === 'manual') hours += 8;
+    else if (q1 === 'messengers') hours += 6;
+    else if (q1 === 'mixed') hours += 3;
+    else if (q1 === 'auto') hours += 1;
+
+    if (q3 === '30min') hours += 2;
+    else if (q3 === '1h') hours += 5;
+    else if (q3 === '2-3h') hours += 12;
+    else if (q3 === 'lots') hours += 8;
+
+    if (q4 === 'notebook' || q4 === 'no') hours += 5;
+    else if (q4 === 'excel') hours += 3;
+    else if (q4 === 'crm') hours += 1;
+
+    if (q2 === '1-5') hours = Math.round(hours * 0.6);
+    else if (q2 === '5-10') hours = Math.round(hours * 1.0);
+    else if (q2 === '10-20') hours = Math.round(hours * 1.5);
+    else if (q2 === '20+') hours = Math.round(hours * 2);
+
+    hours = Math.max(2, Math.min(40, hours));
+
+    document.getElementById('result-score').textContent = hours;
+    document.getElementById('result').classList.add('active');
+
+    const details = document.getElementById('result-details');
+    let items = [];
+    if (hours >= 15) {
+      items = [
+        `⏱ ${hours} ч/нед — это ~${Math.round(hours * 4.3)} часов в месяц чистой рутины`,
+        `💰 Потеря ${Math.round(hours * 4.3 * 500)} ₽/мес на вашем времени (из расчёта 500 ₽/час)`,
+        `📉 Клиенты уходят, не дождавшись ответа — вы теряете до 30% заказов`,
+        `🤯 Вы работаете в операционке, а не над развитием бизнеса`
+      ];
+    } else if (hours >= 8) {
+      items = [
+        `⏱ ${hours} ч/нед — это один полный рабочий день в неделю`,
+        `📋 Записи, напоминания, учёт — всё это можно автоматизировать`,
+        `📈 После автоматизации вы сможете брать больше клиентов без найма персонала`
+      ];
+    } else {
+      items = [
+        `⏱ ${hours} ч/нед — немного, но эти часы можно убрать полностью`,
+        `✅ У вас уже есть базовый порядок — осталось донастроить мелочи`,
+        `🚀 Автоматизация этих задач освободит время для роста`
+      ];
+    }
+    details.innerHTML = items.map(i => `<li>${i}</li>`).join('');
+
+    const textEl = document.getElementById('result-text');
+    textEl.textContent = `Хотите узнать, как автоматизация решит эти проблемы? Напишите в Telegram @solstudio_ai — мы бесплатно проанализируем вашу ситуацию и предложим решение.`;
+  }
+
+  function restartQuiz() {
+    Object.keys(answers).forEach(k => delete answers[k]);
+    document.querySelectorAll('.quiz-step').forEach(s => s.classList.remove('active'));
+    document.querySelector('.quiz-step[data-step="1"]').classList.add('active');
+    document.getElementById('result').classList.remove('active');
+    document.getElementById('progress').style.width = '0%';
+    document.querySelectorAll('.option-btn').forEach(b => b.classList.remove('selected'));
+  }
+</script>
+
+</body>
+</html>
