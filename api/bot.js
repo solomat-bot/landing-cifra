@@ -59,8 +59,8 @@ function getReplyKeyboard() {
   return {
     reply_markup: {
       keyboard: [
-        [{ text: '🎁 Чек-лист' }, { text: '📊 Услуги' }],
-        [{ text: '💎 Цены' }, { text: '📞 Контакты' }],
+        [{ text: '🎁 Чек-лист' }, { text: '🔥 Зачем нам доверяют' }],
+        [{ text: '💎 Сколько стоит' }, { text: '📞 Запись на консультацию' }],
       ],
       resize_keyboard: true,
       is_persistent: true,
@@ -116,48 +116,53 @@ async function notifyTeam(text) {
 
 function handleStart(chatId) {
   userStates.set(chatId, 'menu');
-  const welcome = `👋 Привет! Я бот «Цифры».
+  const welcome = `🔥 Не знаете реальную прибыль? Тратите часы на отчёты вручную?
 
-Мы помогаем наводить порядок в финансах и процессах:
-• 📊 Управленческий учёт для маркетплейсов и онлайн-школ
-• 🤖 Telegram-боты и AI-ассистенты
-• 🔗 Автоматизация сбора данных
+Мы — команда «Цифра». За 1-2 недели настраиваем финансы и автоматизацию под ключ.
 
-🎁 Нажмите «Чек-лист» внизу — бесплатный чек-лист «5 шагов к порядку в финансах»
+С нами вы:
+✅ Точно знаете, сколько заработали
+✅ Не тратите время на рутину
+✅ Принимаете решения по цифрам, а не наугад
 
-Меню всегда перед вами внизу 👇`;
+Какой первый шаг? 👇
+
+🎁 Начните с бесплатного чек-листа (кнопка внизу)
+🔥 Посмотрите, почему нам доверяют
+💎 Узнайте цены
+📞 Запишитесь на консультацию`;
 
   sendTelegram(chatId, welcome, getReplyKeyboard());
 }
 
 function handleServices(chatId, messageId = null) {
-  const text = `🔧 <b>Что мы делаем</b>
+  const text = `🔥 <b>Почему нам доверяют</b>
 
-<b>Финансы (Евгения):</b>
-• Управленческий учёт (ОПиУ, ДДС, баланс)
-• ABC-анализ и юнит-экономика
-• Финансовые модели и прогнозы
-• Подготовка к кредитованию
-Цена: от 30 000 ₽/мес
+<b>1. Два эксперта вместо трёх подрядчиков</b>
+Финансами занимается Евгения (5+ лет опыта). Технологиями — Ольга. Вам не нужно нанимать трёх разных людей и следить, чтобы они стыковались друг с другом.
 
-<b>Технологии (Ольга):</b>
-• Продающие сайты и лендинги — от 5 000 ₽
-• Telegram-боты (запись, заявки) — от 5 000 ₽
-• AI-ассистенты — от 8 000 ₽
-• Связка сервисов — от 4 000 ₽
+<b>2. Цены фиксированные до старта</b>
+Называем цену — и она не меняется. Никаких «ну тут нужно ещё доплатить». 14 дней бесплатных правок.
 
-Работаем с маркетплейсами (WB, Ozon), онлайн-школами и сервисным бизнесом.`;
+<b>3. Быстрый результат</b>
+Учёт настраиваем за 1-2 недели. Telegram-бота — за 3-5 дней. Вы не ждёте месяцы.
+
+<b>4. Работаем с вашим бизнесом</b>
+Маркетплейсы (WB, Ozon), онлайн-школы, сервисный бизнес — знаем специфику.
+
+<b>5. Не бросаем после сдачи</b>
+Обучаем, поддерживаем, отвечаем на вопросы. Вы не остаётесь один на один с системой.`;
 
   if (messageId) {
     editMessage(chatId, messageId, text, getInlineKeyboard([
-      [{ text: '💎 Подробнее о тарифах', data: 'pricing' }],
-      [{ text: '📞 Связаться', data: 'contact' }],
+      [{ text: '💎 Сколько стоит', data: 'pricing' }],
+      [{ text: '📞 Записаться на консультацию', data: 'contact' }],
       [{ text: '← Назад', data: 'menu' }],
     ]));
   } else {
     sendTelegram(chatId, text, getInlineKeyboard([
-      [{ text: '💎 Подробнее о тарифах', data: 'pricing' }],
-      [{ text: '📞 Связаться', data: 'contact' }],
+      [{ text: '💎 Сколько стоит', data: 'pricing' }],
+      [{ text: '📞 Записаться на консультацию', data: 'contact' }],
       [{ text: '← В меню', data: 'menu' }],
     ]));
   }
@@ -245,22 +250,27 @@ async function notifyChecklist(chatId, name, username, userName) {
 }
 
 function handleContact(chatId, messageId = null) {
-  const text = `📞 <b>Связаться с нами</b>
+  const text = `📞 <b>Запись на бесплатную консультацию</b>
 
-Напишите нам напрямую:
-• Евгения (финансы): @EugeniaYar
-• Ольга (технологии): @solstudio_ai
+Мы бесплатно проанализируем вашу ситуацию за 15-минутный звонок.
 
-Или оставьте заявку на сайте: https://landing-cifra.vercel.app#contact
+Что обсудим:
+• Ваш бизнес и что конкретно болит
+• Какое решение подходит именно вам
+• Сколько будет стоить и сколько займёт
 
-Или просто напишите сообщение — я передам его команде!`;
+<b>Как записаться:</b>
+• Оставьте заявку на сайте: https://landing-cifra.vercel.app#contact
+• Или просто напишите сообщение сюда — я передам команде!`;
 
   if (messageId) {
     editMessage(chatId, messageId, text, getInlineKeyboard([
+      [{ text: '💰 Посмотреть цены', data: 'pricing' }],
       [{ text: '← В меню', data: 'menu' }],
     ]));
   } else {
     sendTelegram(chatId, text, getInlineKeyboard([
+      [{ text: '💰 Посмотреть цены', data: 'pricing' }],
       [{ text: '← В меню', data: 'menu' }],
     ]));
   }
@@ -269,22 +279,17 @@ function handleContact(chatId, messageId = null) {
 }
 
 function handleMenu(chatId, messageId = null) {
-  const text = `👋 Чем ещё могу помочь?`;
+  const text = `👋 Чем ещё могу помочь? Используйте кнопки внизу 👇`;
 
   if (messageId) {
-    editMessage(chatId, messageId, text, getInlineKeyboard([
-      [{ text: '📊 Услуги и цены', data: 'services' }],
-      [{ text: '💎 Тарифы', data: 'pricing' }],
-      [{ text: '📖 Чек-лист', data: 'checklist' }],
-      [{ text: '📞 Связаться', data: 'contact' }],
-    ]));
+    editMessage(chatId, messageId, text, { reply_markup: { inline_keyboard: [
+      [{ text: '🎁 Получить чек-лист', callback_data: 'checklist' }],
+      [{ text: '🔥 Почему нам доверяют', callback_data: 'services' }],
+      [{ text: '💎 Сколько стоит', callback_data: 'pricing' }],
+      [{ text: '📞 Запись на консультацию', callback_data: 'contact' }],
+    ]}});
   } else {
-    sendTelegram(chatId, text, getInlineKeyboard([
-      [{ text: '📊 Услуги и цены', data: 'services' }],
-      [{ text: '💎 Тарифы', data: 'pricing' }],
-      [{ text: '📖 Чек-лист', data: 'checklist' }],
-      [{ text: '📞 Связаться', data: 'contact' }],
-    ]));
+    sendTelegram(chatId, text, getReplyKeyboard());
   }
   userStates.set(chatId, 'menu');
 }
@@ -407,11 +412,13 @@ export default async function handler(req, res) {
       const chatId = update.message.chat.id;
       const text = update.message.text.trim();
 
-      if (text === '/start' || text === 'Меню' || text === 'меню' || text === '📊 Услуги' || text === '💎 Цены' || text === '📞 Контакты') {
-        if (text === '📊 Услуги') { await handleServices(chatId); return; }
-        if (text === '💎 Цены') { await handlePricing(chatId); return; }
-        if (text === '📞 Контакты') { await handleContact(chatId); return; }
+      if (text === '/start' || text === 'Меню' || text === 'меню' || text === '📞 Запись на консультацию') {
+        if (text === '📞 Запись на консультацию') { await handleContact(chatId); return; }
         await handleStart(chatId);
+      } else if (text === '🔥 Зачем нам доверяют') {
+        await handleServices(chatId);
+      } else if (text === '💎 Сколько стоит') {
+        await handlePricing(chatId);
       } else if (text === '🎁 Чек-лист') {
         await handleChecklistViaReply(chatId, update.message.from);
       } else if (text.startsWith('/start ')) {
