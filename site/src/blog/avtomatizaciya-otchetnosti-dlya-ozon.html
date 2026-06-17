@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Автоматизация отчётности для Ozon — Цифра | Связка данных без ручного труда</title>
+  <meta name="description" content="Как автоматизировать сбор отчётов для Ozon: выгрузка продаж, комиссий, остатков в единую таблицу. Связка без программиста." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Rubik:wght@400;500;600;700;800;900&family=PT+Sans:wght@400;700&display=swap" rel="stylesheet" />
+  <style>
+    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+    :root{--color-bg:#F9F7F4;--color-bg-alt:#F0EDE6;--color-text:#1C1E26;--color-text-muted:#5D5F6E;--color-accent:#C4604A;--color-accent-hover:#A94F3B;--color-accent-light:rgba(196,96,74,0.07);--color-secondary:#3A5A6E;--color-border:rgba(28,30,38,0.07);--container:720px;--radius-sm:6px;--radius-md:12px;--radius-lg:18px}
+    body{font-family:'PT Sans',sans-serif;font-size:17px;line-height:1.6;color:var(--color-text);background:var(--color-bg);-webkit-font-smoothing:antialiased}
+    .container{max-width:var(--container);margin:0 auto;padding:0 24px}
+    h1,h2,h3{font-family:'Rubik',sans-serif;font-weight:800;line-height:1.2;color:var(--color-text)}
+    a{color:var(--color-accent);text-decoration:none}a:hover{color:var(--color-accent-hover);text-decoration:underline}
+    header{padding:16px 0;border-bottom:1px solid var(--color-border);position:sticky;top:0;z-index:100;backdrop-filter:blur(10px);background:rgba(249,247,244,0.92)}
+    .header-inner{max-width:1160px;margin:0 auto;padding:0 24px;display:flex;justify-content:space-between;align-items:center}
+    .header-brand{display:flex;flex-direction:column;text-decoration:none}
+    .header-name{font-family:'Rubik',sans-serif;font-weight:900;font-size:20px;color:var(--color-text);letter-spacing:-0.02em}
+    .header-subtitle{font-family:'Rubik',sans-serif;font-size:9px;color:var(--color-text-muted);letter-spacing:0.1em;font-weight:500;margin-top:-1px}
+    .article{padding:40px 0 80px}
+    .article h1{font-size:clamp(26px,3.6vw,36px);margin-bottom:14px}
+    .article-meta{font-size:13px;color:var(--color-text-muted);margin-bottom:32px;padding-bottom:16px;border-bottom:1px solid var(--color-border)}
+    .article-meta span{margin-right:20px}
+    .article h2{font-size:22px;margin:36px 0 14px}
+    .article h3{font-size:18px;margin:24px 0 10px}
+    .article p{font-size:16px;color:var(--color-text-muted);line-height:1.8;margin-bottom:16px}
+    .article ul{list-style:none;margin:16px 0}
+    .article ul li{padding:6px 0 6px 24px;position:relative;font-size:15px;color:var(--color-text-muted);line-height:1.6}
+    .article ul li::before{content:'✓';position:absolute;left:0;color:var(--color-accent);font-weight:700}
+    .article blockquote{background:var(--color-accent-light);border-left:3px solid var(--color-accent);padding:16px 20px;border-radius:0 var(--radius-sm) var(--radius-sm) 0;margin:20px 0}
+    .article blockquote p{margin-bottom:0;font-size:15px;font-style:italic}
+    .article-cta{text-align:center;margin-top:50px;padding:36px 28px;background:var(--color-bg-alt);border-radius:var(--radius-lg);border:1px solid var(--color-border)}
+    .article-cta h3{margin-bottom:8px}
+    .article-cta p{color:var(--color-text-muted);margin-bottom:20px;font-size:15px}
+    .btn-primary{display:inline-block;font-family:'Rubik',sans-serif;font-weight:600;font-size:16px;padding:15px 34px;border-radius:var(--radius-sm);border:none;cursor:pointer;transition:all .25s cubic-bezier(.34,1.56,.64,1);background:var(--color-accent);color:#fff;text-decoration:none}
+    .btn-primary:hover{background:var(--color-accent-hover);transform:translateY(-1px);text-decoration:none;color:#fff}
+    footer{border-top:1px solid var(--color-border);padding:32px 0;text-align:center;font-size:13px;color:var(--color-text-muted);margin-top:60px}
+    footer a{color:var(--color-text-muted)}footer a:hover{color:var(--color-accent)}
+    @media(max-width:640px){.article{padding:30px 0 60px}}
+  </style>
+</head>
+<body>
+<header><div class="container header-inner"><a href="../index.html" class="header-brand"><span class="header-name">Цифра</span><span class="header-subtitle">финансы и технологии</span></a><a href="../blog.html" style="font-size:13px;font-weight:600;">← Все статьи</a></div></header>
+<section class="article"><div class="container">
+<h1>Автоматизация отчётности для Ozon: как перестать собирать данные вручную</h1>
+<div class="article-meta"><span>📂 Автоматизация</span><span>⏱ 5 мин чтения</span></div>
+
+<p>Если вы торгуете на Ozon, то знаете: отчётов много. Статистика по продажам, комиссии, логистика, реклама, остатки на складах, выплаты. Собрать всё в одну картину — задача, которая отнимает часы каждую неделю. А без целостной картины невозможно понять реальную прибыль.</p>
+<p>Рассказываем, как автоматизировать сбор данных с Ozon и перестать тратить время на рутину.</p>
+
+<h2>Почему ручной сбор — это проблема</h2>
+<p>Типичный день селлера на Ozon: открыть личный кабинет, выгрузить отчёт по продажам, потом по комиссиям, потом по остаткам. Всё это — в Excel. Потом свести данные, сопоставить с расходами из банка, посчитать налоги. Прибавить сюда отчёты из рекламного кабинета.</p>
+<p>Это 5-10 часов в неделю чистой рутины. Часов, которые могли бы уйти на развитие — анализ ассортимента, поиск новых ниш, переговоры с поставщиками.</p>
+
+<blockquote><p>«Я тратила каждую пятницу на отчёты. У меня 3 кабинета — по одному отчёту из каждого, плюс общий свод. К обеду субботы голова кипела, и я всё равно не была уверена, что цифры сходятся.» — Анна, селлер на Ozon, 3 кабинета</p></blockquote>
+
+<h2>Какие данные с Ozon можно автоматизировать</h2>
+<ul>
+  <li><strong>Продажи и выручка</strong> — по дням, артикулам, категориям и кабинетам</li>
+  <li><strong>Комиссии Ozon</strong> — за продажу, за логистику, за хранение, за рекламу</li>
+  <li><strong>Остатки на складах</strong> — сколько товара на FBO, сколько на FBS, сколько в пути</li>
+  <li><strong>Возвраты</strong> — процент возвратов, причины, суммы</li>
+  <li><strong>Рекламные кампании</strong> — расходы на рекламу внутри Ozon, ROI</li>
+  <li><strong>Выплаты</strong> — какие выплаты пришли, какие ожидаются</li>
+</ul>
+
+<h2>Как это работает с нашей настройкой</h2>
+<p>Мы подключаем API Ozon к вашей учётной системе (Google-таблицы или Telegram-бот). Дальше данные собираются автоматически:</p>
+<ul>
+  <li>Раз в день (или раз в неделю — как удобно) система забирает свежие данные с Ozon</li>
+  <li>Формирует структурированный отчёт: ОПиУ, ДДС, движение по складам</li>
+  <li>Отчёт доступен в таблице или приходит в Telegram</li>
+  <li>Вы просто открываете — и видите картину по всем кабинетам сразу</li>
+</ul>
+
+<h2>Сколько это стоит</h2>
+<p>Настройка автоматического сбора данных — от 5 000 ₽ разово, в зависимости от количества кабинетов и объёмов. Дальше система работает без абонентской платы (если не нужен финансовый учёт ежемесячно).</p>
+<p>Если нужен ещё и финансовый учёт с еженедельными отчётами и аналитикой — ежемесячное сопровождение от 30 000 ₽.</p>
+
+<div class="article-cta">
+  <h3>Устали собирать отчёты руками?</h3>
+  <p>Настроим автовыгрузку данных с Ozon за 3-5 дней</p>
+  <a href="../index.html#contact" class="btn-primary">Заказать настройку →</a>
+</div>
+</div></section>
+<footer><div class="container"><p>Цифра — технологии и финансы &copy; 2026 | <a href="../privacy-policy.html">Политика конфиденциальности</a></p></div></footer>
+</body>
+</html>

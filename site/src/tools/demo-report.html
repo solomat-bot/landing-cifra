@@ -1,0 +1,492 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Демо-отчёт финансиста — Цифра | Как выглядит управленческий учёт</title>
+  <meta name="description" content="Посмотрите, как выглядят реальные отчёты управленческого учёта: ОПиУ, ДДС, платежный календарь. Без регистрации." />
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Rubik:wght@400;500;600;700;800;900&family=PT+Sans:wght@400;700&display=swap" rel="stylesheet" />
+
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --color-bg: #F9F7F4; --color-bg-alt: #F0EDE6;
+      --color-text: #1C1E26; --color-text-muted: #5D5F6E;
+      --color-accent: #C4604A; --color-accent-hover: #A94F3B;
+      --color-accent-light: rgba(196, 96, 74, 0.07);
+      --color-secondary: #3A5A6E; --color-border: rgba(28, 30, 38, 0.07);
+      --color-success: #3D7A5E; --color-danger: #C44A4A;
+      --container: 820px; --radius-sm: 6px; --radius-md: 12px; --radius-lg: 18px;
+    }
+    body {
+      font-family: 'PT Sans', sans-serif; font-size: 17px; line-height: 1.6;
+      color: var(--color-text); background: var(--color-bg); -webkit-font-smoothing: antialiased;
+    }
+    .container { max-width: var(--container); margin: 0 auto; padding: 0 24px; }
+    h1, h2, h3, h4 { font-family: 'Rubik', sans-serif; font-weight: 800; line-height: 1.2; color: var(--color-text); }
+    a { color: var(--color-accent); text-decoration: none; }
+    a:hover { color: var(--color-accent-hover); text-decoration: underline; }
+
+    header { padding: 16px 0; border-bottom: 1px solid var(--color-border); position: sticky; top: 0; z-index: 100; backdrop-filter: blur(10px); background: rgba(249, 247, 244, 0.92); }
+    .header-inner { max-width: 1160px; margin: 0 auto; padding: 0 24px; display: flex; justify-content: space-between; align-items: center; }
+    .header-brand { display: flex; flex-direction: column; text-decoration: none; }
+    .header-name { font-family: 'Rubik', sans-serif; font-weight: 900; font-size: 20px; color: var(--color-text); letter-spacing: -0.02em; }
+    .header-subtitle { font-family: 'Rubik', sans-serif; font-size: 9px; color: var(--color-text-muted); letter-spacing: 0.1em; font-weight: 500; margin-top: -1px; }
+
+    .page { padding: 50px 0 80px; }
+    .page-hero { text-align: center; margin-bottom: 40px; }
+    .page-hero h1 { font-size: clamp(26px, 3.6vw, 36px); margin-bottom: 10px; }
+    .page-hero p { color: var(--color-text-muted); font-size: 16px; max-width: 560px; margin: 0 auto; }
+
+    .demo-note {
+      max-width: 680px; margin: -20px auto 36px; text-align: center;
+      font-size: 13px; color: var(--color-text-muted); background: var(--color-bg-alt);
+      padding: 10px 18px; border-radius: 8px; border: 1px dashed var(--color-border);
+    }
+
+    .report-section { margin-bottom: 44px; }
+    .report-section h2 { font-size: 20px; margin-bottom: 6px; display: flex; align-items: center; gap: 8px; }
+    .report-section .sub { font-size: 13px; color: var(--color-text-muted); margin-bottom: 18px; }
+
+    .report-table { width: 100%; border-collapse: collapse; border-radius: var(--radius-md); overflow: hidden; border: 1px solid var(--color-border); }
+    .report-table th { background: var(--color-accent); color: #fff; padding: 12px 14px; font-family: 'Rubik', sans-serif; font-size: 12px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.06em; text-align: left; }
+    .report-table td { padding: 10px 14px; font-size: 14px; border-bottom: 1px solid var(--color-border); }
+    .report-table tr:last-child td { border-bottom: none; }
+    .report-table tr:nth-child(even) td { background: var(--color-bg-alt); }
+    .report-table .num { font-family: 'Rubik', sans-serif; font-weight: 600; text-align: right; }
+    .report-table .pos { color: var(--color-success); }
+    .report-table .neg { color: var(--color-danger); }
+    .report-table .total td { font-weight: 700; background: var(--color-accent-light) !important; border-top: 2px solid var(--color-accent); }
+    .report-table .category td { font-weight: 600; color: var(--color-text); }
+
+    .insight-card {
+      background: var(--color-accent-light); border-left: 3px solid var(--color-accent);
+      padding: 16px 20px; border-radius: 0 var(--radius-sm) var(--radius-sm) 0; margin: 16px 0;
+    }
+    .insight-card p { font-size: 14px; color: var(--color-text); line-height: 1.6; margin: 0; }
+    .insight-card strong { color: var(--color-accent); }
+
+    .tabs { display: flex; gap: 4px; margin-bottom: 20px; flex-wrap: wrap; }
+    .tab {
+      padding: 10px 20px; border-radius: var(--radius-sm) var(--radius-sm) 0 0;
+      font-family: 'Rubik', sans-serif; font-weight: 600; font-size: 13px; cursor: pointer;
+      transition: all 0.25s; border: 1px solid var(--color-border); border-bottom: none;
+      background: var(--color-bg-alt); color: var(--color-text-muted);
+    }
+    .tab:hover { color: var(--color-text); }
+    .tab.active { background: var(--color-bg); color: var(--color-accent); border-bottom-color: var(--color-bg); position: relative; }
+    .tab-content { display: none; }
+    .tab-content.active { display: block; animation: fadeIn 0.3s ease; }
+    @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+
+    .what-is { background: var(--color-bg-alt); border-radius: var(--radius-md); padding: 18px 22px; margin-bottom: 20px; }
+    .what-is h4 { font-size: 14px; margin-bottom: 6px; }
+    .what-is p { font-size: 14px; color: var(--color-text-muted); line-height: 1.6; }
+
+    .cta-block {
+      text-align: center; padding: 40px; background: var(--color-bg-alt);
+      border-radius: var(--radius-lg); border: 1px solid var(--color-border);
+    }
+    .cta-block h2 { margin-bottom: 10px; }
+    .cta-block p { color: var(--color-text-muted); margin-bottom: 24px; font-size: 16px; }
+    .btn-primary {
+      display: inline-block; font-family: 'Rubik', sans-serif; font-weight: 600; font-size: 16px;
+      padding: 15px 34px; border-radius: var(--radius-sm); border: none; cursor: pointer;
+      transition: all 0.25s cubic-bezier(0.34, 1.56, 0.64, 1); background: var(--color-accent); color: #fff;
+    }
+    .btn-primary:hover { background: var(--color-accent-hover); transform: translateY(-1px); }
+    .btn-secondary {
+      display: inline-block; font-family: 'Rubik', sans-serif; font-weight: 600; font-size: 14px;
+      padding: 11px 24px; border-radius: var(--radius-sm); cursor: pointer;
+      transition: all 0.25s; background: transparent; color: var(--color-text);
+      border: 1px solid var(--color-border); text-decoration: none; margin-top: 12px;
+    }
+    .btn-secondary:hover { border-color: var(--color-accent); color: var(--color-accent); }
+
+    footer { border-top: 1px solid var(--color-border); padding: 32px 0; text-align: center; font-size: 13px; color: var(--color-text-muted); margin-top: 60px; }
+    footer a { color: var(--color-text-muted); }
+    footer a:hover { color: var(--color-accent); }
+
+    @media (max-width: 640px) {
+      .report-table { font-size: 12px; }
+      .report-table th, .report-table td { padding: 8px 10px; font-size: 12px; }
+      .tabs { flex-direction: column; }
+      .tab { border-radius: var(--radius-sm); border-bottom: 1px solid var(--color-border); }
+      .tab.active { border-bottom-color: var(--color-accent); }
+    }
+  </style>
+</head>
+<body>
+
+<header>
+  <div class="header-inner">
+    <a href="../index.html" class="header-brand">
+      <span class="header-name">Цифра</span>
+      <span class="header-subtitle">финансы и технологии</span>
+    </a>
+    <a href="../index.html" style="font-size:13px;font-weight:600;">← На главную</a>
+  </div>
+</header>
+
+<section class="page">
+  <div class="container">
+    <div class="page-hero">
+      <h1>📊 Как выглядит управленческий учёт</h1>
+      <p>Демонстрация реальных отчётов: ОПиУ, ДДС и платежный календарь. Данные — демо, но структура — как в настоящих проектах.</p>
+    </div>
+    <div class="demo-note">
+      ⚡ Это демо-пример на основе магазина на Wildberries. В вашем проекте отчёты будут выглядеть так же — только с вашими цифрами.
+    </div>
+
+    <!-- Tabs -->
+    <div class="tabs">
+      <div class="tab active" onclick="switchTab('opiu', this)">📈 ОПиУ</div>
+      <div class="tab" onclick="switchTab('dds', this)">💰 ДДС</div>
+      <div class="tab" onclick="switchTab('calendar', this)">📅 Платежный календарь</div>
+      <div class="tab" onclick="switchTab('abc', this)">📊 ABC-анализ</div>
+    </div>
+
+    <!-- ОПиУ -->
+    <div class="tab-content active" id="tab-opiu">
+      <div class="report-section">
+        <div class="what-is">
+          <h4>❓ Что такое ОПиУ?</h4>
+          <p><strong>Отчёт о прибылях и убытках</strong> — показывает, заработали вы или нет за период. В отличие от ДДС, учитывает не только движение денег, но и обязательства (комиссии, налоги, резервы). Самый важный отчёт для понимания реальной картины.</p>
+        </div>
+
+        <table class="report-table">
+          <tr>
+            <th>Статья</th>
+            <th style="text-align:right;">Сумма</th>
+            <th style="text-align:right;">% от выручки</th>
+          </tr>
+          <tr>
+            <td><strong>Выручка (продажи)</strong></td>
+            <td class="num pos">1 245 000 ₽</td>
+            <td class="num">100%</td>
+          </tr>
+          <tr>
+            <td style="padding-left:24px;">— Возвраты</td>
+            <td class="num neg">−62 250 ₽</td>
+            <td class="num">−5%</td>
+          </tr>
+          <tr>
+            <td><strong>Выручка нетто</strong></td>
+            <td class="num pos">1 182 750 ₽</td>
+            <td class="num">95%</td>
+          </tr>
+          <tr class="category"><td colspan="3">Расходы на продажи</td></tr>
+          <tr>
+            <td style="padding-left:24px;">Комиссия WB</td>
+            <td class="num neg">−174 300 ₽</td>
+            <td class="num">−14%</td>
+          </tr>
+          <tr>
+            <td style="padding-left:24px;">Логистика и хранение</td>
+            <td class="num neg">−112 050 ₽</td>
+            <td class="num">−9%</td>
+          </tr>
+          <tr>
+            <td style="padding-left:24px;">Реклама (внутренняя)</td>
+            <td class="num neg">−87 150 ₽</td>
+            <td class="num">−7%</td>
+          </tr>
+          <tr class="category"><td colspan="3">Операционные расходы</td></tr>
+          <tr>
+            <td style="padding-left:24px;">Закупка товара</td>
+            <td class="num neg">−498 000 ₽</td>
+            <td class="num">−40%</td>
+          </tr>
+          <tr>
+            <td style="padding-left:24px;">Упаковка и маркировка</td>
+            <td class="num neg">−37 350 ₽</td>
+            <td class="num">−3%</td>
+          </tr>
+          <tr>
+            <td style="padding-left:24px;">Эквайринг / комиссии банка</td>
+            <td class="num neg">−12 450 ₽</td>
+            <td class="num">−1%</td>
+          </tr>
+          <tr class="total">
+            <td><strong>Валовая прибыль</strong></td>
+            <td class="num pos"><strong>261 450 ₽</strong></td>
+            <td class="num"><strong>21%</strong></td>
+          </tr>
+          <tr>
+            <td style="padding-left:24px;">Налоги (УСН 6%)</td>
+            <td class="num neg">−74 700 ₽</td>
+            <td class="num">−6%</td>
+          </tr>
+          <tr>
+            <td style="padding-left:24px;">Прочие расходы</td>
+            <td class="num neg">−18 675 ₽</td>
+            <td class="num">−1.5%</td>
+          </tr>
+          <tr class="total">
+            <td><strong>Чистая прибыль</strong></td>
+            <td class="num pos"><strong>168 075 ₽</strong></td>
+            <td class="num"><strong>13.5%</strong></td>
+          </tr>
+        </table>
+
+        <div class="insight-card">
+          <p><strong>🔍 Что мы видим:</strong> Чистая прибыль 13.5% — неплохой показатель для WB. Но ABC-анализ (вкладка рядом) покажет, что 20% товаров приносят 80% прибыли, а часть ассортимента работает в минус. Мы это исправляем.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- ДДС -->
+    <div class="tab-content" id="tab-dds">
+      <div class="report-section">
+        <div class="what-is">
+          <h4>❓ Что такое ДДС?</h4>
+          <p><strong>Движение денежных средств</strong> — показывает, сколько денег физически пришло и ушло за период. Отвечает на вопрос «где деньги прямо сейчас?». Не путать с ОПиУ: деньги могут быть в кассе, но бизнес может работать в убыток (и наоборот).</p>
+        </div>
+
+        <table class="report-table">
+          <tr>
+            <th>Статья</th>
+            <th style="text-align:right;">Приход</th>
+            <th style="text-align:right;">Расход</th>
+          </tr>
+          <tr class="category"><td colspan="3">Остаток на начало периода</td></tr>
+          <tr>
+            <td>Расчетный счёт</td>
+            <td class="num pos">145 000 ₽</td>
+            <td class="num">—</td>
+          </tr>
+          <tr>
+            <td>Наличные / касса</td>
+            <td class="num pos">23 000 ₽</td>
+            <td class="num">—</td>
+          </tr>
+          <tr class="category"><td colspan="3">Поступления</td></tr>
+          <tr>
+            <td>Выплата от WB (за вычетом комиссий)</td>
+            <td class="num pos">958 450 ₽</td>
+            <td class="num">—</td>
+          </tr>
+          <tr>
+            <td>Возвраты от поставщиков</td>
+            <td class="num pos">12 500 ₽</td>
+            <td class="num">—</td>
+          </tr>
+          <tr class="category"><td colspan="3">Платежи</td></tr>
+          <tr>
+            <td>Закупка товара</td>
+            <td class="num">—</td>
+            <td class="num neg">−498 000 ₽</td>
+          </tr>
+          <tr>
+            <td>Логистика и хранение</td>
+            <td class="num">—</td>
+            <td class="num neg">−112 050 ₽</td>
+          </tr>
+          <tr>
+            <td>Реклама</td>
+            <td class="num">—</td>
+            <td class="num neg">−87 150 ₽</td>
+          </tr>
+          <tr>
+            <td>Налоги</td>
+            <td class="num">—</td>
+            <td class="num neg">−74 700 ₽</td>
+          </tr>
+          <tr>
+            <td>Зарплата и подряды</td>
+            <td class="num">—</td>
+            <td class="num neg">−60 000 ₽</td>
+          </tr>
+          <tr>
+            <td>Упаковка / маркировка</td>
+            <td class="num">—</td>
+            <td class="num neg">−37 350 ₽</td>
+          </tr>
+          <tr>
+            <td>Прочие расходы</td>
+            <td class="num">—</td>
+            <td class="num neg">−31 125 ₽</td>
+          </tr>
+          <tr class="total">
+            <td><strong>Остаток на конец периода</strong></td>
+            <td class="num pos"><strong>238 675 ₽</strong></td>
+            <td class="num"></td>
+          </tr>
+        </table>
+
+        <div class="insight-card">
+          <p><strong>🔍 Что мы видим:</strong> Денег на счетах достаточно для следующей закупки. Но обратите внимание: налоги <strong>уже уплачены</strong> — в ОПиУ они тоже учтены. Если бы мы смотрели только на «деньги в кассе», могли пропустить, что реальная прибыль ниже кажущейся.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Платежный календарь -->
+    <div class="tab-content" id="tab-calendar">
+      <div class="report-section">
+        <div class="what-is">
+          <h4>❓ Что такое платёжный календарь?</h4>
+          <p><strong>Платежный календарь</strong> — план предстоящих платежей на 2-4 недели вперёд. Помогает избежать кассовых разрывов (ситуации, когда деньги есть на отчёте, но на счете — ноль). Особенно важно для маркетплейсов с их задержками выплат.</p>
+        </div>
+
+        <table class="report-table">
+          <tr>
+            <th>Неделя</th>
+            <th style="text-align:right;">Ожидаемые поступления</th>
+            <th style="text-align:right;">Обязательные платежи</th>
+            <th style="text-align:right;">Остаток</th>
+          </tr>
+          <tr>
+            <td><strong>Текущая неделя</strong></td>
+            <td class="num pos">312 000 ₽</td>
+            <td class="num neg">−245 000 ₽</td>
+            <td class="num pos">67 000 ₽</td>
+          </tr>
+          <tr>
+            <td style="padding-left:24px;font-size:12px;color:var(--color-text-muted);">Закупка товара</td>
+            <td class="num"></td>
+            <td class="num neg">−180 000 ₽</td>
+            <td class="num"></td>
+          </tr>
+          <tr>
+            <td style="padding-left:24px;font-size:12px;color:var(--color-text-muted);">Логистика</td>
+            <td class="num"></td>
+            <td class="num neg">−35 000 ₽</td>
+            <td class="num"></td>
+          </tr>
+          <tr>
+            <td style="padding-left:24px;font-size:12px;color:var(--color-text-muted);">Упаковка</td>
+            <td class="num"></td>
+            <td class="num neg">−15 000 ₽</td>
+            <td class="num"></td>
+          </tr>
+          <tr>
+            <td style="padding-left:24px;font-size:12px;color:var(--color-text-muted);">Подписки / связь</td>
+            <td class="num"></td>
+            <td class="num neg">−15 000 ₽</td>
+            <td class="num"></td>
+          </tr>
+          <tr>
+            <td><strong>Следующая неделя</strong></td>
+            <td class="num pos">445 000 ₽</td>
+            <td class="num neg">−510 000 ₽</td>
+            <td class="num neg" style="font-weight:700;">−65 000 ₽ ⚠️</td>
+          </tr>
+          <tr>
+            <td style="padding-left:24px;font-size:12px;color:var(--color-text-muted);">Выплата WB</td>
+            <td class="num pos">420 000 ₽</td>
+            <td class="num"></td>
+            <td class="num"></td>
+          </tr>
+          <tr>
+            <td style="padding-left:24px;font-size:12px;color:var(--color-text-muted);">Крупная закупка</td>
+            <td class="num"></td>
+            <td class="num neg">−350 000 ₽</td>
+            <td class="num"></td>
+          </tr>
+          <tr>
+            <td style="padding-left:24px;font-size:12px;color:var(--color-text-muted);">Налоги (аванс)</td>
+            <td class="num"></td>
+            <td class="num neg">−100 000 ₽</td>
+            <td class="num"></td>
+          </tr>
+          <tr>
+            <td style="padding-left:24px;font-size:12px;color:var(--color-text-muted);">Реклама</td>
+            <td class="num"></td>
+            <td class="num neg">−45 000 ₽</td>
+            <td class="num"></td>
+          </tr>
+          <tr class="total">
+            <td><strong>Итого на 2 недели</strong></td>
+            <td class="num pos"><strong>757 000 ₽</strong></td>
+            <td class="num neg"><strong>−755 000 ₽</strong></td>
+            <td class="num pos"><strong>2 000 ₽</strong></td>
+          </tr>
+        </table>
+
+        <div class="insight-card">
+          <p><strong>⚠️ Важно:</strong> На следующей неделе — кассовый разрыв: обязательных платежей больше, чем поступлений. Это стандартная ситуация для селлеров на WB. <strong>Что делаем:</strong> переносим часть закупки на неделю позже или договариваемся о рассрочке с поставщиком. Без платёжного календаря вы узнали бы об этом в момент списания.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- ABC-анализ -->
+    <div class="tab-content" id="tab-abc">
+      <div class="report-section">
+        <div class="what-is">
+          <h4>❓ Что такое ABC-анализ?</h4>
+          <p><strong>ABC-анализ</strong> делит товары на три группы: A (20% товаров = 80% прибыли), B (30% = 15% прибыли), C (50% = 5% прибыли). Помогает понять, что закупать, а что — выводить из ассортимента. Без него вы тратите деньги на товары, которые не приносят прибыли.</p>
+        </div>
+
+        <table class="report-table">
+          <tr>
+            <th>Категория</th>
+            <th>Доля в ассортименте</th>
+            <th style="text-align:right;">Доля в прибыли</th>
+            <th style="text-align:right;">Что делать</th>
+          </tr>
+          <tr style="background:rgba(61,122,94,0.05);">
+            <td>
+              <span style="display:inline-block;width:10px;height:10px;border-radius:50%;background:var(--color-success);vertical-align:middle;margin-right:8px;"></span>
+              <strong>A — Топ</strong>
+            </td>
+            <td>20%</td>
+            <td class="num pos">80%</td>
+            <td style="font-size:13px;">Увеличить закупку, держать запас, не повышать цену</td>
+          </tr>
+          <tr style="background:rgba(58,90,110,0.05);">
+            <td>
+              <span style="display:inline-block;width:10px;height:10px;border-radius:50%;background:var(--color-secondary);vertical-align:middle;margin-right:8px;"></span>
+              <strong>B — Стабильные</strong>
+            </td>
+            <td>30%</td>
+            <td class="num pos">15%</td>
+            <td style="font-size:13px;">Поддерживать, искать способы повысить маржу</td>
+          </tr>
+          <tr style="background:rgba(196,74,74,0.05);">
+            <td>
+              <span style="display:inline-block;width:10px;height:10px;border-radius:50%;background:var(--color-danger);vertical-align:middle;margin-right:8px;"></span>
+              <strong>C — Аутсайдеры</strong>
+            </td>
+            <td>50%</td>
+            <td class="num neg">5%</td>
+            <td style="font-size:13px;">Распродать залежи, не пополнять, вывести из ассортимента</td>
+          </tr>
+        </table>
+
+        <div class="insight-card">
+          <p><strong>🔍 Что мы видим:</strong> Половина ассортимента приносит всего 5% прибыли. Это товары, которые «лежат мёртвым грузом»: занимают место на складе (за которое вы платите), отвлекают бюджет, но не дают отдачи. <strong>Решение:</strong> распродаём C, увеличиваем закупку A. После такого анализа прибыль вырастает на 15-30% без увеличения оборота.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- CTA -->
+    <div class="cta-block">
+      <h2>Хотите такие же отчёты по вашему бизнесу?</h2>
+      <p>Настроим управленческий учёт за 1-2 недели. Вы просто открываете таблицу и видите картину.</p>
+      <a href="../index.html#contact" class="btn-primary">Заказать консультацию 15 мин →</a>
+      <br/>
+      <a href="business-diagnosis.html" class="btn-secondary">Сначала пройти диагностику →</a>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="container">
+    <p>Цифра — технологии и финансы &copy; 2026 | <a href="../privacy-policy.html">Политика конфиденциальности</a></p>
+  </div>
+</footer>
+
+<script>
+  function switchTab(tabId, el) {
+    document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+    document.querySelectorAll('.tab-content').forEach(t => t.classList.remove('active'));
+    el.classList.add('active');
+    document.getElementById('tab-' + tabId).classList.add('active');
+  }
+</script>
+
+</body>
+</html>

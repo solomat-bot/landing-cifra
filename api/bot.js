@@ -1,4 +1,4 @@
-// Telegram Bot Webhook — @CifraConsultBot продажник
+// Telegram Bot Webhook — @CifraConsultBot продажник + автоворонка
 // Установка webhook: https://api.telegram.org/bot<TOKEN>/setWebhook?url=https://landing-cifra.vercel.app/api/bot
 // Удалить: https://api.telegram.org/bot<TOKEN>/deleteWebhook
 
@@ -37,6 +37,59 @@ const CHECKLIST_TEXT = `📋 <b>ЧЕК-ЛИСТ: 5 шагов к порядку 
 
 ━━━━━━━━━━━━━━━━━━
 📎 Полная версия с пояснениями: https://landing-cifra.vercel.app/lead-magnet-checklist.html`;
+
+// ===== АВТОВОРОНКА: контент для дожима =====
+const FUNNEL_MESSAGES = [
+  {
+    id: 'case',
+    delayHours: 24, // через 24ч после чек-листа
+    text: `📊 <b>Кейс: как мы настроили учёт продавцу на Wildberries</b>
+
+Владелец 5 кабинетов WB тратил КАЖДУЮ субботу на ручной сбор отчётов. Данные не сходились, налоги считал «на глаз», реальную прибыль не видел.
+
+<b>Что сделали:</b>
+• Настроили автовыгрузку из 5 кабинетов в единую Google-таблицу
+• ОПиУ, ДДС, ABC-анализ — обновляются автоматически
+• Платежный календарь — ни одного просроченного платежа
+
+<b>Результат:</b> 15 часов в неделю экономии. Владелец видит прибыль по каждому кабинету и товару.
+
+→ Полный разбор: https://landing-cifra.vercel.app/cases.html#case-1
+
+Хотите так же? Просто напишите — обсудим бесплатно 👇`
+  },
+  {
+    id: 'testimonial',
+    delayHours: 72, // через 3 дня
+    text: `🔥 <b>Вот что говорят наши клиенты:</b>
+
+⭐️⭐️⭐️⭐️⭐️
+«Евгения навела порядок в финансах за пару недель. У меня 4 кабинета на Wildberries — теперь есть еженедельные отчёты ОПиУ и ДДС. Вижу реальную прибыль по каждому кабинету. Перестал гадать, хватит ли на закупку.»
+— Дмитрий, селлер на WB, Казань
+
+⭐️⭐️⭐️⭐️⭐️
+«Заказал бота для записи в барбершоп. Раньше администратор тратил кучу времени на переписку. Теперь бот записывает, напоминает, отмены сразу освобождают слот. Окупилось за пару недель.»
+— Артём, сеть барбершопов, Екатеринбург
+
+<b>Хотите так же?</b> Просто напишите, чем мы можем помочь 👇`
+  },
+  {
+    id: 'offer',
+    delayHours: 168, // через 7 дней
+    text: `🎁 <b>Специальное предложение</b>
+
+Вижу, вы уже знакомы с «Цифрой». Давайте сделаем следующий шаг?
+
+<b>Бесплатный аудит вашей ситуации (15 мин):</b>
+• Посмотрим, что с деньгами и процессами
+• Определим, что можно улучшить
+• Скажем точную цену и сроки
+
+<b>А ещё:</b> для вас действует портфолио-цена (ограниченные места). Сейчас отличный момент начать.
+
+Напишите "ДА" или просто опишите свою ситуацию — я всё передам команде 👇`
+  }
+];
 
 // In-memory user states (сбрасываются при перезапуске функции)
 const userStates = new Map();
@@ -105,11 +158,62 @@ async function editMessage(chatId, messageId, text, extra = {}) {
 }
 
 async function notifyTeam(text) {
-  // Send to both personal chat and group
   const targets = [TELEGRAM_CHAT_ID, TELEGRAM_GROUP_ID];
   for (const chatId of targets) {
     await sendTelegram(chatId, text);
   }
+}
+
+// ===== АВТОВОРОНКА: проверка и отправка =====
+async function checkFunnel(chatId) {
+  const state = userStates.get(chatId);
+  if (!state || !state.gotChecklist || state.funnelDone) return;
+
+  const now = Date.now();
+  const checklistTime = state.checklistTime || now;
+  let sentAny = false;
+
+  for (const step of FUNNEL_MESSAGES) {
+    // Пропускаем, если уже отправляли
+    if (state.funnelSent?.includes(step.id)) continue;
+
+    const elapsedHours = (now - checklistTime) / (1000 * 60 * 60);
+    if (elapsedHours >= step.delayHours) {
+      // Отправляем сообщение из воронки
+      if (step.id === 'offer') {
+        await sendTelegram(chatId, step.text, getInlineKeyboard([
+          [{ text: '🔥 Хочу аудит!', data: 'contact' }],
+          [{ text: '← В меню', data: 'menu' }],
+        ]));
+      } else {
+        await sendTelegram(chatId, step.text, getInlineKeyboard([
+          [{ text: '📞 Хочу так же!', data: 'contact' }],
+          [{ text: '← В меню', data: 'menu' }],
+        ]));
+      }
+
+      // Сохраняем, что отправили
+      state.funnelSent = state.funnelSent || [];
+      state.funnelSent.push(step.id);
+      sentAny = true;
+    }
+  }
+
+  // Если отправили последний шаг — помечаем воронку завершённой
+  if (state.funnelSent?.length >= FUNNEL_MESSAGES.length) {
+    state.funnelDone = true;
+  }
+
+  if (sentAny) {
+    userStates.set(chatId, state);
+  }
+}
+
+async function resetFunnelState(chatId, state) {
+  state.funnelSent = [];
+  state.funnelDone = false;
+  state.checklistTime = Date.now();
+  userStates.set(chatId, state);
 }
 
 // ===== HANDLERS =====
@@ -209,11 +313,9 @@ function handlePricing(chatId, messageId = null) {
 
 async function handleChecklistViaReply(chatId, from) {
   await handleChecklist(chatId, null, from?.first_name || '');
-  // Уведомление о чек-листе убрано — слишком много шума
 }
 
 async function handleChecklist(chatId, messageId = null, userName = '') {
-  // Immediately send the checklist — no name prompt
   const name = userName || 'друг';
 
   // 1. Приветствие
@@ -222,18 +324,31 @@ async function handleChecklist(chatId, messageId = null, userName = '') {
   // 2. Чек-лист
   sendTelegram(chatId, CHECKLIST_TEXT, { parse_mode: 'HTML' });
 
-  // 3. Короткое завершение
+  // 3. Завершение
   setTimeout(() => {
     sendTelegram(chatId, `📎 Полная версия чек-листа с пояснениями: https://landing-cifra.vercel.app/lead-magnet-checklist.html
+
+🎯 <b>Что дальше?</b>
+Чек-лист — это первый шаг. Когда будете готовы навести полный порядок в финансах — просто напишите. А я пока пришлю пару полезных историй 😉
 
 Если захотите обсудить настройку учёта для вашего бизнеса — просто напишите /start`, removeKeyboard());
   }, 1500);
 
-  userStates.set(chatId, { ...userStates.get(chatId), name, gotChecklist: true, awaitingName: false });
+  // Сохраняем состояние и запускаем автоворонку
+  const existing = userStates.get(chatId) || {};
+  userStates.set(chatId, {
+    ...existing,
+    name,
+    gotChecklist: true,
+    awaitingName: false,
+    checklistTime: Date.now(),
+    funnelSent: [],
+    funnelDone: false,
+  });
 }
 
 function handleContact(chatId, messageId = null) {
-  const text = `📞 <b>Запись на бесплатную консультацию</b>
+  const text = `📞 <b>Запись на консультацию</b>
 
 Мы бесплатно проанализируем вашу ситуацию за 15-минутный звонок.
 
@@ -243,8 +358,8 @@ function handleContact(chatId, messageId = null) {
 • Сколько будет стоить и сколько займёт
 
 <b>Как записаться:</b>
-• Оставьте заявку на сайте: https://landing-cifra.vercel.app#contact
-• Или просто напишите сообщение сюда — я передам команде!`;
+Оставьте заявку на сайте — мы ответим в течение нескольких часов 👇
+https://landing-cifra.vercel.app#contact`;
 
   if (messageId) {
     editMessage(chatId, messageId, text, getInlineKeyboard([
@@ -257,8 +372,6 @@ function handleContact(chatId, messageId = null) {
       [{ text: '← В меню', data: 'menu' }],
     ]));
   }
-
-  userStates.set(chatId, 'awaiting_message');
 }
 
 function handleMenu(chatId, messageId = null) {
@@ -308,28 +421,13 @@ async function handleUserMessage(chatId, text, userObj = {}) {
     }
     const tgUsername = userObj.username || `id${chatId}`;
     const usernameDisplay = userObj.username ? `@${userObj.username}` : `ID: ${chatId}`;
-    await handleChecklistSend(chatId, name, usernameDisplay);
+    await handleChecklist(chatId, null, name);
     return;
   }
 
-  // Если пользователь в режиме связи с командой
-  if (state === 'awaiting_message') {
-    await notifyTeam(
-      `💬 Сообщение из бота от пользователя\n\n`
-      + `👤 Chat ID: ${chatId}\n`
-      + `📝 Сообщение: ${text}\n\n`
-      + `Ответьте пользователю напрямую в Telegram, если знаете username.`
-    );
-
-    sendTelegram(chatId, `Спасибо! Я передал ваше сообщение команде. Мы ответим в ближайшее время 🙌
-
-А пока можете посмотреть:
-• Наши услуги — в меню ниже
-• Чек-лист по финансам — бесплатно`, getInlineKeyboard([
-      [{ text: '← В меню', data: 'menu' }],
-    ]));
-    userStates.set(chatId, 'menu');
-    return;
+  // Если у пользователя есть чек-лист — проверяем автоворонку
+  if (state.gotChecklist && !state.funnelDone) {
+    await checkFunnel(chatId);
   }
 
   // Если не в режиме ожидания — показываем меню
@@ -356,6 +454,12 @@ export default async function handler(req, res) {
       const { data, message, from } = update.callback_query;
       const chatId = message.chat.id;
       const messageId = message.message_id;
+
+      // Для колбеков с кнопок тоже проверяем воронку
+      const state = userStates.get(chatId);
+      if (state && typeof state === 'object' && state.gotChecklist && !state.funnelDone) {
+        await checkFunnel(chatId);
+      }
 
       switch (data) {
         case 'services':
@@ -404,7 +508,6 @@ export default async function handler(req, res) {
       } else if (text === '🎁 Чек-лист') {
         await handleChecklistViaReply(chatId, update.message.from);
       } else if (text.startsWith('/start ')) {
-        // Deep link: e.g. /start checklist
         const payload = text.split(' ')[1];
         if (payload === 'checklist') {
           const from = update.message.from || {};
@@ -419,10 +522,9 @@ export default async function handler(req, res) {
       return res.status(200).json({ ok: true });
     }
 
-    // /set_webbook — настройка вебхука (админ-команда)
+    // /set_webhook — настройка вебхука (админ-команда)
     if (update.message?.text === '/set_webhook') {
       const chatId = update.message.chat.id;
-      // Only allow from configured chat
       if (String(chatId) === TELEGRAM_CHAT_ID) {
         const webhookUrl = `https://landing-cifra.vercel.app/api/bot`;
         const setUrl = `https://api.telegram.org/bot${TELEGRAM_BOT_TOKEN}/setWebhook?url=${webhookUrl}`;

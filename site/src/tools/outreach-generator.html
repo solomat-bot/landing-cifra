@@ -1,0 +1,332 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Генератор сообщений для рассылки — Цифра | AI-помощник продаж</title>
+  <meta name="description" content="AI-генератор персонализированных сообщений для холодной рассылки в Telegram и соцсетях." />
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Rubik:wght@400;500;600;700;800;900&family=PT+Sans:wght@400;700&display=swap" rel="stylesheet" />
+
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --color-bg: #F9F7F4; --color-bg-alt: #F0EDE6;
+      --color-text: #1C1E26; --color-text-muted: #5D5F6E;
+      --color-accent: #C4604A; --color-accent-hover: #A94F3B;
+      --color-accent-light: rgba(196, 96, 74, 0.07);
+      --color-secondary: #3A5A6E; --color-border: rgba(28, 30, 38, 0.07);
+      --container: 720px; --radius-sm: 6px; --radius-md: 12px; --radius-lg: 18px;
+    }
+    body {
+      font-family: 'PT Sans', sans-serif; font-size: 17px; line-height: 1.6;
+      color: var(--color-text); background: var(--color-bg); -webkit-font-smoothing: antialiased;
+    }
+    .container { max-width: var(--container); margin: 0 auto; padding: 0 24px; }
+    h1, h2, h3 { font-family: 'Rubik', sans-serif; font-weight: 800; line-height: 1.2; color: var(--color-text); }
+    a { color: var(--color-accent); text-decoration: none; }
+    a:hover { color: var(--color-accent-hover); text-decoration: underline; }
+
+    header { padding: 16px 0; border-bottom: 1px solid var(--color-border); position: sticky; top: 0; z-index: 100; backdrop-filter: blur(10px); background: rgba(249, 247, 244, 0.92); }
+    .header-inner { max-width: 1160px; margin: 0 auto; padding: 0 24px; display: flex; justify-content: space-between; align-items: center; }
+    .header-brand { display: flex; flex-direction: column; text-decoration: none; }
+    .header-name { font-family: 'Rubik', sans-serif; font-weight: 900; font-size: 20px; color: var(--color-text); letter-spacing: -0.02em; }
+    .header-subtitle { font-family: 'Rubik', sans-serif; font-size: 9px; color: var(--color-text-muted); letter-spacing: 0.1em; font-weight: 500; margin-top: -1px; }
+
+    .page { padding: 50px 0 80px; }
+    .page-hero { text-align: center; margin-bottom: 40px; }
+    .page-hero h1 { font-size: clamp(26px, 3.6vw, 36px); margin-bottom: 10px; }
+    .page-hero p { color: var(--color-text-muted); font-size: 16px; max-width: 520px; margin: 0 auto; }
+    .page-hero .ai-badge { display: inline-flex; align-items: center; gap: 5px; margin-top: 12px; font-size: 12px; color: var(--color-text-muted); background: var(--color-bg-alt); padding: 5px 14px; border-radius: 20px; }
+
+    .tips {
+      display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 12px; margin-bottom: 36px;
+    }
+    .tip-card {
+      background: var(--color-bg-alt); border-radius: var(--radius-md); padding: 18px 16px;
+      border: 1px solid var(--color-border); text-align: center;
+    }
+    .tip-card .icon { font-size: 20px; margin-bottom: 8px; }
+    .tip-card h4 { font-size: 13px; margin-bottom: 4px; }
+    .tip-card p { font-size: 12px; color: var(--color-text-muted); line-height: 1.5; }
+
+    .form-card { background: var(--color-bg-alt); border-radius: var(--radius-lg); padding: 32px 28px; border: 1px solid var(--color-border); }
+    .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+    .form-group { margin-bottom: 18px; }
+    .form-group label { font-size: 14px; font-weight: 600; color: var(--color-text); display: block; margin-bottom: 6px; }
+    .form-group .hint { font-weight: 400; color: var(--color-text-muted); font-size: 12px; }
+    .form-group input, .form-group textarea, .form-group select {
+      width: 100%; padding: 12px 16px; border: 1px solid var(--color-border); border-radius: var(--radius-sm);
+      font-family: 'Rubik', sans-serif; font-size: 15px; color: var(--color-text); background: var(--color-bg);
+      transition: border-color 0.3s; outline: none;
+    }
+    .form-group input:focus, .form-group textarea:focus, .form-group select:focus { border-color: var(--color-accent); }
+    .form-group textarea { min-height: 80px; resize: vertical; }
+
+    .btn-primary {
+      display: inline-block; font-family: 'Rubik', sans-serif; font-weight: 600; font-size: 16px;
+      padding: 15px 34px; border-radius: var(--radius-sm); border: none; cursor: pointer;
+      transition: all 0.25s cubic-bezier(0.34, 1.56, 0.64, 1); background: var(--color-accent); color: #fff; width: 100%;
+    }
+    .btn-primary:hover { background: var(--color-accent-hover); transform: translateY(-1px); }
+    .btn-primary:disabled { opacity: 0.6; cursor: not-allowed; transform: none; }
+
+    .result { display: none; margin-top: 36px; }
+    .result.visible { display: block; animation: fadeIn 0.5s ease; }
+    @keyframes fadeIn { from { opacity: 0; transform: translateY(16px); } to { opacity: 1; transform: translateY(0); } }
+
+    .result-card { background: var(--color-bg); border-radius: var(--radius-lg); border: 1px solid var(--color-border); overflow: hidden; }
+    .result-header { padding: 16px 24px; background: var(--color-secondary); color: #fff; display: flex; justify-content: space-between; align-items: center; font-family: 'Rubik', sans-serif; font-weight: 600; font-size: 14px; }
+    .result-header button { background: rgba(255,255,255,0.2); border: none; color: #fff; padding: 5px 12px; border-radius: 4px; cursor: pointer; font-size: 12px; font-family: 'Rubik', sans-serif; transition: background 0.2s; }
+    .result-header button:hover { background: rgba(255,255,255,0.35); }
+    .result-body { padding: 24px; white-space: pre-wrap; font-size: 15px; line-height: 1.7; max-height: 500px; overflow-y: auto; }
+    .result-variants { border-top: 1px solid var(--color-border); padding: 18px 24px; }
+    .result-variants h4 { font-size: 14px; margin-bottom: 12px; }
+    .variant-list { display: flex; flex-direction: column; gap: 8px; }
+    .variant-item { padding: 12px 16px; border: 1px solid var(--color-border); border-radius: var(--radius-sm); font-size: 14px; cursor: pointer; transition: all 0.2s; background: var(--color-bg-alt); }
+    .variant-item:hover { border-color: var(--color-accent); background: var(--color-accent-light); }
+
+    .loading { text-align: center; padding: 30px; }
+    .loading .spinner { width: 28px; height: 28px; border: 3px solid var(--color-border); border-top-color: var(--color-accent); border-radius: 50%; animation: spin 0.8s linear infinite; margin: 0 auto 12px; }
+    @keyframes spin { to { transform: rotate(360deg); } }
+
+    footer { border-top: 1px solid var(--color-border); padding: 32px 0; text-align: center; font-size: 13px; color: var(--color-text-muted); margin-top: 60px; }
+    footer a { color: var(--color-text-muted); }
+    footer a:hover { color: var(--color-accent); }
+    .toast { position: fixed; bottom: 28px; right: 28px; padding: 14px 22px; border-radius: var(--radius-sm); color: #fff; font-size: 14px; z-index: 1000; opacity: 0; transform: translateY(16px); transition: all 0.4s; max-width: 380px; background: var(--color-success); }
+    .toast.show { opacity: 1; transform: translateY(0); }
+
+    @media (max-width: 640px) {
+      .form-row { grid-template-columns: 1fr; }
+      .form-card { padding: 24px 18px; }
+      .tips { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+<header>
+  <div class="header-inner">
+    <a href="../index.html" class="header-brand">
+      <span class="header-name">Цифра</span>
+      <span class="header-subtitle">финансы и технологии</span>
+    </a>
+    <a href="../index.html" style="font-size:13px;font-weight:600;">← На главную</a>
+  </div>
+</header>
+
+<section class="page">
+  <div class="container">
+    <div class="page-hero">
+      <h1>✉️ Генератор сообщений для рассылки</h1>
+      <p>AI напишет персонализированное сообщение для холодной рассылки в Telegram, WhatsApp или email. Просто опишите, кому и что предлагаете.</p>
+      <span class="ai-badge">⚡ Работает на DeepSeek AI</span>
+    </div>
+
+    <div class="tips">
+      <div class="tip-card">
+        <div class="icon">🎯</div>
+        <h4>Персонализация</h4>
+        <p>Укажите тип бизнеса клиента — AI подстроит сообщение под его контекст</p>
+      </div>
+      <div class="tip-card">
+        <div class="icon">📝</div>
+        <h4>Разные тона</h4>
+        <p>Дружеский, деловой или短кий — выберите стиль общения</p>
+      </div>
+      <div class="tip-card">
+        <div class="icon">🔄</div>
+        <h4>Варианты</h4>
+        <p>AI сгенерирует несколько вариантов — выберите лучший</p>
+      </div>
+    </div>
+
+    <div class="form-card">
+      <form id="outreach-form" onsubmit="generateMessage(event)">
+        <div class="form-row">
+          <div class="form-group">
+            <label for="target_biz">Тип бизнеса клиента <span class="hint">(кому пишете)</span></label>
+            <input type="text" id="target_biz" placeholder="Например: селлеры на Wildberries" required />
+          </div>
+          <div class="form-group">
+            <label for="offer">Что предлагаете <span class="hint">(ваше УТП)</span></label>
+            <input type="text" id="offer" placeholder="Например: настроим управленческий учёт" required />
+          </div>
+        </div>
+        <div class="form-group">
+          <label for="goal">Цель сообщения</label>
+          <select id="goal">
+            <option value="consultation">Записать на бесплатную консультацию</option>
+            <option value="lead">Заинтересовать и получить контакт</option>
+            <option value="meeting">Договориться о встрече</option>
+            <option value="checklist">Предложить чек-лист / лид-магнит</option>
+          </select>
+        </div>
+        <div class="form-row">
+          <div class="form-group">
+            <label for="tone">Тон сообщения</label>
+            <select id="tone">
+              <option value="friendly">Дружеский</option>
+              <option value="professional">Деловой</option>
+              <option value="short">Максимально короткий</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label for="channel">Канал рассылки</label>
+            <select id="channel">
+              <option value="telegram">Telegram</option>
+              <option value="whatsapp">WhatsApp</option>
+              <option value="email">Email</option>
+            </select>
+          </div>
+        </div>
+        <button type="submit" class="btn-primary" id="generate-btn">🚀 Сгенерировать сообщение</button>
+      </form>
+    </div>
+
+    <!-- Result -->
+    <div class="result" id="result">
+      <div class="result-card">
+        <div class="result-header">
+          <span>📨 Ваше сообщение</span>
+          <button onclick="copyResult()">📋 Копировать</button>
+        </div>
+        <div class="result-body" id="result-body">
+          <div class="loading">
+            <div class="spinner"></div>
+            <p>AI пишет сообщение...</p>
+          </div>
+        </div>
+        <div class="result-variants">
+          <h4>💡 Другие варианты</h4>
+          <div class="variant-list" id="variant-list">
+            <div class="variant-item" onclick="selectVariant(this)">Варианты появятся после генерации</div>
+          </div>
+          <p style="font-size:12px;color:var(--color-text-muted);margin-top:12px;">Нажмите на вариант, чтобы посмотреть его в окне выше</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="container">
+    <p>Цифра — технологии и финансы &copy; 2026 | <a href="../privacy-policy.html">Политика конфиденциальности</a></p>
+  </div>
+</footer>
+
+<div class="toast" id="toast"></div>
+
+<script>
+  let variants = [];
+
+  async function generateMessage(e) {
+    e.preventDefault();
+    const btn = document.getElementById('generate-btn');
+    btn.disabled = true;
+    btn.textContent = '⚡ Генерируем...';
+
+    const data = {
+      target_biz: document.getElementById('target_biz').value,
+      offer: document.getElementById('offer').value,
+      goal: document.getElementById('goal').value,
+      tone: document.getElementById('tone').value,
+      channel: document.getElementById('channel').value,
+    };
+
+    document.getElementById('result').classList.add('visible');
+    document.getElementById('result-body').innerHTML = `
+      <div class="loading">
+        <div class="spinner"></div>
+        <p>AI подбирает слова...</p>
+      </div>
+    `;
+    document.getElementById('result').scrollIntoView({ behavior: 'smooth', block: 'start' });
+
+    try {
+      const res = await fetch('/api/generate-proposal', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          business_type: data.target_biz,
+          situation: `Хочу отправить сообщение через ${data.channel} клиентам — ${data.target_biz}. Цель: ${getGoalLabel(data.goal)}.`,
+          needs: `Напиши персонализированное сообщение для холодной рассылки. Тон: ${data.tone}. Канал: ${data.channel}. Предлагаем: ${data.offer}. Цель: ${getGoalLabel(data.goal)}.
+
+Сообщение должно быть:
+- Без канцелярита, живым языком
+- Персонализированным под ${data.target_biz}
+- С чётким призывом к действию
+- Коротким (2-4 абзаца для ${data.channel})
+- От имени «Цифра» — финансы и технологии
+
+Также напиши 2 дополнительных варианта того же сообщения, но с другим подходом. Раздели варианты маркером "--- ВАРИАНТ 2 ---" и "--- ВАРИАНТ 3 ---".`
+        }),
+      });
+      const result = await res.json();
+
+      const fullText = result.proposal || 'Не удалось сгенерировать. Попробуйте ещё раз.';
+
+      // Разделяем на варианты
+      const parts = fullText.split(/---\s*ВАРИАНТ\s*[2-3]\s*---/);
+      variants = parts.map(p => p.trim()).filter(p => p);
+
+      if (variants.length === 0) variants = [fullText];
+
+      showVariant(0);
+    } catch (err) {
+      document.getElementById('result-body').innerHTML = 'Произошла ошибка. Попробуйте позже.';
+      variants = [];
+    } finally {
+      btn.disabled = false;
+      btn.textContent = '🚀 Сгенерировать сообщение';
+    }
+  }
+
+  function showVariant(index) {
+    if (!variants[index]) return;
+    document.getElementById('result-body').innerHTML = variants[index].replace(/\n/g, '<br>');
+
+    const list = document.getElementById('variant-list');
+    list.innerHTML = variants.map((v, i) =>
+      `<div class="variant-item" onclick="showVariant(${i})" style="${i === index ? 'border-color:var(--color-accent);background:var(--color-accent-light);' : ''}">
+        ${i === 0 ? '📌 Основной вариант' : `🔄 Вариант ${i + 1}`}
+      </div>`
+    ).join('');
+  }
+
+  function selectVariant(el) {
+    // handled by onclick in showVariant
+  }
+
+  function getGoalLabel(goal) {
+    const labels = {
+      consultation: 'записать на консультацию',
+      lead: 'получить контакт',
+      meeting: 'договориться о встрече',
+      checklist: 'предложить чек-лист'
+    };
+    return labels[goal] || goal;
+  }
+
+  async function copyResult() {
+    const text = document.getElementById('result-body').textContent.trim();
+    if (!text || text.startsWith('AI')) return;
+    try {
+      await navigator.clipboard.writeText(text);
+      showToast('Скопировано! 📋');
+    } catch {
+      showToast('Не удалось скопировать');
+    }
+  }
+
+  function showToast(msg) {
+    const t = document.getElementById('toast');
+    t.textContent = msg; t.classList.add('show');
+    setTimeout(() => t.classList.remove('show'), 4000);
+  }
+</script>
+
+</body>
+</html>

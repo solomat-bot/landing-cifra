@@ -52,14 +52,42 @@
     .header-inner { max-width: 1160px; margin: 0 auto; padding: 0 24px; display: flex; justify-content: space-between; align-items: center; }
     .header-brand { display: flex; flex-direction: column; text-decoration: none; }
     .header-name { font-family: 'Rubik', sans-serif; font-weight: 900; font-size: 20px; color: var(--color-text); letter-spacing: -0.02em; }
-    .header-subtitle { font-family: 'Rubik', sans-serif; font-size: 9px; color: var(--color-text-muted); letter-spacing: 0.1em; font-weight: 500; margin-top: -1px; line-height: 1.2; }
+    .header-subtitle { font-family: 'Rubik', sans-serif; font-size: 9px; color: var(--color-text-muted); letter-spacing: 0.1em; font-weight: 500; margin-top: -1px; }
     .header-nav a { font-size: 14px; color: var(--color-text-muted); text-decoration: none; margin-left: 24px; font-family: 'Rubik', sans-serif; font-weight: 500; transition: color 0.2s; }
     .header-nav a:hover { color: var(--color-accent); text-decoration: none; }
+
+    /* TOOLS BAR */
+    .tools-bar {
+      background: var(--color-secondary);
+      padding: 8px 0;
+      text-align: center;
+    }
+    .tools-bar a {
+      display: inline-block;
+      color: #fff;
+      font-size: 13px;
+      font-weight: 500;
+      padding: 4px 16px;
+      margin: 0 4px;
+      border-radius: 20px;
+      background: rgba(255,255,255,0.1);
+      transition: background 0.2s;
+    }
+    .tools-bar a:hover { background: rgba(255,255,255,0.2); text-decoration: none; }
+    .tools-bar span { color: rgba(255,255,255,0.4); font-size: 12px; margin: 0 4px; }
 
     /* BLOG */
     .blog-page { padding: 60px 0 80px; }
     .blog-page h1 { margin-bottom: 12px; }
-    .blog-page .subtitle { color: var(--color-text-muted); margin-bottom: 48px; font-size: 17px; max-width: 580px; }
+    .blog-page .subtitle { color: var(--color-text-muted); margin-bottom: 16px; font-size: 17px; max-width: 580px; }
+
+    .blog-subtitle-links { margin-bottom: 40px; }
+    .blog-subtitle-links a {
+      display: inline-block; font-size: 13px; color: var(--color-accent); font-weight: 600;
+      margin-right: 20px; margin-top: 6px;
+    }
+    .blog-subtitle-links a:hover { text-decoration: underline; }
+
     .blog-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 20px; }
     .blog-card {
       background: var(--color-bg-alt);
@@ -76,15 +104,6 @@
     .blog-card h3 { font-size: 18px; margin-bottom: 10px; }
     .blog-card p { font-size: 14px; color: var(--color-text-muted); line-height: 1.6; margin-bottom: 16px; }
     .blog-card .read-more { font-size: 14px; font-weight: 600; color: var(--color-accent); }
-    .blog-card .status-badge {
-      display: inline-block;
-      font-size: 10px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.08em;
-      padding: 3px 10px;
-      border-radius: 4px;
-      background: var(--color-accent-light);
-      color: var(--color-accent);
-    }
-    .coming-soon { opacity: 0.55; }
 
     /* FOOTER */
     footer { border-top: 1px solid var(--color-border); padding: 32px 0; text-align: center; font-size: 13px; color: var(--color-text-muted); }
@@ -93,6 +112,7 @@
 
     @media (max-width: 640px) {
       .blog-grid { grid-template-columns: 1fr; }
+      .tools-bar a { display: inline-block; margin-bottom: 4px; font-size: 12px; padding: 3px 12px; }
     }
   </style>
 </head>
@@ -112,53 +132,121 @@
   </div>
 </header>
 
+<div class="tools-bar">
+  <a href="tools/business-diagnosis.html">📊 Диагностика бизнеса</a>
+  <span>|</span>
+  <a href="tools/generate-proposal.html">🤖 AI-КП</a>
+  <span>|</span>
+  <a href="tools/demo-report.html">📈 Демо-отчёт</a>
+  <span>|</span>
+  <a href="tools/outreach-generator.html">✉️ Генератор рассылок</a>
+</div>
+
 <section class="blog-page">
   <div class="container">
     <h1>Блог Цифры</h1>
     <p class="subtitle">Финансы, учёт и автоматизация — простым языком для владельцев бизнеса</p>
+    <div class="blog-subtitle-links">
+      <a href="tools/business-diagnosis.html">→ Пройти диагностику бизнеса</a>
+      <a href="tools/demo-report.html">→ Посмотреть демо-отчёт</a>
+    </div>
 
     <div class="blog-grid">
-      <a href="blog/avtomatizacia-zapisi-salon-krasoty.html" class="blog-card">
-        <span class="tag">Автоматизация • Боты</span>
-        <h3>Бот для записи: как мастеру красоты не терять клиентов и экономить 5+ часов в неделю</h3>
-        <p>Пошаговый гайд, как бот помогает не терять клиентов, напоминать о записи и вести учёт. Работает 24/7.</p>
-        <span class="read-more">Читать →</span>
-      </a>
 
+      <!-- Finance & Accounting -->
       <a href="blog/upravlencheskii-uchet-marketpleisy.html" class="blog-card">
         <span class="tag">Финансы • Учёт</span>
         <h3>Управленческий учёт для маркетплейсов: с чего начать</h3>
-        <p>Разбираем, какие отчёты нужны продавцу на Wildberries и Ozon: ДДС, ОПиУ, юнит-экономика. Пошаговый план для старта.</p>
+        <p>ДДС, ОПиУ, юнит-экономика — разбираем, какие отчёты реально нужны продавцу на Wildberries и Ozon. Пошаговый план для старта.</p>
         <span class="read-more">Читать →</span>
       </a>
 
-      <a href="blog/avtomatizacia-bez-biudzheta.html" class="blog-card">
-        <span class="tag">Автоматизация • Инструменты</span>
-        <h3>Автоматизация без бюджета: 3 бесплатных инструмента для старта</h3>
-        <p>Google Таблицы, Make.com, Telegram Bot API — что можно настроить бесплатно и как это работает для малого бизнеса.</p>
+      <a href="blog/upravlencheskii-uchet-dlya-online-shkoly.html" class="blog-card">
+        <span class="tag">Финансы • Учёт</span>
+        <h3>Управленческий учёт для онлайн-школы: с чего начать</h3>
+        <p>Как вести учёт в онлайн-школе: ОПиУ, ДДС, юнит-экономика, расходы на рекламу. Пошаговый план настройки.</p>
+        <span class="read-more">Читать →</span>
+      </a>
+
+      <a href="blog/finmodel-dlya-servisnogo-biznesa.html" class="blog-card">
+        <span class="tag">Финансы • Моделирование</span>
+        <h3>Финансовая модель для сервисного бизнеса</h3>
+        <p>Как построить финмодель для салона, барбершопа или студии. Юнит-экономика, загрузка мастеров, точка безубыточности.</p>
+        <span class="read-more">Читать →</span>
+      </a>
+
+      <a href="blog/kak-nachat-vesti-uchet-ip.html" class="blog-card">
+        <span class="tag">Финансы • Учёт</span>
+        <h3>Как начать вести учёт ИП с нуля</h3>
+        <p>Пошаговый план для ИП: разделение денег, таблица доходов/расходов, налоги, регулярные отчёты. Просто и понятно.</p>
+        <span class="read-more">Читать →</span>
+      </a>
+
+      <!-- Automation & Bots -->
+      <a href="blog/avtomatizacia-zapisi-salon-krasoty.html" class="blog-card">
+        <span class="tag">Автоматизация • Боты</span>
+        <h3>Бот для записи: как мастеру красоты не терять клиентов</h3>
+        <p>Пошаговый гайд, как бот помогает не терять клиентов, напоминать о записи и вести учёт.</p>
+        <span class="read-more">Читать →</span>
+      </a>
+
+      <a href="blog/telegram-bot-dlya-zapisi-uslug.html" class="blog-card">
+        <span class="tag">Боты • Продажи</span>
+        <h3>Telegram-бот для записи услуг: как не терять клиентов</h3>
+        <p>Сколько стоит, какие функции нужны, как окупается. Гайд для салонов, барбершопов, студий и мастеров.</p>
         <span class="read-more">Читать →</span>
       </a>
 
       <a href="blog/5-priznakov-nuzhen-telegram-bot.html" class="blog-card">
         <span class="tag">Боты • Продажи</span>
         <h3>5 признаков, что вашему бизнесу нужен Telegram-бот</h3>
-        <p>Проверьте себя по 5 признакам: если хотя бы 3 совпали — бот окупится в первый же месяц.</p>
+        <p>Проверьте себя по 5 признакам: если хотя бы 3 совпали — пора автоматизировать общение с клиентами.</p>
         <span class="read-more">Читать →</span>
+      </a>
+
+      <a href="blog/avtomatizaciya-biznesa-malogo.html" class="blog-card">
+        <span class="tag">Автоматизация</span>
+        <h3>Автоматизация малого бизнеса с нуля</h3>
+        <p>С чего начать, если бюджет до 10 000 ₽. Telegram-боты, сбор данных, AI-ассистенты — что даёт максимум эффекта.</p>
+        <span class="read-more">Читать →</span>
+      </a>
+
+      <!-- Analytics & Cases -->
+      <a href="blog/analitika-dlya-marketpleisov-wb-ozon.html" class="blog-card">
+        <span class="tag">Аналитика • Маркетплейсы</span>
+        <h3>5 метрик, которые нужно считать каждому селлеру</h3>
+        <p>Чистая прибыль, ABC-анализ, ROI рекламы, процент возвратов, оборачиваемость — что и как считать.</p>
+        <span class="read-more">Читать →</span>
+      </a>
+
+      <a href="blog/avtomatizaciya-otchetnosti-dlya-ozon.html" class="blog-card">
+        <span class="tag">Автоматизация</span>
+        <h3>Автоматизация отчётности для Ozon</h3>
+        <p>Как перестать собирать данные вручную: настройка автовыгрузки из Ozon в единую таблицу.</p>
+        <span class="read-more">Читать →</span>
+      </a>
+
+      <a href="blog/avtomatizacia-bez-biudzheta.html" class="blog-card">
+        <span class="tag">Автоматизация • Инструменты</span>
+        <h3>Автоматизация без бюджета: 3 бесплатных инструмента</h3>
+        <p>Google Таблицы, Make.com, Telegram Bot API — что можно настроить бесплатно.</p>
+        <span class="read-more">Читать →</span>
+      </a>
+
+      <a href="cases.html" class="blog-card">
+        <span class="tag">Кейсы</span>
+        <h3>Как мы настроили учёт для продавца на Wildberries</h3>
+        <p>Реальный проект: автоматизация выгрузки из 5 кабинетов, ОПиУ, ДДС и ABC-анализ. Экономия 15 часов в неделю.</p>
+        <span class="read-more">Смотреть кейс →</span>
       </a>
 
       <a href="lead-magnet-checklist.html" class="blog-card">
         <span class="tag">Финансы • Инструменты</span>
         <h3>5 шагов к порядку в финансах: чек-лист</h3>
-        <p>Практическое руководство: от фиксации доходов до автоматизации сбора данных. Скачайте бесплатный чек-лист.</p>
+        <p>Практическое руководство: от фиксации доходов до автоматизации сбора данных. Скачайте бесплатно.</p>
         <span class="read-more">Скачать чек-лист →</span>
       </a>
 
-      <a href="cases.html" class="blog-card">
-        <span class="tag">Кейсы</span>
-        <h3>Как мы настроили учёт для продавца на Wildberries: разбор кейса</h3>
-        <p>Реальный проект: автоматизация выгрузки из 5 кабинетов, ОПиУ, ДДС и ABC-анализ. Экономия 15 часов в неделю.</p>
-        <span class="read-more">Смотреть кейс →</span>
-      </a>
     </div>
   </div>
 </section>

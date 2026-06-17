@@ -1,0 +1,271 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>AI-генератор КП — Цифра | Коммерческое предложение за 1 минуту</title>
+  <meta name="description" content="Сгенерируйте персонализированное коммерческое предложение для вашего бизнеса. AI за 1 минуту составит КП с ценами и сроками." />
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Rubik:wght@400;500;600;700;800;900&family=PT+Sans:wght@400;700&display=swap" rel="stylesheet" />
+
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --color-bg: #F9F7F4; --color-bg-alt: #F0EDE6;
+      --color-text: #1C1E26; --color-text-muted: #5D5F6E;
+      --color-accent: #C4604A; --color-accent-hover: #A94F3B;
+      --color-accent-light: rgba(196, 96, 74, 0.07);
+      --color-secondary: #3A5A6E; --color-border: rgba(28, 30, 38, 0.07);
+      --container: 720px; --radius-sm: 6px; --radius-md: 12px; --radius-lg: 18px;
+    }
+    body {
+      font-family: 'PT Sans', sans-serif; font-size: 17px; line-height: 1.6;
+      color: var(--color-text); background: var(--color-bg); -webkit-font-smoothing: antialiased;
+    }
+    .container { max-width: var(--container); margin: 0 auto; padding: 0 24px; }
+    h1, h2, h3 { font-family: 'Rubik', sans-serif; font-weight: 800; line-height: 1.2; color: var(--color-text); }
+    a { color: var(--color-accent); text-decoration: none; }
+    a:hover { color: var(--color-accent-hover); text-decoration: underline; }
+
+    header { padding: 16px 0; border-bottom: 1px solid var(--color-border); position: sticky; top: 0; z-index: 100; backdrop-filter: blur(10px); background: rgba(249, 247, 244, 0.92); }
+    .header-inner { max-width: 1160px; margin: 0 auto; padding: 0 24px; display: flex; justify-content: space-between; align-items: center; }
+    .header-brand { display: flex; flex-direction: column; text-decoration: none; }
+    .header-name { font-family: 'Rubik', sans-serif; font-weight: 900; font-size: 20px; color: var(--color-text); letter-spacing: -0.02em; }
+    .header-subtitle { font-family: 'Rubik', sans-serif; font-size: 9px; color: var(--color-text-muted); letter-spacing: 0.1em; font-weight: 500; margin-top: -1px; }
+
+    .page { padding: 50px 0 80px; }
+    .page-hero { text-align: center; margin-bottom: 40px; }
+    .page-badge { display: inline-block; font-size: 10px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.12em; padding: 4px 14px; background: var(--color-accent-light); color: var(--color-accent); border-radius: 4px; margin-bottom: 14px; }
+    .page-hero h1 { font-size: clamp(26px, 3.6vw, 36px); margin-bottom: 10px; }
+    .page-hero p { color: var(--color-text-muted); font-size: 16px; max-width: 520px; margin: 0 auto; }
+    .page-hero .ai-badge { display: inline-flex; align-items: center; gap: 5px; margin-top: 12px; font-size: 12px; color: var(--color-text-muted); background: var(--color-bg-alt); padding: 5px 14px; border-radius: 20px; }
+
+    .form-card { background: var(--color-bg-alt); border-radius: var(--radius-lg); padding: 32px 28px; border: 1px solid var(--color-border); }
+    .form-group { margin-bottom: 18px; }
+    .form-group label { font-size: 14px; font-weight: 600; color: var(--color-text); display: block; margin-bottom: 6px; }
+    .form-group label .hint { font-weight: 400; color: var(--color-text-muted); font-size: 12px; }
+    .form-group input, .form-group textarea, .form-group select {
+      width: 100%; padding: 12px 16px; border: 1px solid var(--color-border); border-radius: var(--radius-sm);
+      font-family: 'Rubik', sans-serif; font-size: 15px; color: var(--color-text); background: var(--color-bg);
+      transition: border-color 0.3s; outline: none;
+    }
+    .form-group input:focus, .form-group textarea:focus, .form-group select:focus { border-color: var(--color-accent); }
+    .form-group textarea { min-height: 80px; resize: vertical; }
+    .form-group select { appearance: none; background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath fill='%235D5F6E' d='M1.41 0L6 4.58 10.59 0 12 1.41l-6 6-6-6z'/%3E%3C/svg%3E"); background-repeat: no-repeat; background-position: right 14px center; padding-right: 36px; }
+
+    .btn-primary {
+      display: inline-block; font-family: 'Rubik', sans-serif; font-weight: 600; font-size: 16px;
+      padding: 15px 34px; border-radius: var(--radius-sm); border: none; cursor: pointer;
+      transition: all 0.25s cubic-bezier(0.34, 1.56, 0.64, 1); background: var(--color-accent); color: #fff;
+    }
+    .btn-primary:hover { background: var(--color-accent-hover); transform: translateY(-1px); }
+    .btn-primary:disabled { opacity: 0.6; cursor: not-allowed; transform: none; }
+    .btn-primary:disabled:hover { background: var(--color-accent); }
+    .btn-primary { width: 100%; }
+
+    /* Proposal Result */
+    .proposal-result { display: none; margin-top: 36px; }
+    .proposal-result.visible { display: block; animation: fadeIn 0.5s ease; }
+    @keyframes fadeIn { from { opacity: 0; transform: translateY(16px); } to { opacity: 1; transform: translateY(0); } }
+
+    .proposal-card { background: var(--color-bg); border-radius: var(--radius-lg); border: 1px solid var(--color-border); overflow: hidden; }
+    .proposal-header {
+      padding: 18px 24px; background: var(--color-accent); color: #fff;
+      display: flex; justify-content: space-between; align-items: center;
+      font-family: 'Rubik', sans-serif; font-weight: 600; font-size: 15px;
+    }
+    .proposal-header-actions { display: flex; gap: 8px; }
+    .proposal-header-actions button {
+      background: rgba(255,255,255,0.2); border: none; color: #fff; padding: 6px 14px;
+      border-radius: 4px; cursor: pointer; font-size: 12px; font-family: 'Rubik', sans-serif; font-weight: 500;
+      transition: background 0.2s;
+    }
+    .proposal-header-actions button:hover { background: rgba(255,255,255,0.35); }
+
+    .proposal-body { padding: 28px 24px; white-space: pre-wrap; font-size: 15px; line-height: 1.7; color: var(--color-text); max-height: 600px; overflow-y: auto; }
+
+    .proposal-footer { padding: 18px 24px; border-top: 1px solid var(--color-border); text-align: center; }
+    .proposal-footer p { font-size: 13px; color: var(--color-text-muted); }
+    .proposal-footer a { color: var(--color-accent); font-weight: 600; }
+
+    .proposal-loading { text-align: center; padding: 40px; }
+    .proposal-loading .spinner { width: 32px; height: 32px; border: 3px solid var(--color-border); border-top-color: var(--color-accent); border-radius: 50%; animation: spin 0.8s linear infinite; margin: 0 auto 16px; }
+    @keyframes spin { to { transform: rotate(360deg); } }
+    .proposal-loading p { color: var(--color-text-muted); font-size: 15px; }
+
+    footer { border-top: 1px solid var(--color-border); padding: 32px 0; text-align: center; font-size: 13px; color: var(--color-text-muted); margin-top: 60px; }
+    footer a { color: var(--color-text-muted); }
+    footer a:hover { color: var(--color-accent); }
+    .toast {
+      position: fixed; bottom: 28px; right: 28px; padding: 14px 22px; border-radius: var(--radius-sm);
+      color: #fff; font-size: 14px; font-weight: 500; z-index: 1000;
+      opacity: 0; transform: translateY(16px); transition: all 0.4s; max-width: 380px;
+      background: var(--color-success);
+    }
+    .toast.show { opacity: 1; transform: translateY(0); }
+
+    @media (max-width: 640px) {
+      .form-card { padding: 24px 18px; }
+      .proposal-body { padding: 20px 18px; font-size: 14px; }
+    }
+  </style>
+</head>
+<body>
+
+<header>
+  <div class="header-inner">
+    <a href="../index.html" class="header-brand">
+      <span class="header-name">Цифра</span>
+      <span class="header-subtitle">финансы и технологии</span>
+    </a>
+    <a href="../index.html" style="font-size:13px;font-weight:600;">← На главную</a>
+  </div>
+</header>
+
+<section class="page">
+  <div class="container">
+    <div class="page-hero">
+      <div class="page-badge">AI-генератор</div>
+      <h1>Коммерческое предложение за 1 минуту</h1>
+      <p>Ответьте на 5 вопросов — AI составит персонализированное КП с ценами, сроками и конкретными решениями</p>
+      <span class="ai-badge">⚡ Работает на DeepSeek AI</span>
+    </div>
+
+    <div class="form-card" id="form-card">
+      <form id="proposal-form" onsubmit="generateProposal(event)">
+        <div class="form-group">
+          <label for="business_type">Тип бизнеса <span class="hint">(например: торгую на Wildberries, онлайн-школа, салон красоты)</span></label>
+          <input type="text" id="business_type" placeholder="Напишите кратко" required />
+        </div>
+        <div class="form-group">
+          <label for="situation">Текущая ситуация <span class="hint">(что не так, что болит)</span></label>
+          <textarea id="situation" placeholder="Например: веду учёт в Excel на коленке, данные размазаны по 5 сервисам, не вижу реальную прибыль..." required></textarea>
+        </div>
+        <div class="form-group">
+          <label for="needs">Что нужно? <span class="hint">(какая помощь требуется)</span></label>
+          <textarea id="needs" placeholder="Хочу наладить учёт, автоматизировать отчёты, сделать бота для записи..." required></textarea>
+        </div>
+        <div class="form-group">
+          <label for="budget">Бюджет <span class="hint">(необязательно, но поможет точнее подобрать решение)</span></label>
+          <input type="text" id="budget" placeholder="Например: до 50 000 ₽/мес или разово до 15 000 ₽" />
+        </div>
+        <div class="form-group">
+          <label for="contact">Контакты для связи <span class="hint">(Telegram или телефон, необязательно)</span></label>
+          <input type="text" id="contact" placeholder="@username или +7 999 123-45-67" />
+        </div>
+        <button type="submit" class="btn-primary" id="generate-btn">🚀 Сгенерировать КП</button>
+      </form>
+    </div>
+
+    <!-- Result -->
+    <div class="proposal-result" id="proposal-result">
+      <div class="proposal-card">
+        <div class="proposal-header">
+          <span>📄 Ваше коммерческое предложение</span>
+          <div class="proposal-header-actions">
+            <button onclick="copyProposal()">📋 Копировать</button>
+            <button onclick="sendToTelegram()">✈️ В Telegram</button>
+          </div>
+        </div>
+        <div class="proposal-body" id="proposal-body">
+          <div class="proposal-loading">
+            <div class="spinner"></div>
+            <p>AI составляет предложение...</p>
+          </div>
+        </div>
+        <div class="proposal-footer">
+          <p>Хотите обсудить детали? <a href="../index.html#contact">Закажите консультацию</a> или напишите в <a href="https://t.me/CifraConsultBot" target="_blank">Telegram-бота</a></p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="container">
+    <p>Цифра — технологии и финансы &copy; 2026 | <a href="../privacy-policy.html">Политика конфиденциальности</a></p>
+  </div>
+</footer>
+
+<div class="toast" id="toast"></div>
+
+<script>
+  async function generateProposal(e) {
+    e.preventDefault();
+    const btn = document.getElementById('generate-btn');
+    btn.disabled = true;
+    btn.textContent = '⚡ Генерируем...';
+
+    const data = {
+      business_type: document.getElementById('business_type').value,
+      situation: document.getElementById('situation').value,
+      needs: document.getElementById('needs').value,
+      budget: document.getElementById('budget').value,
+      contact: document.getElementById('contact').value,
+    };
+
+    document.getElementById('proposal-result').classList.add('visible');
+    document.getElementById('proposal-body').innerHTML = `
+      <div class="proposal-loading">
+        <div class="spinner"></div>
+        <p>AI анализирует и составляет предложение...</p>
+      </div>
+    `;
+    document.getElementById('proposal-result').scrollIntoView({ behavior: 'smooth', block: 'start' });
+
+    try {
+      const res = await fetch('/api/generate-proposal', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(data),
+      });
+      const result = await res.json();
+
+      let text = result.proposal || 'Извините, не удалось сгенерировать КП. Попробуйте ещё раз.';
+      document.getElementById('proposal-body').innerHTML = text.replace(/\n/g, '<br>');
+    } catch (err) {
+      document.getElementById('proposal-body').innerHTML = 'Произошла ошибка. Пожалуйста, попробуйте позже или <a href="../index.html#contact">оставьте заявку</a>.';
+    } finally {
+      btn.disabled = false;
+      btn.textContent = '🚀 Сгенерировать КП';
+    }
+  }
+
+  function getProposalText() {
+    const el = document.getElementById('proposal-body');
+    return el.textContent.replace(/Извините.*/, '').trim() || '';
+  }
+
+  async function copyProposal() {
+    const text = getProposalText();
+    if (!text) return;
+    try {
+      await navigator.clipboard.writeText('КОММЕРЧЕСКОЕ ПРЕДЛОЖЕНИЕ — «ЦИФРА»\n\n' + text + '\n\n—\nСгенерировано AI на сайте Цифры: https://landing-cifra.vercel.app/tools/generate-proposal.html');
+      showToast('Скопировано! 📋');
+    } catch {
+      showToast('Не удалось скопировать');
+    }
+  }
+
+  async function sendToTelegram() {
+    const text = getProposalText();
+    if (!text) return;
+    try {
+      await navigator.clipboard.writeText('КОММЕРЧЕСКОЕ ПРЕДЛОЖЕНИЕ — «ЦИФРА»\n\n' + text);
+      showToast('Текст скопирован. Отправьте в Telegram @CifraConsultBot ✈️');
+    } catch {
+      showToast('Не удалось скопировать');
+    }
+  }
+
+  function showToast(msg) {
+    const t = document.getElementById('toast');
+    t.textContent = msg; t.classList.add('show');
+    setTimeout(() => t.classList.remove('show'), 4000);
+  }
+</script>
+
+</body>
+</html>

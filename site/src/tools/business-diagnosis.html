@@ -1,0 +1,422 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Диагностика бизнеса — Цифра | 5 вопросов за 2 минуты</title>
+  <meta name="description" content="Пройдите диагностику бизнеса из 5 вопросов — узнайте, какой тариф подходит вам, и получите персонализированные рекомендации." />
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Rubik:wght@400;500;600;700;800;900&family=PT+Sans:wght@400;700&display=swap" rel="stylesheet" />
+
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --color-bg: #F9F7F4;
+      --color-bg-alt: #F0EDE6;
+      --color-text: #1C1E26;
+      --color-text-muted: #5D5F6E;
+      --color-accent: #C4604A;
+      --color-accent-hover: #A94F3B;
+      --color-accent-light: rgba(196, 96, 74, 0.07);
+      --color-secondary: #3A5A6E;
+      --color-border: rgba(28, 30, 38, 0.07);
+      --container: 680px;
+      --radius-sm: 6px;
+      --radius-md: 12px;
+      --radius-lg: 18px;
+    }
+    body {
+      font-family: 'PT Sans', sans-serif;
+      font-size: 17px;
+      line-height: 1.6;
+      color: var(--color-text);
+      background: var(--color-bg);
+      -webkit-font-smoothing: antialiased;
+    }
+    .container { max-width: var(--container); margin: 0 auto; padding: 0 24px; }
+    h1, h2, h3 { font-family: 'Rubik', sans-serif; font-weight: 800; line-height: 1.2; color: var(--color-text); }
+    a { color: var(--color-accent); text-decoration: none; }
+    a:hover { color: var(--color-accent-hover); text-decoration: underline; }
+
+    header {
+      padding: 16px 0; border-bottom: 1px solid var(--color-border);
+      position: sticky; top: 0; z-index: 100;
+      backdrop-filter: blur(10px); background: rgba(249, 247, 244, 0.92);
+    }
+    .header-inner { max-width: 1160px; margin: 0 auto; padding: 0 24px; display: flex; justify-content: space-between; align-items: center; }
+    .header-brand { display: flex; flex-direction: column; text-decoration: none; }
+    .header-name { font-family: 'Rubik', sans-serif; font-weight: 900; font-size: 20px; color: var(--color-text); letter-spacing: -0.02em; }
+    .header-subtitle { font-family: 'Rubik', sans-serif; font-size: 9px; color: var(--color-text-muted); letter-spacing: 0.1em; font-weight: 500; margin-top: -1px; }
+
+    .quiz-page { padding: 50px 0 80px; }
+    .quiz-hero { text-align: center; margin-bottom: 40px; }
+    .quiz-badge {
+      display: inline-block; font-size: 10px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.12em;
+      padding: 4px 14px; background: var(--color-accent-light); color: var(--color-accent); border-radius: 4px; margin-bottom: 14px;
+    }
+    .quiz-hero h1 { font-size: clamp(26px, 3.6vw, 36px); margin-bottom: 10px; }
+    .quiz-hero p { color: var(--color-text-muted); font-size: 16px; max-width: 480px; margin: 0 auto; }
+
+    .progress-bar { width: 100%; height: 4px; background: var(--color-border); border-radius: 4px; margin-bottom: 36px; overflow: hidden; }
+    .progress-fill { height: 100%; background: var(--color-accent); border-radius: 4px; transition: width 0.5s ease; width: 0%; }
+
+    .quiz-step { display: none; }
+    .quiz-step.active { display: block; animation: fadeIn 0.35s ease; }
+    @keyframes fadeIn { from { opacity: 0; transform: translateY(12px); } to { opacity: 1; transform: translateY(0); } }
+
+    .step-counter { font-size: 12px; text-transform: uppercase; letter-spacing: 0.1em; color: var(--color-accent); margin-bottom: 10px; font-weight: 600; }
+    .quiz-step h2 { font-size: 22px; margin-bottom: 24px; }
+
+    .option-grid { display: flex; flex-direction: column; gap: 10px; margin-bottom: 28px; }
+    .option-btn {
+      text-align: left; padding: 14px 18px; border: 1px solid var(--color-border);
+      border-radius: var(--radius-md); background: var(--color-bg-alt); cursor: pointer;
+      transition: all 0.25s; font-family: 'PT Sans', sans-serif; font-size: 15px; color: var(--color-text);
+    }
+    .option-btn:hover { border-color: var(--color-accent); background: var(--color-accent-light); }
+    .option-btn.selected { border-color: var(--color-accent); background: var(--color-accent-light); box-shadow: 0 0 0 1px var(--color-accent); }
+
+    .quiz-nav { display: flex; gap: 12px; justify-content: flex-end; }
+    .btn-primary, .btn-secondary {
+      display: inline-block; font-family: 'Rubik', sans-serif; font-weight: 600;
+      padding: 13px 30px; border-radius: var(--radius-sm); border: none; cursor: pointer;
+      transition: all 0.25s cubic-bezier(0.34, 1.56, 0.64, 1); font-size: 14px; text-align: center;
+    }
+    .btn-primary { background: var(--color-accent); color: #fff; }
+    .btn-primary:hover { background: var(--color-accent-hover); transform: translateY(-1px); }
+    .btn-secondary { background: transparent; color: var(--color-text); border: 1px solid var(--color-border); }
+    .btn-secondary:hover { border-color: var(--color-accent); color: var(--color-accent); }
+    .btn-primary:disabled, .btn-secondary:disabled { opacity: 0.5; cursor: not-allowed; transform: none; }
+
+    /* Result */
+    .quiz-result { display: none; }
+    .quiz-result.active { display: block; animation: fadeIn 0.5s ease; }
+    .result-card {
+      background: var(--color-bg-alt); border-radius: var(--radius-lg);
+      padding: 36px 28px; border: 1px solid var(--color-border);
+    }
+    .result-header { text-align: center; margin-bottom: 28px; }
+    .result-tier {
+      display: inline-block; font-size: 11px; font-weight: 700; text-transform: uppercase;
+      letter-spacing: 0.12em; padding: 5px 16px; border-radius: 20px; margin-bottom: 12px;
+    }
+    .result-tier--light { background: var(--color-accent-light); color: var(--color-accent); }
+    .result-tier--standard { background: var(--color-accent); color: #fff; }
+    .result-tier--premium { background: #1C1E26; color: #fff; }
+    .result-price {
+      font-family: 'Rubik', sans-serif; font-weight: 900; font-size: clamp(36px, 5vw, 48px);
+      color: var(--color-accent); line-height: 1; margin-bottom: 6px;
+    }
+    .result-price-sub { font-size: 14px; color: var(--color-text-muted); font-weight: 400; }
+    .result-desc { font-size: 15px; color: var(--color-text-muted); line-height: 1.7; margin-bottom: 20px; }
+    .result-features { list-style: none; margin-bottom: 24px; }
+    .result-features li {
+      padding: 8px 0 8px 28px; position: relative; font-size: 14px; color: var(--color-text);
+      border-bottom: 1px solid var(--color-border);
+    }
+    .result-features li:last-child { border-bottom: none; }
+    .result-features li::before { content: '✓'; position: absolute; left: 0; color: var(--color-accent); font-weight: 700; }
+    .result-cta { text-align: center; margin-top: 20px; }
+    .result-cta p { font-size: 14px; color: var(--color-text-muted); margin-bottom: 16px; }
+    .result-cta .btn-primary { font-size: 16px; padding: 15px 34px; }
+    .result-restart { margin-top: 12px; }
+
+    footer { border-top: 1px solid var(--color-border); padding: 32px 0; text-align: center; font-size: 13px; color: var(--color-text-muted); margin-top: 60px; }
+    footer a { color: var(--color-text-muted); }
+    footer a:hover { color: var(--color-accent); }
+
+    @media (max-width: 640px) {
+      .result-card { padding: 24px 18px; }
+      .option-btn { font-size: 14px; padding: 12px 14px; }
+    }
+  </style>
+</head>
+<body>
+
+<header>
+  <div class="header-inner">
+    <a href="../index.html" class="header-brand">
+      <span class="header-name">Цифра</span>
+      <span class="header-subtitle">финансы и технологии</span>
+    </a>
+    <a href="../index.html" style="font-size:13px;font-weight:600;">← На главную</a>
+  </div>
+</header>
+
+<section class="quiz-page" id="quiz-app">
+  <div class="container">
+    <div class="quiz-hero">
+      <div class="quiz-badge">Диагностика бизнеса</div>
+      <h1>5 вопросов за 2 минуты</h1>
+      <p>Ответьте на вопросы — узнайте, какой тариф подходит вашему бизнесу</p>
+    </div>
+
+    <div class="progress-bar">
+      <div class="progress-fill" id="progress"></div>
+    </div>
+
+    <!-- Q1 -->
+    <div class="quiz-step active" data-step="1">
+      <div class="step-counter">Вопрос 1 из 5</div>
+      <h2>Какой у вас бизнес?</h2>
+      <div class="option-grid">
+        <button class="option-btn" data-value="wb" onclick="select(this,1)">📦 Торгую на Wildberries / Ozon</button>
+        <button class="option-btn" data-value="online-school" onclick="select(this,1)">🎓 Онлайн-школа / курсы / инфобизнес</button>
+        <button class="option-btn" data-value="service" onclick="select(this,1)">✂️ Сервисный бизнес (салон, барбершоп, студия)</button>
+        <button class="option-btn" data-value="other" onclick="select(this,1)">💼 Другое / ИП / самозанятый</button>
+      </div>
+      <div class="quiz-nav">
+        <button class="btn-primary" onclick="nextStep(1)">Дальше →</button>
+      </div>
+    </div>
+
+    <!-- Q2 -->
+    <div class="quiz-step" data-step="2">
+      <div class="step-counter">Вопрос 2 из 5</div>
+      <h2>Какой у вас месячный оборот?</h2>
+      <div class="option-grid">
+        <button class="option-btn" data-value="small" onclick="select(this,2)">до 500 000 ₽</button>
+        <button class="option-btn" data-value="medium" onclick="select(this,2)">500 000 — 2 000 000 ₽</button>
+        <button class="option-btn" data-value="large" onclick="select(this,2)">2 000 000 — 5 000 000 ₽</button>
+        <button class="option-btn" data-value="xlarge" onclick="select(this,2)">более 5 000 000 ₽</button>
+      </div>
+      <div class="quiz-nav">
+        <button class="btn-secondary" onclick="prevStep(2)">← Назад</button>
+        <button class="btn-primary" onclick="nextStep(2)">Дальше →</button>
+      </div>
+    </div>
+
+    <!-- Q3 -->
+    <div class="quiz-step" data-step="3">
+      <div class="step-counter">Вопрос 3 из 5</div>
+      <h2>Что болит сильнее всего?</h2>
+      <div class="option-grid">
+        <button class="option-btn" data-value="profit" onclick="select(this,3)">🤷 Не знаю реальную прибыль и убытки</button>
+        <button class="option-btn" data-value="time" onclick="select(this,3)">⏱ Трачу часы на ручной сбор отчётов</button>
+        <button class="option-btn" data-value="chaos" onclick="select(this,3)">📋 Данные в 5+ сервисах — ничего не сходится</button>
+        <button class="option-btn" data-value="clients" onclick="select(this,3)">📞 Теряю заявки / клиентов из-за бардака</button>
+      </div>
+      <div class="quiz-nav">
+        <button class="btn-secondary" onclick="prevStep(3)">← Назад</button>
+        <button class="btn-primary" onclick="nextStep(3)">Дальше →</button>
+      </div>
+    </div>
+
+    <!-- Q4 -->
+    <div class="quiz-step" data-step="4">
+      <div class="step-counter">Вопрос 4 из 5</div>
+      <h2>Как сейчас ведёте учёт?</h2>
+      <div class="option-grid">
+        <button class="option-btn" data-value="none" onclick="select(this,4)">Никак — всё в голове</button>
+        <button class="option-btn" data-value="excel" onclick="select(this,4)">В Excel / Google Таблицах вручную</button>
+        <button class="option-btn" data-value="buh" onclick="select(this,4)">Есть бухгалтер, но нет управленки</button>
+        <button class="option-btn" data-value="crm" onclick="select(this,4)">Использую CRM / сервисы, но данные разрознены</button>
+      </div>
+      <div class="quiz-nav">
+        <button class="btn-secondary" onclick="prevStep(4)">← Назад</button>
+        <button class="btn-primary" onclick="nextStep(4)">Дальше →</button>
+      </div>
+    </div>
+
+    <!-- Q5 -->
+    <div class="quiz-step" data-step="5">
+      <div class="step-counter">Вопрос 5 из 5</div>
+      <h2>Что хотите получить?</h2>
+      <div class="option-grid">
+        <button class="option-btn" data-value="full" onclick="select(this,5)">🏆 Полный порядок: учёт + автоматизация</button>
+        <button class="option-btn" data-value="finance" onclick="select(this,5)">💰 Только финансы: учёт и отчёты</button>
+        <button class="option-btn" data-value="tech" onclick="select(this,5)">🤖 Только технологии: бота / сайт / связки</button>
+        <button class="option-btn" data-value="audit" onclick="select(this,5)">🔍 Начать с аудита — понять, что нужно</button>
+      </div>
+      <div class="quiz-nav">
+        <button class="btn-secondary" onclick="prevStep(5)">← Назад</button>
+        <button class="btn-primary" onclick="showResult()">Узнать результат →</button>
+      </div>
+    </div>
+
+    <!-- RESULT -->
+    <div class="quiz-result" id="result">
+      <div class="result-card">
+        <div class="result-header">
+          <div class="result-tier" id="result-tier-badge">🚀 Рекомендуем</div>
+          <div class="result-price">
+            <span id="result-price">50 000</span>
+            <span class="result-price-sub" id="result-price-sub">₽/мес</span>
+          </div>
+          <div id="result-tier-name" style="font-family:'Rubik',sans-serif;font-weight:700;font-size:20px;margin-bottom:4px;">Стандарт+</div>
+          <div id="result-cap" style="font-size:13px;color:var(--color-text-muted);">до 500 позиций · до 3 кабинетов</div>
+        </div>
+
+        <div class="result-desc" id="result-desc">
+          Вам нужен полный контроль: учёт, аналитика и планирование. С этим тарифом вы получите все необходимые отчёты и поддержку.
+        </div>
+
+        <ul class="result-features" id="result-features">
+          <li>ОПиУ и ДДС — еженедельно</li>
+          <li>Платежный и кредитный календарь</li>
+          <li>ABC-анализ + юнит-экономика + финмодель</li>
+          <li>Еженедельные созвоны + экстренные консультации</li>
+        </ul>
+
+        <div class="result-cta">
+          <p id="result-cta-text">Хотите обсудить детали? Оставьте заявку — мы свяжемся в ближайшее время</p>
+          <a href="../index.html#contact" class="btn-primary">Заказать консультацию 15 мин →</a>
+          <br/>
+          <button class="btn-secondary result-restart" onclick="restartQuiz()">Пройти заново</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="container">
+    <p>Цифра — технологии и финансы &copy; 2026 | <a href="../privacy-policy.html">Политика конфиденциальности</a></p>
+  </div>
+</footer>
+
+<script>
+  const answers = {};
+  let currentStep = 1;
+
+  function select(btn, step) {
+    const parent = btn.parentElement;
+    parent.querySelectorAll('.option-btn').forEach(b => b.classList.remove('selected'));
+    btn.classList.add('selected');
+    answers[step] = btn.dataset.value;
+  }
+
+  function goToStep(step) {
+    document.querySelectorAll('.quiz-step').forEach(s => s.classList.remove('active'));
+    document.querySelector(`.quiz-step[data-step="${step}"]`).classList.add('active');
+    currentStep = step;
+    document.getElementById('progress').style.width = `${((step - 1) / 5) * 100}%`;
+  }
+
+  function nextStep(step) {
+    if (!answers[step]) return;
+    goToStep(step + 1);
+  }
+
+  function prevStep(step) {
+    goToStep(step - 1);
+  }
+
+  function showResult() {
+    if (!answers[5]) return;
+    document.querySelector('.quiz-step.active')?.classList.remove('active');
+    document.getElementById('progress').style.width = '100%';
+    document.getElementById('result').classList.add('active');
+
+    const biz = answers[1];
+    const revenue = answers[2];
+    const pain = answers[3];
+    const setup = answers[4];
+    const want = answers[5];
+
+    let tier = 'light';
+    let tierName = 'Лайт';
+    let tierBadge = '🌱 Для старта';
+    let price = '30 000';
+    let priceSub = '₽/мес';
+    let cap = 'до 30 позиций · 1–2 кабинета';
+    let features = [];
+    let desc = '';
+
+    // Определяем тариф
+    const isBig = revenue === 'large' || revenue === 'xlarge';
+    const isWantsFull = want === 'full';
+    const isFinance = want === 'finance' || want === 'full' || want === 'audit';
+    const isChaos = pain === 'chaos' || pain === 'profit';
+
+    if (isBig && isWantsFull) {
+      tier = 'premium';
+      tierName = 'Всё включено';
+      tierBadge = '🏆 Максимум';
+      price = '75 000';
+      cap = 'без ограничений';
+      features = [
+        'ОПиУ, ДДС, капитализация, баланс — полный комплект',
+        'Платежный и кредитный календарь',
+        'ABC-анализ + юнит-экономика + финмодель',
+        'Факторный и трендовый анализ',
+        'Расчёт KPI и персональная презентация',
+        'Безлимит консультаций и созвонов'
+      ];
+      desc = 'У вас крупный бизнес и высокие требования. Тариф «Всё включено» даёт полный контроль без ограничений.';
+    } else if (isBig || isChaos || (isWantsFull && revenue === 'medium')) {
+      tier = 'standard';
+      tierName = 'Стандарт+';
+      tierBadge = '🔥 Рекомендуем';
+      price = '50 000';
+      cap = 'до 500 позиций · до 3 кабинетов';
+      features = [
+        'ОПиУ и ДДС — еженедельно',
+        'Платежный и кредитный календарь',
+        'ABC-анализ + юнит-экономика + финмодель',
+        'Подготовка к кредитованию и инвесторам',
+        'Еженедельные созвоны + экстренные'
+      ];
+      desc = 'Вам нужен полный контроль: учёт, аналитика и планирование. Самый популярный тариф для растущего бизнеса.';
+    } else {
+      tier = 'light';
+      tierName = 'Лайт';
+      tierBadge = '🌱 Для старта';
+      price = '30 000';
+      cap = 'до 30 позиций · 1–2 кабинета';
+      features = [
+        'Выгрузка отчётов по продажам и продвижению',
+        'ДДС — доходы, расходы, сверка остатков',
+        'ОПиУ и ДДС — еженедельно',
+        'Еженедельные созвоны'
+      ];
+      desc = 'Базовый учёт, чтобы видеть реальную картину. Идеально для старта или небольшого бизнеса.';
+    }
+
+    // Если только технологии — меняем
+    if (want === 'tech') {
+      tierName = 'Технологии';
+      tierBadge = '🤖 Разработка';
+      price = 'от 5 000';
+      priceSub = '₽ разово';
+      cap = 'сайты · боты · AI · связки';
+      features = [
+        'Сайт / лендинг под ключ: от 5 000 ₽',
+        'Telegram-бот для записи / заявок: от 5 000 ₽',
+        'AI-ассистент / чат-бот: от 8 000 ₽',
+        'Связка API / автоматизация: от 4 000 ₽'
+      ];
+      desc = 'Вам нужны технологии без финансов. Выберите направление — разработаем под ключ.';
+    }
+
+    document.getElementById('result-tier-badge').textContent = tierBadge;
+    document.getElementById('result-price').textContent = price;
+    document.getElementById('result-price-sub').textContent = priceSub;
+    document.getElementById('result-tier-name').textContent = tierName;
+    document.getElementById('result-cap').textContent = cap;
+    document.getElementById('result-desc').textContent = desc;
+    document.getElementById('result-features').innerHTML = features.map(f => `<li>${f}</li>`).join('');
+
+    // Кастомизируем текст CTA
+    let ctaText = 'Хотите обсудить детали? Оставьте заявку — мы свяжемся в ближайшее время';
+    if (pain === 'time') ctaText = 'Устали тратить часы на отчёты? Давайте настроим автоматию — обсудим на бесплатном звонке';
+    if (pain === 'profit') ctaText = 'Не знаете реальную прибыль? На бесплатной консультации покажем, как это исправить';
+    if (want === 'tech') ctaText = 'Готовы начать? Оставьте заявку — обсудим ваш проект бесплатно';
+    document.getElementById('result-cta-text').textContent = ctaText;
+  }
+
+  function restartQuiz() {
+    Object.keys(answers).forEach(k => delete answers[k]);
+    currentStep = 1;
+    document.querySelectorAll('.quiz-step').forEach(s => s.classList.remove('active'));
+    document.querySelector('.quiz-step[data-step="1"]').classList.add('active');
+    document.getElementById('result').classList.remove('active');
+    document.getElementById('progress').style.width = '0%';
+    document.querySelectorAll('.option-btn').forEach(b => b.classList.remove('selected'));
+  }
+</script>
+
+</body>
+</html>

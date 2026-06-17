@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Управленческий учёт для онлайн-школы: пошаговый гайд — Цифра</title>
+  <meta name="description" content="Как вести управленческий учёт в онлайн-школе: ОПиУ, ДДС, юнит-экономика, расходы на рекламу. Пошаговый план настройки учёта." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Rubik:wght@400;500;600;700;800;900&family=PT+Sans:wght@400;700&display=swap" rel="stylesheet" />
+  <style>
+    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+    :root{--color-bg:#F9F7F4;--color-bg-alt:#F0EDE6;--color-text:#1C1E26;--color-text-muted:#5D5F6E;--color-accent:#C4604A;--color-accent-hover:#A94F3B;--color-accent-light:rgba(196,96,74,0.07);--color-secondary:#3A5A6E;--color-border:rgba(28,30,38,0.07);--container:720px;--radius-sm:6px;--radius-md:12px;--radius-lg:18px}
+    body{font-family:'PT Sans',sans-serif;font-size:17px;line-height:1.6;color:var(--color-text);background:var(--color-bg);-webkit-font-smoothing:antialiased}
+    .container{max-width:var(--container);margin:0 auto;padding:0 24px}
+    h1,h2,h3{font-family:'Rubik',sans-serif;font-weight:800;line-height:1.2;color:var(--color-text)}
+    a{color:var(--color-accent);text-decoration:none}a:hover{color:var(--color-accent-hover);text-decoration:underline}
+    img{max-width:100%;display:block}
+    header{padding:16px 0;border-bottom:1px solid var(--color-border);position:sticky;top:0;z-index:100;backdrop-filter:blur(10px);background:rgba(249,247,244,0.92)}
+    .header-inner{max-width:1160px;margin:0 auto;padding:0 24px;display:flex;justify-content:space-between;align-items:center}
+    .header-brand{display:flex;flex-direction:column;text-decoration:none}
+    .header-name{font-family:'Rubik',sans-serif;font-weight:900;font-size:20px;color:var(--color-text);letter-spacing:-0.02em}
+    .header-subtitle{font-family:'Rubik',sans-serif;font-size:9px;color:var(--color-text-muted);letter-spacing:0.1em;font-weight:500;margin-top:-1px}
+    .article{padding:40px 0 80px}
+    .article h1{font-size:clamp(26px,3.6vw,36px);margin-bottom:14px}
+    .article-meta{font-size:13px;color:var(--color-text-muted);margin-bottom:32px;padding-bottom:16px;border-bottom:1px solid var(--color-border)}
+    .article-meta span{margin-right:20px}
+    .article h2{font-size:22px;margin:36px 0 14px}
+    .article h3{font-size:18px;margin:24px 0 10px}
+    .article p{font-size:16px;color:var(--color-text-muted);line-height:1.8;margin-bottom:16px}
+    .article ul{list-style:none;margin:16px 0}
+    .article ul li{padding:6px 0 6px 24px;position:relative;font-size:15px;color:var(--color-text-muted);line-height:1.6}
+    .article ul li::before{content:'✓';position:absolute;left:0;color:var(--color-accent);font-weight:700}
+    .article blockquote{background:var(--color-accent-light);border-left:3px solid var(--color-accent);padding:16px 20px;border-radius:0 var(--radius-sm) var(--radius-sm) 0;margin:20px 0}
+    .article blockquote p{margin-bottom:0;font-size:15px;font-style:italic}
+    .article-cta{text-align:center;margin-top:50px;padding:36px 28px;background:var(--color-bg-alt);border-radius:var(--radius-lg);border:1px solid var(--color-border)}
+    .article-cta h3{margin-bottom:8px}
+    .article-cta p{color:var(--color-text-muted);margin-bottom:20px;font-size:15px}
+    .btn-primary{display:inline-block;font-family:'Rubik',sans-serif;font-weight:600;font-size:16px;padding:15px 34px;border-radius:var(--radius-sm);border:none;cursor:pointer;transition:all .25s cubic-bezier(.34,1.56,.64,1);background:var(--color-accent);color:#fff;text-decoration:none}
+    .btn-primary:hover{background:var(--color-accent-hover);transform:translateY(-1px);text-decoration:none;color:#fff}
+    footer{border-top:1px solid var(--color-border);padding:32px 0;text-align:center;font-size:13px;color:var(--color-text-muted);margin-top:60px}
+    footer a{color:var(--color-text-muted)}footer a:hover{color:var(--color-accent)}
+    @media(max-width:640px){.article{padding:30px 0 60px}}
+  </style>
+</head>
+<body>
+<header><div class="container header-inner"><a href="../index.html" class="header-brand"><span class="header-name">Цифра</span><span class="header-subtitle">финансы и технологии</span></a><a href="../blog.html" style="font-size:13px;font-weight:600;">← Все статьи</a></div></header>
+<section class="article"><div class="container">
+<h1>Управленческий учёт для онлайн-школы: с чего начать и что считать</h1>
+<div class="article-meta"><span>📂 Финансы • Учёт</span><span>⏱ 7 мин чтения</span></div>
+
+<p>Онлайн-школа — бизнес с кажущейся простой: продали курс → получили деньги → заплатили спикеру → профит. Но на практике владельцы школ часто не знают реальную прибыль. Деньги приходят от разных продуктов, уходят на рекламу, платформы, спикеров, налоги — и к концу месяца непонятно, заработали или ушли в минус.</p>
+<p>В этой статье разберём, как наладить управленческий учёт в онлайн-школе: какие отчёты нужны, что считать в первую очередь и как не утонуть в таблицах.</p>
+
+<h2>Почему в онлайн-школах хаос с деньгами</h2>
+<p>Типичная ситуация: основательница школы смотрит на остаток на расчётном счёте и думает «о, есть деньги». Но из этих денег нужно заплатить:</p>
+<ul>
+  <li>Спикерам и экспертам (часто — постфактум, после потока)</li>
+  <li>Рекламу (яндекс, таргет, блогеры — десятки каналов)</li>
+  <li>Платформу для курсов (GetCourse, Arente, EdVibe)</li>
+  <li>Налоги (6% УСН или НПД, но с больших оборотов — суммы ощутимые)</li>
+  <li>Команду (методист, куратор, технарь, SMM)</li>
+</ul>
+<p>Проблема в том, что доходы приходят неравномерно: в месяц запуска — касса полная, в межсезонье — пусто. Если не вести учёт, легко потратить деньги нового потока на текущие расходы, а потом обнаружить, что на следующий запуск не хватает.</p>
+
+<blockquote><p>«Я думала, что зарабатываю 300-400 тысяч в месяц. Когда мы сели и посчитали все расходы — рекламу, комиссии платформ, налоги, — оказалось, что чистая прибыль около 80 тысяч. Я работала за эти деньги 24/7.» — Елена, основательница онлайн-школы по английскому</p></blockquote>
+
+<h2>Какие отчёты нужны онлайн-школе</h2>
+
+<h3>1. ОПиУ (отчёт о прибылях и убытках)</h3>
+<p>Главный отчёт. Показывает, заработали вы или нет за период. В онлайн-школе важно учитывать:</p>
+<ul>
+  <li><strong>Доходы:</strong> продажи курсов, доступов, консультаций, мерча — по периодам (по признанию, а не по факту поступления денег)</li>
+  <li><strong>Расходы на запуск:</strong> реклама, оплата блогерам, комиссии платформ</li>
+  <li><strong>Операционные расходы:</strong> зарплата команды, подписки, связь</li>
+  <li><strong>Налоги:</strong> УСН или НПД — откладывайте сразу</li>
+</ul>
+<p>Разница между доходами и расходами = чистая прибыль. Только эта цифра показывает, сколько вы на самом деле заработали. Всё остальное — иллюзия.</p>
+
+<h3>2. ДДС (движение денежных средств)</h3>
+<p>Отвечает на вопрос «где деньги прямо сейчас?». Особенно актуально для школ с сезонными запусками.</p>
+<p>ДДС показывает: сколько денег пришло на счёт, сколько ушло, какой остаток. Это не то же самое, что прибыль. Вы можете быть в плюсе по ОПиУ, но в кассе — ноль, потому что все деньги ушли на предоплату следующего запуска.</p>
+
+<h3>3. Юнит-экономика</h3>
+<p>Сколько вы зарабатываете с одного ученика? Без этого вы льёте рекламу вслепую.</p>
+<ul>
+  <li><strong>CAC</strong> (Cost of Acquisition) — сколько стоит привлечь одного ученика</li>
+  <li><strong>LTV</strong> (Life Time Value) — сколько в среднем приносит один ученик за всё время</li>
+  <li><strong>ROI рекламы</strong> — каждый рубль, вложенный в рекламу, приносит X рублей дохода</li>
+</ul>
+<p>Если CAC выше LTV — вы работаете в минус с каждым новым учеником.</p>
+
+<h2>С чего начать: пошаговый план</h2>
+<p>Не пытайтесь внедрить всё сразу. Начните с малого:</p>
+<ul>
+  <li><strong>Шаг 1.</strong> Заведите Google-таблицу с тремя листами: Доходы, Расходы, Налоги</li>
+  <li><strong>Шаг 2.</strong> Вносите каждую операцию в день платежа (5-10 минут в день)</li>
+  <li><strong>Шаг 3.</strong> Раз в неделю подводите промежуточный итог: сколько заработали, сколько потратили</li>
+  <li><strong>Шаг 4.</strong> Раз в месяц считайте чистую прибыль и ROI рекламы</li>
+  <li><strong>Шаг 5.</strong> Когда ручной учёт начнёт отнимать больше часа в неделю — подключайте автоматизацию</li>
+</ul>
+
+<h2>Как мы можем помочь</h2>
+<p>Мы настраиваем управленческий учёт для онлайн-школ под ключ. Не просто таблицы, а систему, которая собирает данные автоматически из платформы курсов, рекламных кабинетов и банка. Вы открываете отчёт — и видите картину.</p>
+
+<div class="article-cta">
+  <h3>Нужна помощь с учётом?</h3>
+  <p>Настроим управленческий учёт для вашей онлайн-школы за 1-2 недели</p>
+  <a href="../index.html#contact" class="btn-primary">Заказать консультацию 15 мин →</a>
+</div>
+</div></section>
+<footer><div class="container"><p>Цифра — технологии и финансы &copy; 2026 | <a href="../privacy-policy.html">Политика конфиденциальности</a></p></div></footer>
+</body>
+</html>
