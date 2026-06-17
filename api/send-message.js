@@ -7,18 +7,15 @@ const TELEGRAM_CHAT_ID = process.env.TELEGRAM_CHAT_ID || '502930155';
 // ID группы «Цифра — заявки», где будут видеть все заявки
 const TELEGRAM_GROUP_ID = process.env.TELEGRAM_GROUP_ID || '-1004392573043';
 
-async function sendToAllChats(text) {
-  const targets = [TELEGRAM_CHAT_ID, TELEGRAM_GROUP_ID];
-  for (const chatId of targets) {
-    try {
-      await fetch(`https://api.telegram.org/bot${TELEGRAM_BOT_TOKEN}/sendMessage`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ chat_id: chatId, text, parse_mode: 'HTML' }),
-      });
-    } catch (e) {
-      console.error('Failed to send to', chatId, e);
-    }
+async function sendToGroup(text) {
+  try {
+    await fetch(`https://api.telegram.org/bot${TELEGRAM_BOT_TOKEN}/sendMessage`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ chat_id: TELEGRAM_GROUP_ID, text, parse_mode: 'HTML' }),
+    });
+  } catch (e) {
+    console.error('Failed to send to group', e);
   }
 }
 
@@ -89,8 +86,8 @@ export default async function handler(req, res) {
       msg += '\n\n' + CHECKLIST_TEXT;
     }
 
-    // Send to all notification chats
-    await sendToAllChats(msg);
+    // Send to group chat
+    await sendToGroup(msg);
 
     return res.status(200).json({ success: true });
   } catch (error) {

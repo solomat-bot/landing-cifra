@@ -113,7 +113,7 @@ function getReplyKeyboard() {
     reply_markup: {
       keyboard: [
         [{ text: '🎁 Чек-лист' }, { text: '🔥 Почему нам доверяют' }],
-        [{ text: '💎 Сколько стоит' }, { text: '📞 Запись на консультацию' }],
+        [{ text: '💎 Сколько стоит' }, { text: '📞 Связаться с нами' }],
       ],
       resize_keyboard: true,
       is_persistent: true,
@@ -182,12 +182,12 @@ async function checkFunnel(chatId) {
       // Отправляем сообщение из воронки
       if (step.id === 'offer') {
         await sendTelegram(chatId, step.text, getInlineKeyboard([
-          [{ text: '🔥 Хочу аудит!', data: 'contact' }],
+          [{ text: '🔥 Хочу аудит!', data: 'menu' }],
           [{ text: '← В меню', data: 'menu' }],
         ]));
       } else {
         await sendTelegram(chatId, step.text, getInlineKeyboard([
-          [{ text: '📞 Хочу так же!', data: 'contact' }],
+          [{ text: '📞 Хочу так же!', data: 'menu' }],
           [{ text: '← В меню', data: 'menu' }],
         ]));
       }
@@ -234,7 +234,7 @@ function handleStart(chatId) {
 🎁 Начните с бесплатного чек-листа (кнопка внизу)
 🔥 Посмотрите, почему нам доверяют
 💎 Узнайте цены
-📞 Запишитесь на консультацию`;
+🌐 Переходите на сайт: cifra.ru`;
 
   sendTelegram(chatId, welcome, getReplyKeyboard());
 }
@@ -260,13 +260,13 @@ function handleServices(chatId, messageId = null) {
   if (messageId) {
     editMessage(chatId, messageId, text, getInlineKeyboard([
       [{ text: '💎 Сколько стоит', data: 'pricing' }],
-      [{ text: '📞 Записаться на консультацию', data: 'contact' }],
+      [{ text: '📞 Связаться', data: 'menu' }],
       [{ text: '← Назад', data: 'menu' }],
     ]));
   } else {
     sendTelegram(chatId, text, getInlineKeyboard([
       [{ text: '💎 Сколько стоит', data: 'pricing' }],
-      [{ text: '📞 Записаться на консультацию', data: 'contact' }],
+      [{ text: '📞 Связаться', data: 'menu' }],
       [{ text: '← В меню', data: 'menu' }],
     ]));
   }
@@ -300,12 +300,12 @@ function handlePricing(chatId, messageId = null) {
 
   if (messageId) {
     editMessage(chatId, messageId, text, getInlineKeyboard([
-      [{ text: '📞 Нужна консультация', data: 'contact' }],
+      [{ text: '📞 Связаться', data: 'menu' }],
       [{ text: '← Назад', data: 'services' }],
     ]));
   } else {
     sendTelegram(chatId, text, getInlineKeyboard([
-      [{ text: '📞 Нужна консультация', data: 'contact' }],
+      [{ text: '📞 Связаться', data: 'menu' }],
       [{ text: '← В меню', data: 'menu' }],
     ]));
   }
@@ -382,7 +382,7 @@ function handleMenu(chatId, messageId = null) {
       [{ text: '🎁 Получить чек-лист', callback_data: 'checklist' }],
       [{ text: '🔥 Почему нам доверяют', callback_data: 'services' }],
       [{ text: '💎 Сколько стоит', callback_data: 'pricing' }],
-      [{ text: '📞 Запись на консультацию', callback_data: 'contact' }],
+      [{ text: '📞 Связаться', callback_data: 'menu' }],
     ]}});
   } else {
     sendTelegram(chatId, text, getReplyKeyboard());
@@ -472,7 +472,7 @@ export default async function handler(req, res) {
           await handleChecklist(chatId, messageId, from.first_name || '');
           break;
         case 'contact':
-          await handleContact(chatId, messageId);
+          await handleMenu(chatId, messageId);
           break;
         case 'menu':
           await handleMenu(chatId, messageId);
@@ -498,8 +498,7 @@ export default async function handler(req, res) {
       const chatId = update.message.chat.id;
       const text = update.message.text.trim();
 
-      if (text === '/start' || text === 'Меню' || text === 'меню' || text === '📞 Запись на консультацию') {
-        if (text === '📞 Запись на консультацию') { await handleContact(chatId); return; }
+      if (text === '/start' || text === 'Меню' || text === 'меню') {
         await handleStart(chatId);
       } else if (text === '🔥 Почему нам доверяют') {
         await handleServices(chatId);
