@@ -125,8 +125,7 @@ function getReplyKeyboard() {
   return {
     reply_markup: {
       keyboard: [
-        [{ text: '≡ Чек-лист' }, { text: '★ Почему мы' }],
-        [{ text: '◇ Цены' }, { text: '✎ Консультация' }],
+        [{ text: '☰ Меню' }],
       ],
       resize_keyboard: true,
       is_persistent: true,
@@ -221,14 +220,14 @@ function handleStart(chatId) {
 ✓ Не тратите время на рутину
 ✓ Принимаете решения по цифрам, а не наугад
 
-<b>Какой первый шаг?</b>
+Выберите, что вас интересует ↓`;
 
-≡ Начните с бесплатного чек-листа
-★ Посмотрите, почему нам доверяют
-◇ Узнайте цены
-✎ Запишитесь на консультацию`;
-
-  sendTelegram(chatId, welcome, getReplyKeyboard());
+  sendTelegram(chatId, welcome, getInlineKeyboard([
+    [{ text: '≡ Чек-лист', data: 'checklist' }],
+    [{ text: '★ Почему мы', data: 'services' }],
+    [{ text: '◇ Цены', data: 'pricing' }],
+    [{ text: '✎ Консультация', data: 'contact' }],
+  ]));
 }
 
 function handleServices(chatId, messageId = null) {
@@ -306,12 +305,11 @@ async function handleChecklist(chatId, messageId = null, userName = '') {
   sendTelegram(chatId, CHECKLIST_TEXT, { parse_mode: 'HTML' });
 
   setTimeout(() => {
-    sendTelegram(chatId, `→ Полная версия: https://landing-cifra.vercel.app/lead-magnet-checklist.html
+    sendTelegram(chatId, `▸ Чек-лист у вас. Это первый шаг к порядку в финансах.
 
-<b>Что дальше?</b>
-Чек-лист — это первый шаг. Когда будете готовы навести полный порядок — напишите. А пока я пришлю пару полезных материалов.
+В течение недели я пришлю ещё пару полезных материалов — про кейсы и инструменты.
 
-Если захотите обсудить настройку учёта — напишите /start`, removeKeyboard());
+Когда будете готовы обсудить настройку учёта для вашего бизнеса — просто нажмите «☰ Меню» и выберите нужный пункт.`, getReplyKeyboard());
   }, 1500);
 
   const existing = userStates.get(chatId) || {};
@@ -464,7 +462,7 @@ export default async function handler(req, res) {
       const text = update.message.text.trim();
 
       // Маппинг кнопок
-      if (text === '/start' || text === 'Меню' || text === 'меню') {
+      if (text === '/start' || text === 'Меню' || text === 'меню' || text === '☰ Меню') {
         await handleStart(chatId);
       } else if (text === '★ Почему мы' || text === '🔥 Почему нам доверяют') {
         await handleServices(chatId);
