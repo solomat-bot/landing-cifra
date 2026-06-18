@@ -463,9 +463,6 @@ export default async function handler(req, res) {
       const chatId = update.message.chat.id;
       const text = update.message.text.trim();
 
-      // Защита от спама
-      if (isRateLimited(chatId)) return res.status(200).json({ ok: true });
-
       // Маппинг кнопок
       if (text === '/start' || text === 'Меню' || text === 'меню') {
         await handleStart(chatId);
